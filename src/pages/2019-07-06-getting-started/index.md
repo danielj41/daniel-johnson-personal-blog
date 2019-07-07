@@ -10,6 +10,8 @@ Hey there
 
 > quote
 
-```js
+```jsx
 const a = "this is a code block"
+
+const div = <div>Hi</div>
 ```

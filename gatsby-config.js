@@ -36,6 +36,10 @@ module.exports = {
               maxWidth: 590,
             },
           },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {},
+          },
         ], // just in case those previously mentioned remark plugins sound cool :)
       },
     },
