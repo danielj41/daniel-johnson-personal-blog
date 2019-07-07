@@ -5,3 +5,11 @@ title: "My First Gatsby Post"
 ---
 
 Hey there
+
+![stock photo](./stock-photo.jpg)
+
+> quote
+
+```js
+const a = "this is a code block"
+```
