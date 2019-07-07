@@ -40,6 +40,20 @@ module.exports = {
             resolve: `gatsby-remark-prismjs`,
             options: {},
           },
+          {
+            resolve: "gatsby-remark-custom-blocks",
+            options: {
+              blocks: {
+                danger: {
+                  classes: "danger",
+                },
+                info: {
+                  classes: "info",
+                  title: "optional",
+                },
+              },
+            },
+          },
         ], // just in case those previously mentioned remark plugins sound cool :)
       },
     },

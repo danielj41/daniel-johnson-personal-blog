@@ -15,3 +15,8 @@ const a = "this is a code block"
 
 const div = <div>Hi</div>
 ```
+
+[[info | This is a title!]]
+| Hello
+| - Info here
+| - More info here
