@@ -1,0 +1,166 @@
+---
+path: "/js-strict-mode"
+date: 2019-06-18T17:00:00.000Z
+title: "Deep dive into 'use strict' in JavaScript"
+---
+
+**Question:**
+
+> Do we use strict mode in our app?
+
+This is a question I've been asked several times—often by developers who are relatively new to JavaScript (JS).
+
+**My answer:**
+
+> ...probably?
+
+I don't know, since it's something I haven't had to think about recently.
+
+My theory is that this question comes from introductory JS books and learning materials. The book will discuss a certain feature, then casually mention that it behaves differently in strict mode. This style of writing could imply that "strict mode" is an important distinction that comes up frequently.
+
+## What is strict mode?
+
+Before we get too far into this blog post, let me clarify what exactly strict mode is. It's time to go back in time!
+
+John Resig (creator of jQuery) has a [good explanation of strict mode](https://johnresig.com/blog/ecmascript-5-strict-mode-json-and-more):
+
+> Strict Mode...allows you to place a program, or a function, in a “strict” operating context. This strict context prevents certain actions from being taken and throws more exceptions (generally providing the user with more information and a tapered-down coding experience).
+>
+> ...
+>
+> Strict mode helps out in a couple ways:
+>
+> - It catches some common coding bloopers, throwing exceptions.
+> - It prevents, or throws errors, when relatively “unsafe” actions are taken (such as gaining access to the global object).
+> - It disables features that are confusing or poorly thought out.
+
+Let's look at an example of code that isn't allowed in strict mode:
+
+```js
+function doSomething(abc, abc) {
+  // Both parameters have the same name
+  return 0
+}
+```
+
+In strict mode, this code will throw `SyntaxError: Duplicate parameter name not allowed in this context.`
+
+The reasoning for throwing an error is that a developer would never intentionally give two parameters the same name. That implies the developer made a mistake writing the code. By throwing an error in strict mode, JS helps the developer catch their mistake.
+
+##How do you enable strict mode?
+
+To use strict mode, you [opt-in to it by placing this string at the top of your file or function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Invoking_strict_mode):
+
+```js
+"use strict"
+```
+
+To get more clarity on this syntax, it helps to look back at older ECMAScript (ES) versions.
+
+Strict mode was introduced in ES5 (released 2009). The previous version of ECMAScript was ES3 (released 1999), which did not include strict mode.
+
+Strict mode had to be an opt-in feature to maintain backwards compatibility with old scripts. Some old scripts relied on features that strict mode deprecated, and thus, would need to run in non-strict mode by default. Additionally, the opt-in syntax `'use strict';` is just a string literal, which allowed new scripts to run in old browsers.
+
+To be more specific, every combination of browser (ES3, ES5) and strict mode (strict, non-strict) worked as desired:
+
+- (ES3 browser, non-strict script)
+  - ✅ (desired result) ES3 always runs scripts in non-strict mode.
+- (ES3 browser, strict script)
+  - 🆗 (graceful degradation) ES3 treats 'use strict'; as a no-op string literal, then runs the script in non-strict mode.
+- (ES5 browser, non-strict script)
+  - ✅ (desired result) There is no 'use strict'; statement, so the page runs in non-strict mode.
+- (ES5 browser, strict script)
+  - ✅ (desired result) The script runs in strict mode.
+
+## Are we using strict mode?
+
+I started to _investigate_. 🕵️
+
+The first thing I did was search the codebase for the string `use strict`.
+
+![terminal window running `git grep "use strict"`, returning no results](./git-grep-use-strict.png)
+
+No results.
+
+Next, I opened our `app.js` bundle that gets served to the browser.
+
+![viewing source of app.js in browser dev tools, searching for `'use strict'`](./appjs-bundle.png)
+
+Searching that file for `'use strict'` turned up 540 results! So, we're clearly using strict mode, in some capacity.
+
+How did `'use strict'` end up in our bundle if it wasn't in the original source code? We'll first need to take a detour to ES6 modules and our web app's build step.
+
+## ES6 modules
+
+Our codebase uses features from newer versions of ES than ES5. ES6 (confusingly, also known as ES2015) introduced native support for _modules_, which we use to separate our app into multiple JS files.
+
+It turns out that [strict mode is always enabled for modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import). I wasn't aware of this behavior. Since modules are a new feature in ES6, they don't need to be backwards-compatible with any non-strict code written using ES5.
+
+Because our codebase consists of only modules, all our files are automatically in strict mode. In fact, if I try to add `'use strict'` to the top of a module, I get a lint error from ESLint, telling me that it's an unnecessary statement.
+
+![code editor with tooltip eslint error: `'use strict'` is unnecessary inside of modules](./eslint-use-strict-unnecessary.png)
+
+## Build step
+
+Ok, so our source code is in strict mode. But how did the `'use strict';` declaration end up in `app.js`? To answer this question, we'll need to look at our build step.
+
+We currently don't serve ES6 modules to the browser. You can tell by looking at the app's html source:
+
+- module: `<script type="module" src="app.js"></script>`
+- script: `<script src="app.js"></script>` ← this is what we have now
+  - We also dynamically `import()` some JS files, but that's beyond the scope of this blog post.
+
+We don't serve a JS module directly to the browser, at least, not at the time of writing. I assume this decision was made because, until recently, [not all our supported browsers supported ES6 modules](https://v8.dev/features/modules).
+
+To serve non-module scripts to the browser, we have a build step use Babel to compile our modules into scripts. You can [try out the Babel REPL to see what a compiled module looks like](https://babeljs.io/en/repl#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=MYewdgzgLgBAhjAvDAFASiQPhgbwFAwwBOAplAK5FgwBMA3HgL55A&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2015%2Creact%2Cstage-2&prettier=false&targets=&version=7.4.2).
+
+![babel repl adding `'use strict'` to the top of compiled output](./babel-repl.png)
+
+Interestingly, you'll see that babel inserts `"use strict";` at the top of every module that gets compiled to non-module JS. That makes sense, since it's trying to convert the module code to a script equivalent.
+
+After that, we use webpack to bundle multiple script files together. That's why you see several hundred occurrences of `"use strict";` in the `app.js` screenshot—one per compiled module.
+
+## _The Answer_
+
+So, yes, we are using strict mode! We now understand how we opted-in (by using ES6 modules) and how `'use strict'` got to the browser (build step).
+
+But, maybe "do we use strict mode?" isn't the question we should be answering. A more relevant 😉 question is...
+
+## Is strict mode still relevant?
+
+I don’t think so. One reason is that strict mode only throws errors at runtime. This means that I won't actually see an error message until I run the app in my browser.
+
+Most [strict mode errors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Changes_in_strict_mode) can be caught earlier with [static analysis](https://en.wikipedia.org/wiki/Static_program_analysis), using tools like ESLint or languages like TypeScript. With ESLint configured for the app and my IDE (VSCode), I get these errors as I type:
+
+![code editor with `function doSomething(abc, abc)`. eslint shows error message: Duplicate param 'abc'](./eslint-dupe-args.png)
+
+I tested `eslint:all` on [the strict mode examples on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Changes_in_strict_mode), and ESLint caught most of the errors before runtime. The errors it didn't catch were [runtime-only behaviors, like this example](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Converting_mistakes_into_errors):
+
+```js
+// Assignment to a non-writable property
+var obj1 = {}
+Object.defineProperty(obj1, "x", { value: 42, writable: false })
+obj1.x = 9 // throws a TypeError
+```
+
+For those kinds of runtime-only errors, strict mode is still useful. Strict mode also [restricts features that make it difficult to optimize a JS runtime engine](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
+
+That said, I've come to the conclusion that the concept of "strict mode" isn't relevant in modern JS development. Using a combination of ES6 modules, a build step, and a linter, most developers won't need to think about it.
+
+## Takeaways
+
+I went down a rabbit hole trying to understand the role of `'use strict'` and how its role changed over time. I'd like to think that I accumulated some sort of tangential "wisdom" from this journey 🤪
+
+My takeaways:
+
+JS can change really quickly. This blog post might be outdated by the time I publish it.
+
+Changes to JS are easier to understand if you've worked with the feature as it was changing.
+
+For example, I understand how the CommonJS, AMD and UMD module systems all fit (or don't fit 😉) together, but that's only because I've used all of them in previous jobs. Starting from 2019 and refactoring legacy module systems would feel like being an archaeologist.
+
+When learning something for the first time, it's difficult to know which distinctions are important in practice.
+
+I spent an inordinate amount of time in college fretting over whether various languages were "interpreted" or "compiled," [and](https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers) [then](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly) [JS](https://webpack.js.org/) [happened](https://github.com/terser-js/terser).
+
+Thank you for reading!
