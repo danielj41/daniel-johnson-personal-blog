@@ -11,7 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
-import "prismjs/themes/prism-solarizedlight.css"
+import "./prism-theme.css"
 import { ThemeToggler } from "gatsby-plugin-dark-mode"
 
 const Layout = ({ children }) => {

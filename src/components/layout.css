@@ -620,12 +620,3 @@ pre tt:after {
     font-size: 100%;
   }
 }
-
-body {
-  transition: 0.2s background-color, 0.2s color;
-}
-
-body.dark {
-  background-color: #222;
-  color: #ccc;
-}
