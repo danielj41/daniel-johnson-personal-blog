@@ -12,6 +12,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import "./layout.css"
 import "prismjs/themes/prism-solarizedlight.css"
+import { ThemeToggler } from "gatsby-plugin-dark-mode"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -35,6 +36,18 @@ const Layout = ({ children }) => {
           paddingTop: 0,
         }}
       >
+        <ThemeToggler>
+          {({ theme, toggleTheme }) => (
+            <label>
+              <input
+                type="checkbox"
+                onChange={e => toggleTheme(e.target.checked ? "dark" : "light")}
+                checked={theme === "dark"}
+              />{" "}
+              Dark mode
+            </label>
+          )}
+        </ThemeToggler>
         <main>{children}</main>
         <footer>
           © {new Date().getFullYear()}, Built with
