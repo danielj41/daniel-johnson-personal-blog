@@ -4,9 +4,11 @@
 
 body {
   transition: 0.2s background-color, 0.2s color;
+  --body-background-color: white;
+  background-color: var(--body-background-color);
 }
 
 body.dark {
-  background-color: #222;
+  --body-background-color: #222;
   color: #ccc;
 }
