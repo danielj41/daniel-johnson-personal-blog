@@ -1,7 +1,14 @@
 import Typography from "typography"
-import sutroTheme from "typography-theme-sutro"
+import parnassusTheme from "typography-theme-parnassus"
 
-const typography = new Typography(sutroTheme)
+parnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
+  a: {
+    boxShadow: "none",
+    textDecoration: "underline",
+  },
+})
+
+const typography = new Typography(parnassusTheme)
 
 // Export helper functions
 export const { scale, rhythm, options } = typography
