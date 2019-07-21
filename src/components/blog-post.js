@@ -2,7 +2,6 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
-import "./blog-post.css"
 
 export default function Template({
   data, // this prop will be injected by the GraphQL query we'll write in a bit
