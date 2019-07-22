@@ -26,7 +26,7 @@ body.dark {
   --header-color: hsla(0, 0%, 100%, 0.9);
   --blockquote-color: hsla(0, 0%, 100%, 0.7);
   --blockquote-border-color: hsla(0, 0%, 100%, 0.1);
-  --link-color: #92b4f3;
+  --link-color: #82aaff;
 }
 
 .gatsby-resp-image-image {

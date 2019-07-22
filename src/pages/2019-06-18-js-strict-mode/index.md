@@ -91,7 +91,8 @@ No results.
 
 Next, I opened our `app.js` bundle that gets served to the browser.
 
-![viewing source of app.js in browser dev tools, searching for `'use strict'`](./appjs-bundle.png)
+[[screenshot]]
+| ![viewing source of app.js in browser dev tools, searching for `'use strict'`](./appjs-bundle.png)
 
 Searching that file for `'use strict'` turned up 540 results! So, we're clearly using strict mode, in some capacity.
 
@@ -122,7 +123,8 @@ We don't serve a JS module directly to the browser, at least, not at the time of
 
 To serve non-module scripts to the browser, we have a build step use Babel to compile our modules into scripts. You can [try out the Babel REPL to see what a compiled module looks like](https://babeljs.io/en/repl#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=MYewdgzgLgBAhjAvDAFASiQPhgbwFAwwBOAplAK5FgwBMA3HgL55A&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2015%2Creact%2Cstage-2&prettier=false&targets=&version=7.4.2).
 
-![babel repl adding `'use strict'` to the top of compiled output](./babel-repl.png)
+[[screenshot]]
+| ![babel repl adding `'use strict'` to the top of compiled output](./babel-repl.png)
 
 Interestingly, you'll see that babel inserts `"use strict";` at the top of every module that gets compiled to non-module JS. That makes sense, since it's trying to convert the module code to a script equivalent.
 
@@ -140,7 +142,8 @@ I don’t think so. One reason is that strict mode only throws errors at runtime
 
 Most [strict mode errors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Changes_in_strict_mode) can be caught earlier with [static analysis](https://en.wikipedia.org/wiki/Static_program_analysis), using tools like ESLint or languages like TypeScript. With ESLint configured for the app and my IDE (VSCode), I get these errors as I type:
 
-![code editor with `function doSomething(abc, abc)`. eslint shows error message: Duplicate param 'abc'](./eslint-dupe-args.png)
+[[screenshot]]
+| ![code editor with `function doSomething(abc, abc)`. eslint shows error message: Duplicate param 'abc'](./eslint-dupe-args.png)
 
 I tested `eslint:all` on [the strict mode examples on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Changes_in_strict_mode), and ESLint caught most of the errors before runtime. The errors it didn't catch were [runtime-only behaviors, like this example](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Converting_mistakes_into_errors):
 
