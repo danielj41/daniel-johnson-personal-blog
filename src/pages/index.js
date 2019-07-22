@@ -34,12 +34,12 @@ const IndexPage = () => {
           .map(({ node: post }) => {
             return (
               <div className="blog-post-preview" key={post.id}>
-                <h1>
+                <h2>
                   <Link to={post.frontmatter.path}>
                     {post.frontmatter.title}
                   </Link>
-                </h1>
-                <h2>{post.frontmatter.date}</h2>
+                </h2>
+                <h3>{post.frontmatter.date}</h3>
                 <p>{post.excerpt}</p>
               </div>
             )
