@@ -9,12 +9,22 @@
 }
 
 body {
-  transition: 0.2s background-color, 0.2s color;
   --body-background-color: white;
+  --body-color: hsla(0, 0%, 0%, 0.8);
+  --header-color: hsla(0, 0%, 0%, 0.9);
+  --blockquote-color: hsla(0, 0%, 0%, 0.59);
+  --blockquote-border-color: hsla(0, 0%, 0%, 0.1);
+  --link-color: #375c85;
+
+  transition: 0.2s background-color, 0.2s color;
   background-color: var(--body-background-color);
 }
 
 body.dark {
-  --body-background-color: #222;
-  color: #ccc;
+  --body-background-color: #222426;
+  --body-color: hsla(0, 0%, 100%, 0.8);
+  --header-color: hsla(0, 0%, 100%, 0.9);
+  --blockquote-color: hsla(0, 0%, 100%, 0.7);
+  --blockquote-border-color: hsla(0, 0%, 100%, 0.1);
+  --link-color: #92b4f3;
 }
