@@ -13,6 +13,7 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
     color: "var(--link-color)",
     boxShadow: "none",
     textDecoration: "underline",
+    transition: "0.2s color",
   },
   "a:hover, a:active": {
     textDecoration: "none",
@@ -20,6 +21,7 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
   blockquote: {
     color: "var(--blockquote-color)",
     borderColor: "var(--blockquote-border-color)",
+    transition: "0.2s color, 0.2s border-color",
   },
   [MOBILE_MEDIA_QUERY]: {
     blockquote: {
