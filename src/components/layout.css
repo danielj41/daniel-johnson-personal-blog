@@ -21,7 +21,7 @@ body {
 }
 
 body.dark {
-  --body-background-color: #222426;
+  --body-background-color: #21252c;
   --body-color: hsla(0, 0%, 100%, 0.8);
   --header-color: hsla(0, 0%, 100%, 0.9);
   --blockquote-color: hsla(0, 0%, 100%, 0.7);

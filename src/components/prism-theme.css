@@ -1,10 +1,33 @@
 /*
   Night Owl by Sarah Drasner
+
   Adapted from prism port by Sara Vieira
   https://github.com/SaraVieira/prism-theme-night-owl/blob/master/style.css
+
+  Light colors copied from
+  https://github.com/sdras/night-owl-vscode-theme/blob/master/themes/Night%20Owl-Light-color-theme.json
 */
 
 body {
+  --night-owl-1: #403f53;
+  --night-owl-2: #e0e0e0;
+  --night-owl-3: #fbfbfb;
+  --night-owl-4: #989fb1;
+  --night-owl-5: #994cc3;
+  --night-owl-6: #0c969b;
+  --night-owl-7: #e64d49;
+  --night-owl-8: #0c969b;
+  --night-owl-9: #994cc3;
+  --night-owl-10: #bc5454;
+  --night-owl-11: #aa0982;
+  --night-owl-12: #4876d6;
+  --night-owl-13: #4876d6;
+  --night-owl-14: #111111;
+  --night-owl-15: #403f53;
+  --night-owl-16: #ffffff;
+}
+
+body.dark {
   --night-owl-1: #d6deeb;
   --night-owl-2: rgba(29, 59, 83, 0.99);
   --night-owl-3: #011627;
@@ -52,7 +75,6 @@ code[class*="language-"]::-moz-selection,
 code[class*="language-"] ::-moz-selection {
   text-shadow: none;
   background: var(--night-owl-2);
-  border-radius: 4px;
 }
 
 pre[class*="language-"]::selection,
@@ -61,7 +83,6 @@ code[class*="language-"]::selection,
 code[class*="language-"] ::selection {
   text-shadow: none;
   background: var(--night-owl-2);
-  border-radius: 4px;
 }
 
 @media print {
@@ -74,7 +95,6 @@ code[class*="language-"] ::selection {
 /* Code blocks */
 pre {
   padding: 1em;
-  margin: 0.5em 0;
   overflow: auto;
 }
 
@@ -82,11 +102,19 @@ pre {
 pre {
   color: var(--night-owl-16);
   background: var(--night-owl-3);
+  border: 1px solid #e9e9e9;
   border-radius: 0.3em;
 }
 
+body.dark :not(pre) > code,
+body.dark pre {
+  border: 0;
+}
+
 :not(pre) > code {
-  padding: 0.2em;
+  padding: 0.3em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
   border-radius: 0.3em;
   white-space: normal;
 }

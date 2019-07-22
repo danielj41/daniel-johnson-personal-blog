@@ -43,7 +43,11 @@ function doSomething(abc, abc) {
 }
 ```
 
-In strict mode, this code will throw `SyntaxError: Duplicate parameter name not allowed in this context.`
+In strict mode, this code will throw
+
+```
+SyntaxError: Duplicate parameter name not allowed in this context.
+```
 
 The reasoning for throwing an error is that a developer would never intentionally give two parameters the same name. That implies the developer made a mistake writing the code. By throwing an error in strict mode, JS helps the developer catch their mistake.
 
@@ -78,7 +82,10 @@ I started to _investigate_. 🕵️
 
 The first thing I did was search the codebase for the string `use strict`.
 
-![terminal window running `git grep "use strict"`, returning no results](./git-grep-use-strict.png)
+```bash
+daniel@daniel-macbook web (master) $ git grep "use strict"
+daniel@daniel-macbook web (master) $
+```
 
 No results.
 
