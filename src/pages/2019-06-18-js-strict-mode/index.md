@@ -105,7 +105,8 @@ It turns out that [strict mode is always enabled for modules](https://developer.
 
 Because our codebase consists of only modules, all our files are automatically in strict mode. In fact, if I try to add `'use strict'` to the top of a module, I get a lint error from ESLint, telling me that it's an unnecessary statement.
 
-![code editor with tooltip eslint error: `'use strict'` is unnecessary inside of modules](./eslint-use-strict-unnecessary.png)
+[[screenshot]]
+| ![code editor with tooltip eslint error: `'use strict'` is unnecessary inside of modules](./eslint-use-strict-unnecessary.png)
 
 ## Build step
 

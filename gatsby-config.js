@@ -52,6 +52,10 @@ module.exports = {
                   classes: "info",
                   title: "optional",
                 },
+                screenshot: {
+                  classes: "screenshot",
+                  title: "optional",
+                },
               },
             },
           },

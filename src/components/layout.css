@@ -32,3 +32,10 @@ body.dark {
 .gatsby-resp-image-image {
   transition: 0.2s box-shadow;
 }
+
+.custom-block.screenshot p {
+  /* https://gist.github.com/CrazyMORF/f0d4059cbfd5c13928d3 */
+  box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
+  border-radius: 6px;
+  overflow: hidden;
+}

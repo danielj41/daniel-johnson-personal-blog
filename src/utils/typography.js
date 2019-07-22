@@ -28,6 +28,10 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
       borderColor: "var(--blockquote-border-color)",
     },
   },
+  ".custom-block.screenshot": {
+    marginTop: rhythm(2),
+    marginBottom: rhythm(3),
+  },
 })
 
 const typography = new Typography(customizedParnassusTheme)
