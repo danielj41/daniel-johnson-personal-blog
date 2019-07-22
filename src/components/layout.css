@@ -28,3 +28,7 @@ body.dark {
   --blockquote-border-color: hsla(0, 0%, 100%, 0.1);
   --link-color: #92b4f3;
 }
+
+.gatsby-resp-image-image {
+  transition: 0.2s box-shadow;
+}

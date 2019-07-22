@@ -1,36 +1,31 @@
 /*
- Solarized Color Schemes originally by Ethan Schoonover
- http://ethanschoonover.com/solarized
-
- Ported for PrismJS by Hector Matos
- Website: https://krakendev.io
- Twitter Handle: https://twitter.com/allonsykraken)
+  Night Owl by Sarah Drasner
+  Adapted from prism port by Sara Vieira
+  https://github.com/SaraVieira/prism-theme-night-owl/blob/master/style.css
 */
 
-/*
-SOLARIZED HEX
---------- -------
-base03    #002b36
-base02    #073642
-base01    #586e75
-base00    #657b83
-base0     #839496
-base1     #93a1a1
-base2     #eee8d5
-base3     #fdf6e3
-yellow    #b58900
-orange    #cb4b16
-red       #dc322f
-magenta   #d33682
-violet    #6c71c4
-blue      #268bd2
-cyan      #2aa198
-green     #859900
-*/
+body {
+  --night-owl-1: #d6deeb;
+  --night-owl-2: rgba(29, 59, 83, 0.99);
+  --night-owl-3: #011627;
+  --night-owl-4: rgb(99, 119, 119);
+  --night-owl-5: rgb(199, 146, 234);
+  --night-owl-6: rgb(178, 204, 214);
+  --night-owl-7: rgba(239, 83, 80, 0.56);
+  --night-owl-8: rgb(128, 203, 196);
+  --night-owl-9: rgb(127, 219, 202);
+  --night-owl-10: rgb(255, 88, 116);
+  --night-owl-11: rgb(247, 140, 108);
+  --night-owl-12: rgb(130, 170, 255);
+  --night-owl-13: rgb(173, 219, 103);
+  --night-owl-14: rgb(255, 203, 139);
+  --night-owl-15: rgb(214, 222, 235);
+  --night-owl-16: white;
+}
 
 code[class*="language-"],
 pre[class*="language-"] {
-  color: #657b83; /* base00 */
+  color: var(--night-owl-1);
   font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
   font-size: 1em;
   text-align: left;
@@ -55,222 +50,130 @@ pre[class*="language-"]::-moz-selection,
 pre[class*="language-"] ::-moz-selection,
 code[class*="language-"]::-moz-selection,
 code[class*="language-"] ::-moz-selection {
-  background: #073642; /* base02 */
+  text-shadow: none;
+  background: var(--night-owl-2);
+  border-radius: 4px;
 }
 
 pre[class*="language-"]::selection,
 pre[class*="language-"] ::selection,
 code[class*="language-"]::selection,
 code[class*="language-"] ::selection {
-  background: #073642; /* base02 */
+  text-shadow: none;
+  background: var(--night-owl-2);
+  border-radius: 4px;
+}
+
+@media print {
+  code[class*="language-"],
+  pre[class*="language-"] {
+    text-shadow: none;
+  }
 }
 
 /* Code blocks */
-pre[class*="language-"] {
+pre {
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;
+}
+
+:not(pre) > code,
+pre {
+  color: var(--night-owl-16);
+  background: var(--night-owl-3);
   border-radius: 0.3em;
 }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-  background-color: #fdf6e3; /* base3 */
-}
-
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-  padding: 0.1em;
+:not(pre) > code {
+  padding: 0.2em;
   border-radius: 0.3em;
+  white-space: normal;
 }
 
 .token.comment,
 .token.prolog,
-.token.doctype,
 .token.cdata {
-  color: #93a1a1; /* base1 */
+  color: var(--night-owl-4);
+  font-style: italic;
 }
 
 .token.punctuation {
-  color: #586e75; /* base01 */
+  color: var(--night-owl-5);
 }
 
 .namespace {
-  opacity: 0.7;
+  color: var(--night-owl-6);
 }
 
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
 .token.deleted {
-  color: #268bd2; /* blue */
+  color: var(--night-owl-7);
+  font-style: italic;
+}
+
+.token.symbol,
+.token.property {
+  color: var(--night-owl-8);
+}
+
+.token.tag,
+.token.operator,
+.token.keyword {
+  color: var(--night-owl-9);
+}
+
+.token.boolean {
+  color: var(--night-owl-10);
+}
+
+.token.number {
+  color: var(--night-owl-11);
+}
+
+.token.constant,
+.token.function,
+.token.builtin,
+.token.char {
+  color: var(--night-owl-12);
 }
 
 .token.selector,
+.token.doctype {
+  color: var(--night-owl-5);
+  font-style: italic;
+}
+
 .token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.url,
 .token.inserted {
-  color: #2aa198; /* cyan */
+  color: var(--night-owl-13);
+  font-style: italic;
 }
 
-.token.entity {
-  color: #657b83; /* base00 */
-  background: #eee8d5; /* base2 */
+.token.string,
+.token.url,
+.token.entity,
+.language-css .token.string,
+.style .token.string {
+  color: var(--night-owl-13);
 }
 
+.token.class-name,
 .token.atrule,
-.token.attr-value,
-.token.keyword {
-  color: #859900; /* green */
-}
-
-.token.function,
-.token.class-name {
-  color: #b58900; /* yellow */
+.token.attr-value {
+  color: var(--night-owl-14);
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-  color: #cb4b16; /* orange */
+  color: var(--night-owl-15);
 }
 
 .token.important,
 .token.bold {
   font-weight: bold;
 }
+
 .token.italic {
   font-style: italic;
-}
-
-.token.entity {
-  cursor: help;
-}
-
-/**
- * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML
- * Based on https://github.com/chriskempson/tomorrow-theme
- * @author Rose Pritchard
- */
-
-body.dark code[class*="language-"],
-body.dark pre[class*="language-"] {
-  color: #ccc;
-  background: none;
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-  font-size: 1em;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
-  line-height: 1.5;
-
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
-
-/* Code blocks */
-body.dark pre[class*="language-"] {
-  padding: 1em;
-  margin: 0.5em 0;
-  overflow: auto;
-}
-
-body.dark :not(pre) > code[class*="language-"],
-body.dark pre[class*="language-"] {
-  background: #2d2d2d;
-}
-
-/* Inline code */
-body.dark :not(pre) > code[class*="language-"] {
-  padding: 0.1em;
-  border-radius: 0.3em;
-  white-space: normal;
-}
-
-body.dark .token.comment,
-body.dark .token.block-comment,
-body.dark .token.prolog,
-body.dark .token.doctype,
-body.dark .token.cdata {
-  color: #999;
-}
-
-body.dark .token.punctuation {
-  color: #ccc;
-}
-
-body.dark .token.tag,
-body.dark .token.attr-name,
-body.dark .token.namespace,
-body.dark .token.deleted {
-  color: #e2777a;
-}
-
-body.dark .token.function-name {
-  color: #6196cc;
-}
-
-body.dark .token.boolean,
-body.dark .token.number,
-body.dark .token.function {
-  color: #f08d49;
-}
-
-body.dark .token.property,
-body.dark .token.class-name,
-body.dark .token.constant,
-body.dark .token.symbol {
-  color: #f8c555;
-}
-
-body.dark .token.selector,
-body.dark .token.important,
-body.dark .token.atrule,
-body.dark .token.keyword,
-body.dark .token.builtin {
-  color: #cc99cd;
-}
-
-body.dark .token.string,
-body.dark .token.char,
-body.dark .token.attr-value,
-body.dark .token.regex,
-body.dark .token.variable {
-  color: #7ec699;
-}
-
-body.dark .token.operator,
-body.dark .token.entity,
-body.dark .token.url {
-  color: #67cdcc;
-}
-
-body.dark .token.important,
-body.dark .token.bold {
-  font-weight: bold;
-}
-body.dark .token.italic {
-  font-style: italic;
-}
-
-body.dark .token.entity {
-  cursor: help;
-}
-
-body.dark .token.inserted {
-  color: green;
 }
