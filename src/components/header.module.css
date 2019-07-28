@@ -1,7 +1,13 @@
 .siteTitle {
-  display: block;
+  display: flex;
   font-size: 24px;
-  text-align: center;
+  justify-content: center;
+}
+
+.siteTitleLink {
+  display: block;
+  flex: 0 0 auto;
+  padding: 1em;
   color: var(--body-color);
   text-decoration: none;
 }
@@ -39,4 +45,21 @@
 .lastName {
   background-color: rgba(0, 164, 213, 0.165);
   margin-left: -0.8em;
+}
+
+.bio {
+  margin-top: 1.5em;
+  border-top: 1px solid var(--rule-color);
+  padding-top: 1.5em;
+  border-bottom: 1px solid var(--rule-color);
+  padding-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+}
+
+.bioImage {
+  border-radius: 64px;
+  display: block;
+  flex: 0 0 auto;
+  margin-right: 1em;
 }

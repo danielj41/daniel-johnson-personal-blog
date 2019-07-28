@@ -11,7 +11,7 @@ const customizedParnassusTheme = {
 };
 
 customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
-  a: {
+  "a, button.link-button": {
     // The original theme uses a box shadow to make the underline appear
     // further down, I personally prefer the standard underline.
     color: "var(--link-color)",
@@ -19,12 +19,18 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
     textDecoration: "underline",
     transition: "0.2s color",
   },
+  "a:hover, a:active, button.link-button:hover, button.linkButton:active": {
+    textDecoration: "none",
+  },
+  "button.link-button": {
+    background: "none",
+    border: "none",
+    padding: "0",
+    cursor: "pointer",
+  },
   "h1, h2, h3, h4, h5, h6": {
     // For toggling to dark mode
     transition: "0.2s color",
-  },
-  "a:hover, a:active": {
-    textDecoration: "none",
   },
   blockquote: {
     color: "var(--blockquote-color)",

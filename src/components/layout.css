@@ -4,6 +4,7 @@ body {
   --header-color: hsla(0, 0%, 0%, 0.9);
   --blockquote-color: hsla(0, 0%, 0%, 0.59);
   --blockquote-border-color: hsla(0, 0%, 0%, 0.1);
+  --rule-color: hsla(0, 0%, 0%, 0.1);
   --link-color: #375c85;
 
   transition: 0.2s background-color, 0.2s color;
@@ -16,6 +17,7 @@ body.dark {
   --header-color: hsla(0, 0%, 100%, 0.9);
   --blockquote-color: hsla(0, 0%, 100%, 0.7);
   --blockquote-border-color: hsla(0, 0%, 100%, 0.1);
+  --rule-color: hsla(0, 0%, 100%, 0.1);
   --link-color: #82aaff;
 }
 

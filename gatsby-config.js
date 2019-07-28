@@ -3,6 +3,12 @@ module.exports = {
     title: "Daniel Johnson's personal blog",
     description: "thoughts about software development and javascript",
     author: "Daniel Johnson",
+    firstName: "Daniel",
+    lastName: "Johnson",
+    shortDescription: "daniel's blog with thoughts & things",
+    twitterUrl: "https://twitter.com/daniel00johnson",
+    githubUrl: "https://github.com/danielj41",
+    portfolioUrl: "https://danieljohnson.io",
   },
   plugins: [
     // metadata plugins
@@ -29,6 +35,13 @@ module.exports = {
       resolve: "gatsby-plugin-typography",
       options: {
         pathToConfigModule: "src/utils/typography",
+      },
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "images",
+        path: `${__dirname}/src/images`,
       },
     },
 
