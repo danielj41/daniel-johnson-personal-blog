@@ -164,14 +164,10 @@ I went down a rabbit hole trying to understand the role of `'use strict'` and ho
 
 My takeaways:
 
-JS can change really quickly. This blog post might be outdated by the time I publish it.
-
-Changes to JS are easier to understand if you've worked with the feature as it was changing.
-
-For example, I understand how the CommonJS, AMD and UMD module systems all fit (or don't fit 😉) together, but that's only because I've used all of them in previous jobs. Starting from 2019 and refactoring legacy module systems would feel like being an archaeologist.
-
-When learning something for the first time, it's difficult to know which distinctions are important in practice.
-
-I spent an inordinate amount of time in college fretting over whether various languages were "interpreted" or "compiled," [and](https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers) [then](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly) [JS](https://webpack.js.org/) [happened](https://github.com/terser-js/terser).
+- JS can change really quickly. This blog post might be outdated by the time I publish it.
+- Changes to JS are easier to understand if you've worked with the feature as it was changing.
+  - For example, I understand how the CommonJS, AMD and UMD module systems all fit (or don't fit 😉) together, but that's only because I've used all of them in previous jobs. Starting from 2019 and refactoring legacy module systems would feel like being an archaeologist.
+- When learning something for the first time, it's difficult to know which distinctions are important in practice.
+  - I spent an inordinate amount of time in college fretting over whether various languages were "interpreted" or "compiled," [and](https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers) [then](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly) [JS](https://webpack.js.org/) [happened](https://github.com/terser-js/terser).
 
 Thank you for reading!

@@ -2,6 +2,7 @@ import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 
 import Header from "./header";
+import Footer from "./footer";
 import "./layout.css";
 import "./prism-theme.css";
 
@@ -16,15 +17,14 @@ const Layout = ({ children }) => {
     }
   `);
 
+  const { title } = data.site.siteMetadata;
+
   return (
     <>
-      <Header
-        siteTitle={data.site.siteMetadata.title}
-        className="site-header"
-      />
+      <Header siteTitle={title} className="site-header" />
       <div className="layout">
         <main>{children}</main>
-        <footer>© {new Date().getFullYear()}</footer>
+        <Footer />
       </div>
     </>
   );
