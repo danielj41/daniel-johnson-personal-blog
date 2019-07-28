@@ -32,11 +32,11 @@
 }
 
 .firstName {
-  background-color: #dbf8dd;
+  background-color: rgba(0, 204, 7, 0.137);
   margin-right: -0.8em;
 }
 
 .lastName {
-  background-color: #d5f0f8;
+  background-color: rgba(0, 164, 213, 0.165);
   margin-left: -0.8em;
 }

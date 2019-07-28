@@ -19,6 +19,10 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
     textDecoration: "underline",
     transition: "0.2s color",
   },
+  "h1, h2, h3, h4, h5, h6": {
+    // For toggling to dark mode
+    transition: "0.2s color",
+  },
   "a:hover, a:active": {
     textDecoration: "none",
   },
