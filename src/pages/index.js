@@ -39,7 +39,7 @@ const IndexPage = () => {
                     {post.frontmatter.title}
                   </Link>
                 </h2>
-                <h3>{post.frontmatter.date}</h3>
+                <div className="blog-post-date">{post.frontmatter.date}</div>
                 <p>{post.excerpt}</p>
               </div>
             );

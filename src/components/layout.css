@@ -28,6 +28,10 @@ body.dark {
   padding: 1.5em;
 }
 
+.layout {
+  padding-top: 0;
+}
+
 .custom-block.info {
   background-color: lightblue;
 }
@@ -41,4 +45,25 @@ body.dark {
   box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
   border-radius: 6px;
   overflow: hidden;
+}
+
+.blog-post-date {
+  font-style: italic;
+  margin-bottom: 1.5em;
+}
+
+.autolink-header {
+  color: currentColor;
+}
+
+.autolink-header svg {
+  fill: currentColor;
+}
+
+div code[class*="language-"] {
+  white-space: normal;
+}
+
+.gatsby-highlight code[class*="language-"] {
+  white-space: pre;
 }

@@ -1,16 +1,20 @@
 import React from "react";
+import { graphql, Link } from "gatsby";
+
 import SEO from "../components/seo";
-import { graphql } from "gatsby";
 import Layout from "../components/layout";
 
 export default function BlogPost({ data }) {
   const { markdownRemark: post } = data;
+  const { title, date, path } = post.frontmatter;
+
   return (
     <Layout>
-      <SEO title={post.frontmatter.title} />
-      <h1>
-        {post.frontmatter.title} / {post.frontmatter.date}
-      </h1>
+      <SEO title={title} />
+      <h1 id="blog-post-title">{title}</h1>
+      <div className="blog-post-date">
+        <Link to={path}>{date}</Link>
+      </div>
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
     </Layout>
   );

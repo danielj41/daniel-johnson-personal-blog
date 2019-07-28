@@ -39,7 +39,7 @@ const Header = ({ className }) => {
 
   return (
     <header className={className}>
-      <div class={styles.siteTitle}>
+      <div className={styles.siteTitle}>
         <Link to="/" className={styles.siteTitleLink}>
           <span className={styles.firstName}>{firstName}</span>{" "}
           <span className={styles.lastName}>{lastName}</span>
