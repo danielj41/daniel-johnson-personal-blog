@@ -1,6 +1,6 @@
-import { Link } from "gatsby"
-import React from "react"
-import styles from "./header.module.css"
+import { Link } from "gatsby";
+import React from "react";
+import styles from "./header.module.css";
 
 const Header = ({ className }) => (
   <header className={className}>
@@ -14,6 +14,6 @@ const Header = ({ className }) => (
       <a href="/">main site</a>
     </span>
   </header>
-)
+);
 
-export default Header
+export default Header;

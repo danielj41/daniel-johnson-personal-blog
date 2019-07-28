@@ -1,6 +1,6 @@
-import Typography from "typography"
-import parnassusTheme from "typography-theme-parnassus"
-import { MOBILE_MEDIA_QUERY } from "typography-breakpoint-constants"
+import Typography from "typography";
+import parnassusTheme from "typography-theme-parnassus";
+import { MOBILE_MEDIA_QUERY } from "typography-breakpoint-constants";
 
 // Make the color scheme respect dark mode (which will change these
 // css variables)
@@ -8,7 +8,7 @@ const customizedParnassusTheme = {
   ...parnassusTheme,
   bodyColor: "var(--body-color)",
   headerColor: "var(--header-color)",
-}
+};
 
 customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
   a: {
@@ -37,9 +37,9 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
     marginTop: rhythm(2),
     marginBottom: rhythm(3),
   },
-})
+});
 
-const typography = new Typography(customizedParnassusTheme)
+const typography = new Typography(customizedParnassusTheme);
 
-export const { scale, rhythm, options } = typography
-export default typography
+export const { scale, rhythm, options } = typography;
+export default typography;

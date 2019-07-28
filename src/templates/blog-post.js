@@ -1,10 +1,10 @@
-import React from "react"
-import SEO from "../components/seo"
-import { graphql } from "gatsby"
-import Layout from "../components/layout"
+import React from "react";
+import SEO from "../components/seo";
+import { graphql } from "gatsby";
+import Layout from "../components/layout";
 
 export default function BlogPost({ data }) {
-  const { markdownRemark: post } = data
+  const { markdownRemark: post } = data;
   return (
     <Layout>
       <SEO title={post.frontmatter.title} />
@@ -13,7 +13,7 @@ export default function BlogPost({ data }) {
       </h1>
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
     </Layout>
-  )
+  );
 }
 
 export const pageQuery = graphql`
@@ -27,4 +27,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

@@ -1,8 +1,8 @@
-import React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
+import React from "react";
+import { Link, useStaticQuery, graphql } from "gatsby";
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from "../components/layout";
+import SEO from "../components/seo";
 
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
@@ -21,9 +21,9 @@ const IndexPage = () => {
         }
       }
     }
-  `)
+  `);
 
-  const { edges: posts } = data.allMarkdownRemark
+  const { edges: posts } = data.allMarkdownRemark;
 
   return (
     <Layout>
@@ -42,11 +42,11 @@ const IndexPage = () => {
                 <h3>{post.frontmatter.date}</h3>
                 <p>{post.excerpt}</p>
               </div>
-            )
+            );
           })}
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default IndexPage
+export default IndexPage;

@@ -1,10 +1,10 @@
-import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import { ThemeToggler } from "gatsby-plugin-dark-mode"
+import React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import { ThemeToggler } from "gatsby-plugin-dark-mode";
 
-import Header from "./header"
-import "./layout.css"
-import "./prism-theme.css"
+import Header from "./header";
+import "./layout.css";
+import "./prism-theme.css";
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
         }
       }
     }
-  `)
+  `);
 
   return (
     <>
@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
         <footer>© {new Date().getFullYear()}</footer>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

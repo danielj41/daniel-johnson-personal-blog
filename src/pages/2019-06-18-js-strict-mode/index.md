@@ -39,7 +39,7 @@ Let's look at an example of code that isn't allowed in strict mode:
 ```js
 function doSomething(abc, abc) {
   // Both parameters have the same name
-  return 0
+  return 0;
 }
 ```
 
@@ -56,7 +56,7 @@ The reasoning for throwing an error is that a developer would never intentionall
 To use strict mode, you [opt-in to it by placing this string at the top of your file or function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Invoking_strict_mode):
 
 ```js
-"use strict"
+"use strict";
 ```
 
 To get more clarity on this syntax, it helps to look back at older ECMAScript (ES) versions.
@@ -149,9 +149,9 @@ I tested `eslint:all` on [the strict mode examples on MDN](https://developer.moz
 
 ```js
 // Assignment to a non-writable property
-var obj1 = {}
-Object.defineProperty(obj1, "x", { value: 42, writable: false })
-obj1.x = 9 // throws a TypeError
+var obj1 = {};
+Object.defineProperty(obj1, "x", { value: 42, writable: false });
+obj1.x = 9; // throws a TypeError
 ```
 
 For those kinds of runtime-only errors, strict mode is still useful. Strict mode also [restricts features that make it difficult to optimize a JS runtime engine](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
