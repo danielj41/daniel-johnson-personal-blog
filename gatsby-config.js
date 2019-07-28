@@ -84,6 +84,10 @@ module.exports = {
                   classes: "screenshot",
                   title: "optional",
                 },
+                info: {
+                  classes: "info",
+                  title: "optional",
+                },
               },
             },
           },
