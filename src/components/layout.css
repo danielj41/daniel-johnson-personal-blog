@@ -41,8 +41,7 @@ body.dark {
 }
 
 .custom-block.screenshot p {
-  /* https://gist.github.com/CrazyMORF/f0d4059cbfd5c13928d3 */
-  box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
+  box-shadow: 0 6px 17px 1px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   overflow: hidden;
 }
