@@ -23,7 +23,6 @@
     "gatsby-transformer-remark": "^2.6.4",
     "gatsby-transformer-sharp": "^2.2.3",
     "prismjs": "^1.16.0",
-    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
@@ -38,6 +37,10 @@
   },
   "keywords": [],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielj41/daniel-johnson-personal-blog.git"
+  },
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",

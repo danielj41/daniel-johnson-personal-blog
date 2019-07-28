@@ -1,3 +1,3 @@
 # Daniel Johnson's personal blog
 
-built with Gatsby
+Built with Gatsby. [https://blog.danieljohnson.io](https://blog.danieljohnson.io)

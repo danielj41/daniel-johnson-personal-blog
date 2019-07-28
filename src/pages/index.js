@@ -29,6 +29,7 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
       <div className="blog-posts">
+        <h1>Recent Posts</h1>
         {posts
           .filter(post => post.node.frontmatter.title.length > 0)
           .map(({ node: post }) => {
