@@ -2,6 +2,8 @@ import Typography from "typography"
 import parnassusTheme from "typography-theme-parnassus"
 import { MOBILE_MEDIA_QUERY } from "typography-breakpoint-constants"
 
+// Make the color scheme respect dark mode (which will change these
+// css variables)
 const customizedParnassusTheme = {
   ...parnassusTheme,
   bodyColor: "var(--body-color)",
@@ -10,6 +12,8 @@ const customizedParnassusTheme = {
 
 customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
   a: {
+    // The original theme uses a box shadow to make the underline appear
+    // further down, I personally prefer the standard underline.
     color: "var(--link-color)",
     boxShadow: "none",
     textDecoration: "underline",
@@ -28,6 +32,7 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
       borderColor: "var(--blockquote-border-color)",
     },
   },
+  // These classes are rendered by "gatsby-remark-custom-blocks"
   ".custom-block.screenshot": {
     marginTop: rhythm(2),
     marginBottom: rhythm(3),
@@ -36,6 +41,5 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
 
 const typography = new Typography(customizedParnassusTheme)
 
-// Export helper functions
 export const { scale, rhythm, options } = typography
 export default typography

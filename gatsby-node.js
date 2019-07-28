@@ -1,11 +1,14 @@
 const path = require("path")
 
-exports.createPages = ({ actions, graphql }) => {
+/**
+ * Creates a page for each markdown blog post file in src/pages/.
+ */
+exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions
 
-  const blogPostTemplate = path.resolve(`src/components/blog-post.js`)
+  const blogPostTemplate = path.resolve("src/templates/blog-post.js")
 
-  return graphql(`
+  const result = await graphql(`
     {
       allMarkdownRemark(
         sort: { order: DESC, fields: [frontmatter___date] }
@@ -20,17 +23,17 @@ exports.createPages = ({ actions, graphql }) => {
         }
       }
     }
-  `).then(result => {
-    if (result.errors) {
-      return Promise.reject(result.errors)
-    }
+  `)
 
-    result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      createPage({
-        path: node.frontmatter.path,
-        component: blogPostTemplate,
-        context: {}, // additional data can be passed via context
-      })
+  if (result.errors) {
+    throw new Error(result.errors)
+  }
+
+  for (const { node } of result.data.allMarkdownRemark.edges) {
+    createPage({
+      path: node.frontmatter.path,
+      component: blogPostTemplate,
+      context: {},
     })
-  })
+  }
 }

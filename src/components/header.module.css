@@ -1,0 +1,42 @@
+.siteTitle {
+  display: block;
+  font-size: 24px;
+  text-align: center;
+  color: var(--body-color);
+  text-decoration: none;
+}
+
+.firstName,
+.lastName {
+  display: inline-block;
+  border-radius: 100%;
+  line-height: 0;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  mix-blend-mode: multiply;
+  text-transform: lowercase;
+}
+
+.firstName::before,
+.lastName::before {
+  display: block;
+  content: "";
+  padding-bottom: calc(50% + 0.8em);
+}
+
+.firstName::after,
+.lastName::after {
+  display: block;
+  content: "";
+  padding-bottom: calc(50% + 0.8em);
+}
+
+.firstName {
+  background-color: #dbf8dd;
+  margin-right: -0.8em;
+}
+
+.lastName {
+  background-color: #d5f0f8;
+  margin-left: -0.8em;
+}
