@@ -41,8 +41,14 @@ const Header = ({ className }) => {
     <header className={className}>
       <div className={styles.siteTitle}>
         <Link to="/" className={styles.siteTitleLink}>
-          <span className={styles.firstName}>{firstName}</span>{" "}
-          <span className={styles.lastName}>{lastName}</span>
+          <span className={styles.firstName}>
+            <span className={styles.circleBackground}></span>
+            <span className={styles.text}>{firstName}</span>
+          </span>{" "}
+          <span className={styles.lastName}>
+            <span className={styles.circleBackground}></span>
+            <span className={styles.text}>{lastName}</span>
+          </span>
         </Link>
       </div>
 

@@ -14,12 +14,11 @@
 
 .firstName,
 .lastName {
+  position: relative;
   display: inline-block;
-  border-radius: 100%;
   line-height: 0;
   padding-left: 0.8em;
   padding-right: 0.8em;
-  mix-blend-mode: multiply;
   text-transform: lowercase;
 }
 
@@ -37,13 +36,36 @@
   padding-bottom: calc(50% + 0.8em);
 }
 
-.firstName {
+.text {
+  position: relative;
+}
+
+.circleBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 100%;
+}
+
+body:global(.dark) .circleBackground {
+  mix-blend-mode: hard-light;
+}
+
+.firstName .circleBackground {
   background-color: rgba(0, 204, 7, 0.137);
+}
+
+.firstName {
   margin-right: -0.8em;
 }
 
-.lastName {
+.lastName .circleBackground {
   background-color: rgba(0, 164, 213, 0.165);
+}
+
+.lastName {
   margin-left: -0.8em;
 }
 
