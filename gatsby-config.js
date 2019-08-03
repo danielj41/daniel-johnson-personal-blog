@@ -59,6 +59,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-mdx",
       options: {
+        plugins: ["gatsby-remark-images"], // workaround https://github.com/gatsbyjs/gatsby/issues/15486#issuecomment-510153237
         gatsbyRemarkPlugins: [
           {
             resolve: "gatsby-remark-images",
