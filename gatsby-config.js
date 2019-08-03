@@ -57,9 +57,9 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-transformer-remark",
+      resolve: "gatsby-plugin-mdx",
       options: {
-        plugins: [
+        gatsbyRemarkPlugins: [
           {
             resolve: "gatsby-remark-images",
             options: {
@@ -75,21 +75,6 @@ module.exports = {
           },
           {
             resolve: "gatsby-remark-prismjs",
-          },
-          {
-            resolve: "gatsby-remark-custom-blocks",
-            options: {
-              blocks: {
-                screenshot: {
-                  classes: "screenshot",
-                  title: "optional",
-                },
-                info: {
-                  classes: "info",
-                  title: "optional",
-                },
-              },
-            },
           },
         ],
       },

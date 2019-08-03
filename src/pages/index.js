@@ -7,7 +7,7 @@ import SEO from "../components/seo";
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
     query IndexQuery {
-      allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+      allMdx(sort: { order: DESC, fields: [frontmatter___date] }) {
         edges {
           node {
             excerpt(pruneLength: 250)
@@ -23,7 +23,7 @@ const IndexPage = () => {
     }
   `);
 
-  const { edges: posts } = data.allMarkdownRemark;
+  const { edges: posts } = data.allMdx;
 
   return (
     <Layout>
