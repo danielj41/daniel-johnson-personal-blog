@@ -4,6 +4,10 @@ date: 2019-07-02T17:00:00.000Z
 title: "5 or 6 ways to design a Code Review ✨ Experience ✨"
 ---
 
+import InfoBlock from "../../components/info-block";
+import GoodCommitHistory from "./good-commit-history";
+import CommitMessageTemplate from "./commit-message-template";
+
 As a pull request (PR) author, it’s great to structure your PR in a way that’s easy for reviewers to review.
 
 The theory is that, by _investing your time up front_, you save time for your ✨ _team as a whole_. ✨
@@ -104,25 +108,9 @@ index 91867c3..892aa17 100644
 
 I have no commit history now, so I need to re-commit my changes. Before I do that, let’s take a brief detour. We need to decide what we want our commit history to look like at the end.
 
-[[info | What does a good commit history look like?]]
-|
-| I find that my individual commits often don’t map to individual files—they instead involve small related chunks across multiple files.
-|
-| _For example…_
-|
-| ✅ **Good commit 1:** Add a new function `incrementByAmount` to `utils.js` and a test to `utils.tests.js`.
-|
-| ✅ **Good commit 2:** Add another new function `decrementByAmount` to `utils.js` and a test to `utils.tests.js`.
-|
-| _Compare that with…_
-|
-| 🚫 **Bad commit 1:** Add two functions to `utils.js`.
-|
-| 🚫 **Bad commit 2:** Add tests to `utils.tests.js`.
-|
-| When viewing one of the “bad commits” individually, the reviewer may be thinking “are they going to test this function?” or “what function is this test testing?”
-|
-| (For a small change like this, unstructured commits aren’t a big deal. Larger PRs, however, may contain a lot of unrelated changes within one file. While that may also be a sign that the file needs re-architecting, that’s out of scope for this post.)
+<InfoBlock>
+  <GoodCommitHistory />
+</InfoBlock>
 
 Following those guidelines, I’ll need to stage only _some_ changes from any given file. I like to use:
 
@@ -501,36 +489,9 @@ of the flex container.
 
 I write my commit messages by starting out with a template, which helps me sort out my thoughts.
 
-[[info | Commit message template]]
-| ##### Problem
-|
-| What is the current behavior? Why is it undesirable?
-|
-| ##### Cause
-|
-| What was the technical cause for the undesirable behavior?
-|
-| ##### Solution
-|
-| What was the change you had to make to fix the behavior?
-|
-| _If you find yourself describing how the new code works, consider adding that as a code comment instead! Commit messages are more useful for understanding why something was changed, not how the new code works._
-|
-| ##### Other solutions attempted
-|
-| If you attempted a different solution that ended up not working, explain it here. Failed attempts are still useful knowledge for reviewers!
-|
-| _Same thing here. Consider if this could be a code comment._
-|
-| ##### Resources
-|
-| Consider if you can add any links to this commit message. Examples include:
-|
-| - A recent commit that caused the regression
-| - A design mockup or screenshot
-| - The bundle size change and license of a new dependency
-| - A third-party bug (e.g. a chromium bug tracker link)
-| - Tutorials, Stack Overflow questions, GitHub issues
+<InfoBlock>
+  <CommitMessageTemplate />
+</InfoBlock>
 
 I’ll fill that out, then delete any sections of the template I didn’t use. I don't necessarily follow the template at the end, but it helps jog my memory to remember why I wrote the code.
 

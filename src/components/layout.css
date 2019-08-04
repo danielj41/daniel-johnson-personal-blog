@@ -32,10 +32,6 @@ body.dark {
   padding-top: 0;
 }
 
-.custom-block.info {
-  background-color: lightblue;
-}
-
 .gatsby-resp-image-wrapper {
   box-shadow: 0 6px 17px 1px rgba(0, 0, 0, 0.2);
   border-radius: 6px;

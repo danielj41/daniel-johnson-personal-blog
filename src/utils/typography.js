@@ -42,10 +42,8 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
       borderColor: "var(--blockquote-border-color)",
     },
   },
-  // These classes are rendered by "gatsby-remark-custom-blocks"
-  ".custom-block.screenshot": {
-    marginTop: rhythm(2),
-    marginBottom: rhythm(3),
+  ".custom-block": {
+    margin: `${rhythm(1)} 0`,
   },
 });
 

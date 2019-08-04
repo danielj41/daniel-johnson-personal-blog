@@ -1,0 +1,17 @@
+#### ℹ️ What does a good commit history look like?
+
+I find that my individual commits often don’t map to individual files—they instead involve small related chunks across multiple files.
+
+_For example…_
+
+- ✅ **Good commit 1:** Add a new function `incrementByAmount` to `utils.js` and a test to `utils.tests.js`.
+- ✅ **Good commit 2:** Add another new function `decrementByAmount` to `utils.js` and a test to `utils.tests.js`.
+
+_Compare that with…_
+
+- 🚫 **Bad commit 1:** Add two functions to `utils.js`.
+- 🚫 **Bad commit 2:** Add tests to `utils.tests.js`.
+
+When viewing one of the “bad commits” individually, the reviewer may be thinking “are they going to test this function?” or “what function is this test testing?”
+
+(For a small change like this, unstructured commits aren’t a big deal. Larger PRs, however, may contain a lot of unrelated changes within one file. While that may also be a sign that the file needs re-architecting, that’s out of scope for this post.)

@@ -27,6 +27,12 @@ exports.createPages = async ({ actions, graphql }) => {
   }
 
   for (const { node } of result.data.allMdx.edges) {
+    if (!node.frontmatter.path) {
+      // Some blog posts are split into multiple mdx files--only the
+      // top-level one will have a `path` frontmatter attribute.
+      continue;
+    }
+
     createPage({
       path: node.frontmatter.path,
       component: path.resolve("./src/templates/blog-post.js"),
