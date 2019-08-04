@@ -6,6 +6,7 @@ body {
   --blockquote-border-color: hsla(0, 0%, 0%, 0.1);
   --rule-color: hsla(0, 0%, 0%, 0.1);
   --link-color: #375c85;
+  --code-header-background-color: #2a2e31;
 
   transition: 0.2s background-color, 0.2s color;
   background-color: var(--body-background-color);
@@ -19,6 +20,7 @@ body.dark {
   --blockquote-border-color: hsla(0, 0%, 100%, 0.1);
   --rule-color: hsla(0, 0%, 100%, 0.1);
   --link-color: #82aaff;
+  --code-header-background-color: #2a2e31;
 }
 
 .layout,

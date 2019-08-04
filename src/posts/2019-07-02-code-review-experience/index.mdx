@@ -5,6 +5,7 @@ title: "5 or 6 ways to design a Code Review ✨ Experience ✨"
 ---
 
 import InfoBlock from "../../components/custom-blocks/info-block";
+import ResetAndPatch from "./reset-and-patch";
 import GoodCommitHistory from "./good-commit-history";
 import CommitMessageTemplate from "./commit-message-template";
 import GitAddPatch from "./git-add-patch";
@@ -59,33 +60,7 @@ The technique involves resetting my entire commit history and starting over. I r
 
 Afterward, it will look like I made all of my changes, but haven’t actually committed anything.
 
-```diff
-daniel@macbook $ git fetch
-
-daniel@macbook $ git rebase origin/master
-Current branch add-increment-by-amount-util-function is up to date.
-
-daniel@macbook $ git reset origin/master
-Unstaged changes after reset:
- M	src/__tests__/utils.tests.js
- M	src/utils.js
-
-daniel@macbook $ git status
-On branch add-increment-by-amount-util-function
-Your branch is behind 'origin/add-increment-by-amount-util-function' by 3 commits, and can be fast-forwarded.
-  (use "git pull" to update your local branch)
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
--	modified:   src/__tests__/utils.tests.js
--	modified:   src/utils.js
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
-daniel@macbook $
-```
+<ResetAndPatch />
 
 ```diff
 diff --git a/src/utils.js b/src/utils.js
@@ -348,6 +323,7 @@ reword e0d33f3 add a dependency
 # Commands:
 # p, pick <commit> = use commit
 # r, reword <commit> = use commit, but edit the commit message
+-- INSERT --
 ```
 
 Now, one-by-one, it will let me rewrite my commit messages. _You can hide the fact that you exclusively use misspellings of “wrok in progrses” for commit messages_.
