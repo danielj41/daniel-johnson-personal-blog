@@ -36,14 +36,14 @@ body.dark {
   background-color: lightblue;
 }
 
-.gatsby-resp-image-image {
-  transition: 0.2s box-shadow;
-}
-
-.custom-block.screenshot p {
+.gatsby-resp-image-wrapper {
   box-shadow: 0 6px 17px 1px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   overflow: hidden;
+}
+
+.gatsby-resp-image-image {
+  transition: 0.2s box-shadow;
 }
 
 .blog-post-date {
