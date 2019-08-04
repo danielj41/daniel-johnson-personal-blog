@@ -3,7 +3,7 @@ import React from "react";
 import {
   TypingCodeBlock,
   createTypingCode,
-} from "../../components/typing-code-block";
+} from "../../components/custom-blocks/typing-code-block";
 
 const typingGitAddPatch = createTypingCode`
 daniel@macbook $ ${0}g${2000}it add -p${200}

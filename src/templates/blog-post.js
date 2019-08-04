@@ -2,8 +2,8 @@ import React from "react";
 import { graphql, Link } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
-import SEO from "../components/seo";
-import Layout from "../components/layout";
+import SEO from "../components/layout/seo";
+import Layout from "../components/layout/layout";
 
 export default function BlogPost({ data: { mdx } }) {
   const { title, date, path } = mdx.frontmatter;

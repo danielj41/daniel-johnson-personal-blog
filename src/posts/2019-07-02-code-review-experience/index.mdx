@@ -4,7 +4,7 @@ date: 2019-07-02T17:00:00.000Z
 title: "5 or 6 ways to design a Code Review ✨ Experience ✨"
 ---
 
-import InfoBlock from "../../components/info-block";
+import InfoBlock from "../../components/custom-blocks/info-block";
 import GoodCommitHistory from "./good-commit-history";
 import CommitMessageTemplate from "./commit-message-template";
 import GitAddPatch from "./git-add-patch";
@@ -59,15 +59,18 @@ The technique involves resetting my entire commit history and starting over. I r
 
 Afterward, it will look like I made all of my changes, but haven’t actually committed anything.
 
-```bash
-daniel@macbook ~/example (add-increment-by-amount-util-function) $ git fetch
-daniel@macbook ~/example (add-increment-by-amount-util-function) $ git rebase origin/master
+```diff
+daniel@macbook $ git fetch
+
+daniel@macbook $ git rebase origin/master
 Current branch add-increment-by-amount-util-function is up to date.
-daniel@macbook ~/example (add-increment-by-amount-util-function) $ git reset origin/master
+
+daniel@macbook $ git reset origin/master
 Unstaged changes after reset:
-M	src/__tests__/utils.tests.js
-M	src/utils.js
-daniel@macbook ~/example (add-increment-by-amount-util-function) $ git status
+ M	src/__tests__/utils.tests.js
+ M	src/utils.js
+
+daniel@macbook $ git status
 On branch add-increment-by-amount-util-function
 Your branch is behind 'origin/add-increment-by-amount-util-function' by 3 commits, and can be fast-forwarded.
   (use "git pull" to update your local branch)
@@ -76,11 +79,12 @@ Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git checkout -- <file>..." to discard changes in working directory)
 
-	modified:   src/__tests__/utils.tests.js
-	modified:   src/utils.js
+-	modified:   src/__tests__/utils.tests.js
+-	modified:   src/utils.js
 
 no changes added to commit (use "git add" and/or "git commit -a")
-daniel@macbook ~/example (add-increment-by-amount-util-function) $
+
+daniel@macbook $
 ```
 
 ```diff
@@ -185,10 +189,10 @@ To start with, we’ll run an interactive rebase, which allows us to change comm
 
 In the editor that pops up, change the commit we want to split from `pick` to `edit` (press `i` to enter insert mode in vim). That means the rebase will stop and let us edit the commit.
 
-```bash
+```shell
 pick 165cfa2 add incrementByAmount
 pick 95c2b9e add decrementByAmount
-edit 356409a move decrement from utils.js to decrement.ts
+edit█356409a move decrement from utils.js to decrement.ts
 pick b418d55 add a dependency
 
 # Rebase 18e678f..b418d55 onto 18e678f (4 commands)
@@ -210,6 +214,7 @@ pick b418d55 add a dependency
 # .       specified). Use -c <commit> to reword the commit message.
 #
 # These lines can be re-ordered; they are executed from top to bottom.
+-- INSERT --
 ```
 
 Save the rebase plan, and it will stop right after the edit commit. (`Esc`, `:wq`, `Enter` in vim, or [stop trying and configure git to use a different editor](https://stackoverflow.com/questions/2596805/how-do-i-make-git-use-the-editor-of-my-choice-for-commits) 😂)
