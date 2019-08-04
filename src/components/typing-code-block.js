@@ -1,78 +1,129 @@
 import React, { useState, useEffect, useRef } from "react";
+import classNames from "classnames";
 
 import CodeBlock from "./code-block";
 
-// const typingCode = createTypingCode`hello${0}test${1000}other{30}`
+import styles from "./typing-code-block.module.css";
+
+// Usage:
+//
+// const typingCode = createTypingCode`hello${0}test${100}other{30}`
 // <TypingCodeBlock typingCode={typingCode} />
 //
-// Will instantly print `hello`, print `test` over 1000ms,
-// then print `other` over 30ms.
+// Will instantly print `hello`, print `test` with 100ms between
+// character printed, then print `other` over with 30ms between
+// each character.
+
 export const createTypingCode = (strings, ...timings) => {
-  const getTypingCode = time => {
-    let typedString = "";
-    let typedTime = 0;
-    let timeUntilNextPoint = null;
+  const getTypingCode = position => {
+    let typedCode = "";
+    let timeUntilNextPosition = null;
+    let nextPosition = position + 1;
 
     for (let [index, timeDelta] of timings.entries()) {
       const string = strings[index];
-      if (typedTime + timeDelta < time) {
-        typedString += string;
+      if (typedCode.length + string.length <= position) {
+        typedCode += string;
       } else {
-        let amountComplete = (time - typedTime) / timeDelta;
-        typedString += string.substr(
-          0,
-          Math.ceil(string.length * amountComplete)
-        );
-        timeUntilNextPoint = 10; // TODO
-
+        nextPosition =
+          timeDelta === 0 ? typedCode.length + string.length : position + 1;
+        timeUntilNextPosition = timeDelta;
+        typedCode += string.substring(0, position - typedCode.length);
         break;
       }
-
-      typedTime += timeDelta;
     }
 
-    return { typedString, timeUntilNextPoint };
+    return { typedCode, timeUntilNextPosition, nextPosition };
   };
 
   return getTypingCode;
 };
 
 const useTypingCode = getTypingCode => {
-  const [time, setTime] = useState(0);
+  const [position, setPosition] = useState(0);
+  const [started, setStarted] = useState(false);
 
-  const { typedString, timeUntilNextPoint } = getTypingCode(time);
+  const { typedCode, timeUntilNextPosition, nextPosition } = getTypingCode(
+    position
+  );
+
+  const completed = timeUntilNextPosition === null;
 
   useEffect(() => {
-    if (timeUntilNextPoint !== null) {
-      const timeout = setTimeout(() => {
-        setTime(time + timeUntilNextPoint);
-      }, timeUntilNextPoint);
+    if (started && !completed) {
+      let timeout = setTimeout(() => {
+        setPosition(nextPosition);
+        timeout = null;
+      }, timeUntilNextPosition);
 
       return () => clearTimeout(timeout);
     }
-  }, [time, timeUntilNextPoint]);
+  }, [typedCode, timeUntilNextPosition, started, completed]);
 
-  return typedString;
+  const startTypingCode = () => {
+    setPosition(0);
+    setStarted(true);
+  };
+
+  return { typedCode, startTypingCode, started, completed };
 };
 
-export const TypingCodeBlock = ({ typingCode, language }) => {
-  const code = useTypingCode(typingCode);
+const useTypingIndicator = (started, completed) => {
+  const [showTypingIndicator, setShowTypingIndicator] = useState(false);
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setShowTypingIndicator(!showTypingIndicator);
+      timeout = null;
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [showTypingIndicator]);
+
+  return showTypingIndicator && started && !completed ? "█" : "";
+};
+
+const useScrollToBottom = dependencies => {
   const ref = useRef();
 
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollTop = ref.current.scrollHeight;
     }
-  });
+  }, [dependencies]);
+
+  return ref;
+};
+
+export const TypingCodeBlock = ({ typingCode, language, placeholder = "" }) => {
+  const { typedCode, startTypingCode, started, completed } = useTypingCode(
+    typingCode
+  );
+  const typingIndicator = useTypingIndicator(started, completed);
+  const ref = useScrollToBottom([typedCode]);
+
+  const code = started ? `${typedCode}${typingIndicator}` : placeholder;
 
   return (
-    <CodeBlock
-      code={code}
-      language={language}
-      preStyle={{
-        height: 480,
-      }}
-      preRef={ref}
-    />
+    <div className={styles.typingCodeBlock}>
+      <div
+        className={classNames({
+          [styles.inactive]: !started || completed,
+        })}
+      >
+        <CodeBlock
+          code={code}
+          language={language}
+          preStyle={{
+            height: 480,
+          }}
+          preRef={ref}
+        />
+      </div>
+      {(!started || completed) && (
+        <button className={styles.play} onClick={startTypingCode}>
+          {completed ? "🔁 Replay" : "▶️ Play"}
+        </button>
+      )}
+    </div>
   );
 };

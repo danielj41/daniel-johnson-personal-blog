@@ -1,0 +1,31 @@
+.typingCodeBlock {
+  position: relative;
+}
+
+.inactive {
+  filter: blur(2px);
+}
+
+.play {
+  border: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: 0.2s background-color;
+  text-align: center;
+  line-height: 100%;
+  color: inherit;
+  font-family: inherit;
+  display: block;
+  font-size: 200%;
+  cursor: pointer;
+  border-radius: 0.3em;
+}
+
+:global(body.dark) .play {
+  background-color: rgba(0, 0, 0, 0.5);
+}

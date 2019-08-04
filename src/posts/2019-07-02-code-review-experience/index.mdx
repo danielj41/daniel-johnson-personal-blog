@@ -9,8 +9,6 @@ import GoodCommitHistory from "./good-commit-history";
 import CommitMessageTemplate from "./commit-message-template";
 import GitAddPatch from "./git-add-patch";
 
-<GitAddPatch />
-
 As a pull request (PR) author, it’s great to structure your PR in a way that’s easy for reviewers to review.
 
 The theory is that, by _investing your time up front_, you save time for your ✨ _team as a whole_. ✨
@@ -119,125 +117,13 @@ Following those guidelines, I’ll need to stage only _some_ changes from any gi
 
 - `git add -p` (or `--patch`)
   - This command steps me through each change, and I just type `y(es)` or `n(o)` to stage individual changes.
-  - You don't need to use the `git` CLI. My coworkers have recommended using Tower or Sourcetree.
+  - You don't need to use the `git` CLI unless you want to! My colleagues have recommended using Tower or Sourcetree.
 
 Here, I’ll stage only the `increment` functions, but leave the `decrement` functions for the next commit.
 
-ADD VIDEO HERE?
+<GitAddPatch />
 
-```diff
-daniel@macbook ~/example (add-increment-by-amount-util-function) $ git add -p
-diff --git a/src/__tests__/utils.tests.js b/src/__tests__/utils.tests.js
-index 0d7326c..a3f5326 100644
---- a/src/__tests__/utils.tests.js
-+++ b/src/__tests__/utils.tests.js
-@@ -19,6 +19,16 @@ describe("utils", () => {
-     });
-   });
-
-+  describe("incrementByAmount", () => {
-+    it("should increment by 1000", () => {
-+      const number = -2;
-+
-+      const incrementedNumber = incrementByAmount(number, 1000);
-+
-+      expect(incrementedNumber).toBe(9998);
-+    });
-+  });
-+
-   describe("decrement", () => {
-     it("should decrement a positive number", () => {
-       const number = 2;
-Stage this hunk [y,n,q,a,d,j,J,g,/,e,?]? y
-@@ -36,4 +46,14 @@ describe("utils", () => {
-       expect(decrementedNumber).toBe(-3);
-     });
-   });
-+
-+  describe("decrementByAmount", () => {
-+    it("should decrement by 1000", () => {
-+      const number = -2;
-+
-+      const decrementedNumber = decrementByAmount(number, 1000);
-+
-+      expect(decrementedNumber).toBe(-1002);
-+    });
-+  });
- });
-Stage this hunk [y,n,q,a,d,K,g,/,e,?]? n
-
-diff --git a/src/utils.js b/src/utils.js
-index 91867c3..99cbc75 100644
---- a/src/utils.js
-+++ b/src/utils.js
-@@ -2,10 +2,18 @@ function increment(x) {
-   return x + 1;
- }
-
-+function incrementByAmount(x, amount) {
-+  return x + amount;
-+}
-+
- function decrement(x) {
-   return x - 1;
- }
-
-+function decrementByAmount(x, amount) {
-+  return x - amount;
-+}
-+
- module.exports = {
-   increment,
-   decrement
-Stage this hunk [y,n,q,a,d,s,e,?]? s
-Split into 2 hunks.
-@@ -2,7 +2,11 @@
-   return x + 1;
- }
-
-+function incrementByAmount(x, amount) {
-+  return x + amount;
-+}
-+
- function decrement(x) {
-   return x - 1;
- }
-
-Stage this hunk [y,n,q,a,d,j,J,g,/,e,?]? y
-@@ -5,7 +9,11 @@
- function decrement(x) {
-   return x - 1;
- }
-
-+function decrementByAmount(x, amount) {
-+  return x - amount;
-+}
-+
- module.exports = {
-   increment,
-   decrement
-Stage this hunk [y,n,q,a,d,K,g,/,e,?]? n
-
-daniel@macbook ~/example (add-increment-by-amount-util-function) $ git status
-On branch add-increment-by-amount-util-function
-Your branch is behind 'origin/add-increment-by-amount-util-function' by 3 commits, and can be fast-forwarded.
-  (use "git pull" to update your local branch)
-
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-	modified:   src/__tests__/utils.tests.js
-	modified:   src/utils.js
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	modified:   src/__tests__/utils.tests.js
-	modified:   src/utils.js
-
-daniel@macbook ~/example (add-increment-by-amount-util-function) $
-```
+_A video of `git add -p` usage_.
 
 After that, it’s time to git commit the staged changes. I’ll repeat `git add -p` and `git commit` until all my changes have been committed, then I’m ready to open a PR! 🙌
 
