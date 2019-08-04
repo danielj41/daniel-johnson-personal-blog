@@ -55,6 +55,11 @@ body:global(.dark) .circleBackground {
 
 .firstName .circleBackground {
   background-color: rgba(0, 204, 7, 0.137);
+  transition: 0.2s background-color;
+}
+
+.siteTitleLink:hover .firstName .circleBackground {
+  background-color: rgba(0, 204, 7, 0.206);
 }
 
 .firstName {
@@ -63,6 +68,11 @@ body:global(.dark) .circleBackground {
 
 .lastName .circleBackground {
   background-color: rgba(0, 164, 213, 0.165);
+  transition: 0.2s background-color;
+}
+
+.siteTitleLink:hover .lastName .circleBackground {
+  background-color: rgba(0, 164, 213, 0.248);
 }
 
 .lastName {
