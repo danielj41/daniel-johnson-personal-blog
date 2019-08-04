@@ -59,7 +59,25 @@ module.exports = {
     {
       resolve: "gatsby-plugin-mdx",
       options: {
-        plugins: ["gatsby-remark-images"], // workaround https://github.com/gatsbyjs/gatsby/issues/15486#issuecomment-510153237
+        plugins: [
+          {
+            // duplicated by gatsbyRemarkPlugins
+            // workaround https://github.com/gatsbyjs/gatsby/issues/15486#issuecomment-510153237
+            resolve: "gatsby-remark-images",
+            options: {
+              maxWidth: 760,
+              backgroundColor: "var(--body-background-color)",
+            },
+          },
+          {
+            // duplicated by gatsbyRemarkPlugins
+            // workaround https://github.com/gatsbyjs/gatsby/issues/15486#issuecomment-510153237
+            resolve: "gatsby-remark-autolink-headers",
+            options: {
+              className: "autolink-header",
+            },
+          },
+        ],
         gatsbyRemarkPlugins: [
           {
             resolve: "gatsby-remark-images",
