@@ -4,16 +4,17 @@ date: 2019-07-02T17:00:00.000Z
 title: "5 or 6 ways to design a Code Review ✨ Experience ✨"
 ---
 
-import InfoBlock from "../../components/custom-blocks/info-block";
-import ResetAndPatch from "./reset-and-patch";
-import GoodCommitHistory from "./good-commit-history";
-import CommitMessageTemplate from "./commit-message-template";
-import GitAddPatch from "./git-add-patch";
 import CommitMessageEditor from "./commit-message-editor";
-import EditRebase from "./edit-rebase";
-import RewordRebase from "./reword-rebase";
+import CommitMessageTemplate from "./commit-message-template";
 import DecrementTs1 from "./decrement-ts-1";
 import DecrementTs2 from "./decrement-ts-2";
+import EditRebase from "./edit-rebase";
+import GitAddPatch from "./git-add-patch";
+import GoodCommitHistory from "./good-commit-history";
+import InfoBlock from "../../components/custom-blocks/info-block";
+import ResetAndPatch from "./reset-and-patch";
+import ResetAndPatchDiff from "./reset-and-patch-diff";
+import RewordRebase from "./reword-rebase";
 
 As a pull request (PR) author, it’s great to structure your PR in a way that’s easy for reviewers to review.
 
@@ -45,7 +46,12 @@ To keep this post beginner-friendly, I’ll share each `git` command used. That 
 
 For me, it’s implausible to have good commit history when I’m done developing a feature. I always try to do it, and I’m relatively successful at first. But then my code doesn’t work. And then, once I’m happy with the code, my commit history looks like this!
 
-![Daniel Johnson d23c695 fix unit test copy and paste Daniel Johnson 5fc0924 yes Daniel Johnson 4cd72f4 add the action Daniel Johnson 13c3ffd hmm Daniel Johnson 257e7b0 wrok in progress](./commit-history.png)
+![Bitbucket web UI commit history
+Daniel Johnson d23c695 fix unit test copy and paste
+Daniel Johnson 5fc0924 yes
+Daniel Johnson 4cd72f4 add the action
+Daniel Johnson 13c3ffd hmm
+Daniel Johnson 257e7b0 wrok in progress](./commit-history.png)
 
 Thankfully, I can control what my commit history looks like before I open a PR! 👏
 
@@ -68,6 +74,8 @@ The technique involves resetting my entire commit history and starting over. I r
 Afterward, it will look like I made all of my changes, but haven’t actually committed anything.
 
 <ResetAndPatch />
+
+<ResetAndPatchDiff />
 
 I have no commit history now, so I need to re-commit my changes. Before I do that, let’s take a brief detour. We need to decide what we want our commit history to look like at the end.
 
@@ -99,37 +107,23 @@ To illustrate, let’s say I decide to move `decrement` to its own file, rather 
 
 Since I’ve decided to use TypeScript for new files in this repo, I also move it into a TypeScript file and rewrite it in TypeScript. The diff looks like this:
 
-![](./bitbucket-diff-1.png)
-
-```diff
-src/decrement.ts ADDED
-
-Side-by-side diff View file
-
-Comment
-
-More
-+function decrement(x: number): number {
-+  return x - 1;
-+}
-File src/utils.js MODIFIED
-
-Side-by-side diff View file
-
-Comment
-
-More
-   return x + amount;
- }
-
--function decrement(x) {
--  return x - 1;
--}
--
- function decrementByAmount(x, amount) {
-   return x - amount;
- }
-```
+![Bitbucket web UI diff
+    src/decrement.ts ADDED Side-by-side diff View file Comment More
+    +function decrement(x: number): number {
+    +  return x - 1;
+    +}
+    File src/utils.js MODIFIED
+    Side-by-side diff View file
+    Comment More
+       return x + amount;
+     }
+    -function decrement(x) {
+    -  return x - 1;
+    -}
+    -
+     function decrementByAmount(x, amount) {
+       return x - amount;
+     }](./bitbucket-diff-1.png)
 
 With this small example, it’s not terrible—but with larger examples, it’s hard to tell that the `return x - 1` line stayed the same, while the `function` line changed. The reviewer can’t easily see what code was _moved_ and what code was _changed_.
 
@@ -182,55 +176,33 @@ Now, if you look at the commit diffs, you’ll see two separate commits:
 
 First, one that just moves code:
 
-![](./bitbucket-diff-2.png)
-
-```diff
-File src/decrement.ts ADDED
-
-Side-by-side diff View file
-
-Comment
-
-More
-+function decrement(x) {
-+  return x - 1;
-+}
-File src/utils.js MODIFIED
-
-Side-by-side diff View file
-
-Comment
-
-More
-   return x + amount;
- }
-
--function decrement(x) {
--  return x - 1;
--}
--
- function decrementByAmount(x, amount) {
-   return x - amount;
- }
-```
+![Bitbucket web UI diff
+    File src/decrement.ts ADDED
+    Side-by-side diff View file Comment More
+    +function decrement(x) {
+    +  return x - 1;
+    +}
+    File src/utils.js MODIFIED
+    Side-by-side diff View file Comment More
+      return x + amount;
+    }
+    -function decrement(x) {
+    -  return x - 1;
+    -}
+    -
+    function decrementByAmount(x, amount) {
+      return x - amount;
+    }](./bitbucket-diff-2.png)
 
 Followed by one that only changes code:
 
-![](./bitbucket-diff-3.png)
-
-```diff
-File src/decrement.ts MODIFIED
-
-Side-by-side diff View file
-
-Comment
-
-More
--function decrement(x) {
-+function decrement(x: number): number {
-   return x - 1;
- }
-```
+![Bitbucket web UI diff
+    File src/decrement.ts MODIFIED
+    Side-by-side diff View file Comment More
+    -function decrement(x) {
+    +function decrement(x: number): number {
+      return x - 1;
+    }](./bitbucket-diff-3.png)
 
 Looks good! The reviewer doesn’t have to manually scan for what changed between the two implementations\*2.
 
@@ -280,26 +252,16 @@ Once I’ve updated all my commit messages, it’s time to move on to opening th
 
 I like to keep the description brief because [I have a theory that most people don’t really read them](https://en.wikipedia.org/wiki/Banner_blindness). I prefer sticking to one-liners, bullet points and screenshots:
 
-![](./pull-request-description.png)
-
-```
-Center images before cropping
-
-Before
-
-
-
-After
-
-
-
-Administrative
-QA Checklist
-
-Test narrow / tall backgrounds
-
-Test various file formats
-```
+![Bitbucket web UI pull request description
+    Center images before cropping
+    Before
+    (before screenshot)
+    After
+    (after screenshot)
+    Administrative
+    QA Checklist
+    Test narrow / tall backgrounds
+    Test various file formats](./pull-request-description.png)
 
 ---
 
@@ -307,7 +269,7 @@ Test various file formats
 
 Since the default view is “review by file” instead of “reviewing by commit,” I’ll add a call-to-action (a comment 😉) near the top of the PR:
 
-![This change is easier to understand if you read commit-by-commit, starting at f49cec29f!](./read-commit-by-commit.png)
+![Bitbucket code review comment: This change is easier to understand if you read commit-by-commit, starting at f49cec29f!](./read-commit-by-commit.png)
 
 By calling out the “commit-by-commit” review method, you can make sure that your effort rewriting history wasn’t wasted!
 
@@ -317,13 +279,13 @@ There are a few other line-specific call-to-actions you can add, to guide the re
 
 **Example 1:** Make it clear when a large diff is caused only by whitespace changes.
 
-![I just changed the indentation level here! I recommend viewing without whitespace:](./ignore-whitespace.png)
+![Bitbucket code review comment: I just changed the indentation level here! I recommend viewing without whitespace:](./ignore-whitespace.png)
 
 ---
 
 **Example 2:** Asking for specific feedback.
 
-![I'm not sold on this implementation, but it was the only thing I could think of. Any ideas on how to improve it? :)](./ask-for-specific-feedback.png)
+![Bitbucket code review comment: I'm not sold on this implementation, but it was the only thing I could think of. Any ideas on how to improve it? :)](./ask-for-specific-feedback.png)
 
 That way, the reviewer has a sense of what parts of the code need more thorough review.
 
