@@ -123,6 +123,6 @@ export default () => (
     placeholder="daniel@macbook $ git add -p"
     typingCode={typingGitAddPatch}
     language="diff"
-    title="📁 ~/example — bash — Terminal"
+    title="📁 ~/example — git add -p — Terminal"
   ></TypingCodeBlock>
 );

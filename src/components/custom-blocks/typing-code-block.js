@@ -89,7 +89,7 @@ const useScrollToBottom = dependencies => {
     if (ref.current) {
       ref.current.scrollTop = ref.current.scrollHeight;
     }
-  }, [dependencies]);
+  }, dependencies);
 
   return ref;
 };
@@ -112,7 +112,7 @@ export const TypingCodeBlock = ({
     <div className={styles.typingCodeBlock}>
       <div
         className={classNames({
-          [styles.inactive]: !started || completed,
+          [styles.notStarted]: !started,
         })}
       >
         <TerminalCodeBlock
@@ -125,9 +125,27 @@ export const TypingCodeBlock = ({
           {...props}
         />
       </div>
-      {(!started || completed) && (
-        <button className={styles.play} onClick={startTypingCode}>
-          {completed ? "🔁 Replay" : "▶️ Play"}
+      {!started && (
+        <button className={styles.playButton} onClick={startTypingCode}>
+          <span className={styles.playText}>
+            <span role="img" aria-label="">
+              ▶️
+            </span>{" "}
+            Play
+          </span>
+        </button>
+      )}
+      {completed && (
+        <button
+          className={classNames(styles.playButton, styles.replayButton)}
+          onClick={startTypingCode}
+        >
+          <span className={styles.playText}>
+            <span role="img" aria-label="">
+              🔁
+            </span>{" "}
+            Replay
+          </span>
         </button>
       )}
     </div>

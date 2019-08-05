@@ -51,6 +51,9 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
   ".custom-block li": {
     marginBottom: rhythm(1 / 4),
   },
+  "button:not(.link-button)": {
+    fontFamily: parnassusTheme.headerFontFamily.join(","),
+  },
 });
 
 const typography = new Typography(customizedParnassusTheme);
