@@ -12,6 +12,8 @@ import GitAddPatch from "./git-add-patch";
 import CommitMessageEditor from "./commit-message-editor";
 import EditRebase from "./edit-rebase";
 import RewordRebase from "./reword-rebase";
+import DecrementTs1 from "./decrement-ts-1";
+import DecrementTs2 from "./decrement-ts-2";
 
 As a pull request (PR) author, it’s great to structure your PR in a way that’s easy for reviewers to review.
 
@@ -151,15 +153,7 @@ Now, the commit has still been committed, but we can _amend_ it. I’ll amend th
 
 Personally, I like load the old file in Bitbucket in a web browser, then copy and paste the old implementation overtop my new implementation\*1:
 
-![](./move.png)
-
-```ts
-// decrement.ts
-
-function decrement(x) {
-  return x - 1;
-}
-```
+<DecrementTs1 />
 
 Then I save, and:
 
@@ -169,15 +163,7 @@ Then I save, and:
 
 After that, I undo (⌘-Z) 😂 my “paste” to recover my new implementation:
 
-![](./change.png)
-
-```ts
-// decrement.ts
-
-function decrement(x: number): number {
-  return x - 1;
-}
-```
+<DecrementTs2 />
 
 and I add this “implementation change” as a new commit:
 

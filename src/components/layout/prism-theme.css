@@ -121,6 +121,10 @@ pre {
   font-style: italic;
 }
 
+.line-number {
+  color: var(--night-owl-4);
+}
+
 .token.punctuation {
   color: var(--night-owl-5);
 }
