@@ -105,7 +105,7 @@ For more complex PRs, my _Reset and patch_ technique isn’t enough. This usuall
 
 To illustrate, let’s say I decide to move `decrement` to its own file, rather than keeping it in `utils.js` (it is very different from the other functions in that file, after all 😂)
 
-Since I’ve decided to use TypeScript for new files in this repo, I also move it into a TypeScript file and rewrite it in TypeScript. The diff looks like this:
+Since I’ve decided to use TypeScript for new files in this repo, I also move it into a TypeScript file and rewrite it in TypeScript. The diff in Bitbucket's web UI looks like this:
 
 ![Bitbucket web UI diff
     src/decrement.ts ADDED Side-by-side diff View file Comment More
@@ -147,7 +147,7 @@ Save the rebase plan, and it will stop right after the edit commit. (`Esc`, `:wq
 
 Now, the commit has still been committed, but we can _amend_ it. I’ll amend the commit to only _move_ the code, by undoing the implementation changes I made.
 
-Personally, I like load the old file in Bitbucket in a web browser, then copy and paste the old implementation overtop my new implementation\*1:
+Personally, I like load the old file in Bitbucket in a web browser, then copy and paste the old implementation overtop my new implementation<sup>\*1</sup>:
 
 <DecrementTs1 />
 
@@ -204,10 +204,10 @@ Followed by one that only changes code:
       return x - 1;
     }](./bitbucket-diff-3.png)
 
-Looks good! The reviewer doesn’t have to manually scan for what changed between the two implementations\*2.
+Looks good! The reviewer doesn’t have to manually scan for what changed between the two implementations<sup>\*2</sup>.
 
-- _(\*1) I’m sure there is a better way to add a “midpoint” commit (please share if you have one), but one benefit of rewriting history is that no one knows how hackily you did it._
-- _(\*2) I wonder if there are any tools for visually viewing diffs better. What if Bitbucket identified code that moved, and offered a “changes after movement” diff?_
+- _<sup>(\*1)</sup> I’m sure there is a better way to add a “midpoint” commit (please share if you have one), but one benefit of rewriting history is that no one knows how hackily you did it._
+- _<sup>(\*2)</sup> I wonder if there are any tools for visually viewing diffs better. What if Bitbucket identified code that moved, and offered a “changes after movement” diff?_
 
 ---
 

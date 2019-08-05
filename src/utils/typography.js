@@ -45,6 +45,12 @@ customizedParnassusTheme.overrideThemeStyles = ({ rhythm }, options) => ({
   ".custom-block": {
     margin: `${rhythm(1)} 0`,
   },
+  ".custom-block h2, .custom-block h3, .custom-block h4, .custom-block h5, .custom-block h6": {
+    marginTop: rhythm(1),
+  },
+  ".custom-block li": {
+    marginBottom: rhythm(1 / 4),
+  },
 });
 
 const typography = new Typography(customizedParnassusTheme);
