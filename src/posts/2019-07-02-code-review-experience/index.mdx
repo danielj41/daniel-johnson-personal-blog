@@ -9,6 +9,9 @@ import ResetAndPatch from "./reset-and-patch";
 import GoodCommitHistory from "./good-commit-history";
 import CommitMessageTemplate from "./commit-message-template";
 import GitAddPatch from "./git-add-patch";
+import CommitMessageEditor from "./commit-message-editor";
+import EditRebase from "./edit-rebase";
+import RewordRebase from "./reword-rebase";
 
 As a pull request (PR) author, it’s great to structure your PR in a way that’s easy for reviewers to review.
 
@@ -61,30 +64,6 @@ The technique involves resetting my entire commit history and starting over. I r
 Afterward, it will look like I made all of my changes, but haven’t actually committed anything.
 
 <ResetAndPatch />
-
-```diff
-diff --git a/src/utils.js b/src/utils.js
-index 91867c3..892aa17 100644
---- a/src/utils.js
-+++ b/src/utils.js
-@@ -2,11 +2,21 @@ function increment(x) {
-   return x + 1;
- }
-
-+function incrementByAmount(x, amount) {
-+  return x + amount;
-+}
-+
- function decrement(x) {
-   return x - 1;
- }
-
-+function decrementByAmount(x, amount) {
-+  return x - amount;
-+}
-+
-:
-```
 
 I have no commit history now, so I need to re-commit my changes. Before I do that, let’s take a brief detour. We need to decide what we want our commit history to look like at the end.
 
@@ -164,33 +143,7 @@ To start with, we’ll run an interactive rebase, which allows us to change comm
 
 In the editor that pops up, change the commit we want to split from `pick` to `edit` (press `i` to enter insert mode in vim). That means the rebase will stop and let us edit the commit.
 
-```shell
-pick 165cfa2 add incrementByAmount
-pick 95c2b9e add decrementByAmount
-edit█356409a move decrement from utils.js to decrement.ts
-pick b418d55 add a dependency
-
-# Rebase 18e678f..b418d55 onto 18e678f (4 commands)
-#
-# Commands:
-# p, pick <commit> = use commit
-# r, reword <commit> = use commit, but edit the commit message
-# e, edit <commit> = use commit, but stop for amending
-# s, squash <commit> = use commit, but meld into previous commit
-# f, fixup <commit> = like "squash", but discard this commit's log message
-# x, exec <command> = run command (the rest of the line) using shell
-# b, break = stop here (continue rebase later with 'git rebase --continue')
-# d, drop <commit> = remove commit
-# l, label <label> = label current HEAD with a name
-# t, reset <label> = reset HEAD to a label
-# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
-# .       create a merge commit using the original merge commit's
-# .       message (or the oneline, if no original merge commit was
-# .       specified). Use -c <commit> to reword the commit message.
-#
-# These lines can be re-ordered; they are executed from top to bottom.
--- INSERT --
-```
+<EditRebase />
 
 Save the rebase plan, and it will stop right after the edit commit. (`Esc`, `:wq`, `Enter` in vim, or [stop trying and configure git to use a different editor](https://stackoverflow.com/questions/2596805/how-do-i-make-git-use-the-editor-of-my-choice-for-commits) 😂)
 
@@ -311,20 +264,7 @@ Now that I’ve restructured my commits, I can go back and write commit messages
 - `git rebase -i origin/master`
   - set every commit to `reword` (or `r`)
 
-```bash
-reword 165cfa2 add incrementByAmount
-reword 95c2b9e add decrementByAmount
-reword f49cec2 move decrement from utils.js to decrement.ts
-reword 2df0152 make it into typescript syntax
-reword e0d33f3 add a dependency
-
-# Rebase 18e678f..e0d33f3 onto 18e678f (5 commands)
-#
-# Commands:
-# p, pick <commit> = use commit
-# r, reword <commit> = use commit, but edit the commit message
--- INSERT --
-```
+<RewordRebase />
 
 Now, one-by-one, it will let me rewrite my commit messages. _You can hide the fact that you exclusively use misspellings of “wrok in progrses” for commit messages_.
 
@@ -332,30 +272,7 @@ Now, one-by-one, it will let me rewrite my commit messages. _You can hide the fa
 
 Let’s start with an example commit message, then I can describe how to write it.
 
-```
-Fix blog post header being too small in IE11
-
-Problem
----
-
-In IE11, the container doesn't keep its 100px minimum height
-when the content is smaller. It looks fine in other browsers.
-
-Cause
----
-
-IE11 flexbox containers with min-height and align-items:center
-don't work as expected:
-https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/101414/
-
-Solution
----
-Use workaround described here
-https://github.com/philipwalton/flexbugs/issues/231#issuecomment-362790042
-
-Create an ::after pseudo-element with height: 100px as a child
-of the flex container.
-```
+<CommitMessageEditor />
 
 I write my commit messages by starting out with a template, which helps me sort out my thoughts.
 

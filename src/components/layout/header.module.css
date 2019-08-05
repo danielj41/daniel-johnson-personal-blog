@@ -87,6 +87,7 @@ body:global(.dark) .circleBackground {
   padding-bottom: 1.5em;
   display: flex;
   align-items: center;
+  transition: 0.2s border-color;
 }
 
 .bioImage {

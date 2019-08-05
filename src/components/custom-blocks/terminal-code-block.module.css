@@ -1,3 +1,54 @@
 .terminalHeader {
-  background-color: var(--code-header-background-color);
+  position: relative;
+  background: var(--code-header-background);
+  margin: 0;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-top: 1px solid var(--rule-color);
+  border-left: 1px solid var(--rule-color);
+  border-right: 1px solid var(--rule-color);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.terminalHeader pre {
+  border: 1px solid #414447;
+}
+
+.headerDot {
+  display: block;
+  position: absolute;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.headerDot:nth-child(1) {
+  left: 8px;
+  background-color: #ff6057;
+}
+
+body:global(.dark) .headerDot:nth-child(1) {
+  background-color: #ff5a52;
+}
+
+.headerDot:nth-child(2) {
+  left: 28px;
+  background-color: #ffbd2d;
+}
+
+body:global(.dark) .headerDot:nth-child(2) {
+  background-color: #e5c02a;
+}
+
+.headerDot:nth-child(3) {
+  left: 48px;
+  background-color: #27ca41;
+}
+
+body:global(.dark) .headerDot:nth-child(3) {
+  background-color: #54c22c;
 }

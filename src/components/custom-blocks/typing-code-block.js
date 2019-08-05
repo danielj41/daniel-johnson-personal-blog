@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 
-import CodeBlock from "./code-block";
+import TerminalCodeBlock from "./terminal-code-block";
 
 import styles from "./typing-code-block.module.css";
 
@@ -94,7 +94,12 @@ const useScrollToBottom = dependencies => {
   return ref;
 };
 
-export const TypingCodeBlock = ({ typingCode, language, placeholder = "" }) => {
+export const TypingCodeBlock = ({
+  typingCode,
+  language,
+  placeholder = "",
+  ...props
+}) => {
   const { typedCode, startTypingCode, started, completed } = useTypingCode(
     typingCode
   );
@@ -110,13 +115,14 @@ export const TypingCodeBlock = ({ typingCode, language, placeholder = "" }) => {
           [styles.inactive]: !started || completed,
         })}
       >
-        <CodeBlock
+        <TerminalCodeBlock
           code={code}
           language={language}
           preStyle={{
             height: 480,
           }}
           preRef={ref}
+          {...props}
         />
       </div>
       {(!started || completed) && (

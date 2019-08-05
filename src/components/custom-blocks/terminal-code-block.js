@@ -9,6 +9,8 @@ const TerminalCodeBlock = ({
   language = "shell",
   prompt = "$",
   title = "Terminal",
+  preStyle = {},
+  preRef,
 }) => (
   // Set `theme` to undefined so that it uses the globally-defined theme
   // in `prism-theme.css`. Since `gatsby-remark-prismjs` uses the global
@@ -17,7 +19,12 @@ const TerminalCodeBlock = ({
   // to use either the component and the markdown syntax, depending on where
   // I'm showing a code block.
   <>
-    <div className={styles.terminalHeader}>{title}</div>
+    <h6 className={styles.terminalHeader}>
+      <span className={styles.headerDot} />
+      <span className={styles.headerDot} />
+      <span className={styles.headerDot} />
+      {title}
+    </h6>
     <Highlight
       {...defaultProps}
       theme={undefined}
@@ -32,7 +39,9 @@ const TerminalCodeBlock = ({
             borderTopRightRadius: 0,
             borderTopLeftRadius: 0,
             marginTop: 0,
+            ...preStyle,
           }}
+          ref={preRef}
         >
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>
@@ -58,7 +67,7 @@ const TerminalCodeBlock = ({
                         children={props.children.substring(
                           indexOfPrompt + prompt.length
                         )}
-                        className={classNames("token", "function")}
+                        className={classNames("token", "string")}
                         key={"2"}
                       />
                     </React.Fragment>

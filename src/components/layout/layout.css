@@ -2,11 +2,11 @@ body {
   --body-background-color: white;
   --body-color: hsla(0, 0%, 0%, 0.8);
   --header-color: hsla(0, 0%, 0%, 0.9);
+  --rule-color: #e5e5e5;
   --blockquote-color: hsla(0, 0%, 0%, 0.59);
-  --blockquote-border-color: hsla(0, 0%, 0%, 0.1);
-  --rule-color: hsla(0, 0%, 0%, 0.1);
+  --blockquote-border-color: var(--rule-color);
   --link-color: #375c85;
-  --code-header-background-color: #2a2e31;
+  --code-header-background: linear-gradient(to bottom, #f0f0f0, #eaeaea);
 
   transition: 0.2s background-color, 0.2s color;
   background-color: var(--body-background-color);
@@ -16,11 +16,11 @@ body.dark {
   --body-background-color: #21252c;
   --body-color: hsla(0, 0%, 100%, 0.8);
   --header-color: hsla(0, 0%, 100%, 0.9);
+  --rule-color: #383b41;
   --blockquote-color: hsla(0, 0%, 100%, 0.7);
-  --blockquote-border-color: hsla(0, 0%, 100%, 0.1);
-  --rule-color: hsla(0, 0%, 100%, 0.1);
+  --blockquote-border-color: var(--rule-color);
   --link-color: #82aaff;
-  --code-header-background-color: #2a2e31;
+  --code-header-background: linear-gradient(to bottom, #313335, #2b2d2f);
 }
 
 .layout,
@@ -67,4 +67,5 @@ div code[class*="language-"] {
 
 hr {
   background-color: var(--rule-color);
+  transition: 0.2s background-color;
 }

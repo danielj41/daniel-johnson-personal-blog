@@ -4,6 +4,8 @@ date: 2019-06-18T17:00:00.000Z
 title: "Deep dive into 'use strict' in JavaScript"
 ---
 
+import GitGrep from "./git-grep";
+
 **Question:**
 
 > Do we use strict mode in our app?
@@ -82,10 +84,7 @@ I started to _investigate_. 🕵️
 
 The first thing I did was search the codebase for the string `use strict`.
 
-```bash
-daniel@daniel-macbook web (master) $ git grep "use strict"
-daniel@daniel-macbook web (master) $
-```
+<GitGrep />
 
 No results.
 
