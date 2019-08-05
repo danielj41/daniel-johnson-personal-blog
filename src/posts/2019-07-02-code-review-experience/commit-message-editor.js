@@ -14,7 +14,7 @@ Problem
  
 In IE11, the container doesn't keep its 100px minimum height
 when the content is smaller. It looks fine in other browsers.
-
+ 
 Cause
 ---
  
