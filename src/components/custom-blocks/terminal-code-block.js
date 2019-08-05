@@ -2,7 +2,7 @@ import React from "react";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import classNames from "classnames";
 
-import styles from "./terminal-code-block.module.css";
+import CodeBlockHeader from "./code-block-header";
 
 const TerminalCodeBlock = ({
   code,
@@ -19,12 +19,7 @@ const TerminalCodeBlock = ({
   // to use either the component and the markdown syntax, depending on where
   // I'm showing a code block.
   <>
-    <h6 className={styles.terminalHeader}>
-      <span className={styles.headerDot} />
-      <span className={styles.headerDot} />
-      <span className={styles.headerDot} />
-      {title}
-    </h6>
+    <CodeBlockHeader title={title} />
     <Highlight
       {...defaultProps}
       theme={undefined}
@@ -36,9 +31,6 @@ const TerminalCodeBlock = ({
           className={className}
           style={{
             ...style,
-            borderTopRightRadius: 0,
-            borderTopLeftRadius: 0,
-            marginTop: 0,
             ...preStyle,
           }}
           ref={preRef}

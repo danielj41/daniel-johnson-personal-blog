@@ -1,4 +1,4 @@
-.terminalHeader {
+.header {
   position: relative;
   background: var(--code-header-background);
   margin: 0;
@@ -12,8 +12,10 @@
   border-top-right-radius: 6px;
 }
 
-.terminalHeader pre {
-  border: 1px solid #414447;
+.header + pre {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .headerDot {
