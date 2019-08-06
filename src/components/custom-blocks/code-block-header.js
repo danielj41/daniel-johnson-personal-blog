@@ -7,7 +7,7 @@ const CodeBlockHeader = ({ title }) => (
     <span className={styles.headerDot} />
     <span className={styles.headerDot} />
     <span className={styles.headerDot} />
-    {title}
+    <span className={styles.headerText}>{title}</span>
   </h6>
 );
 

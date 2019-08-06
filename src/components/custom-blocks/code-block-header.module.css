@@ -1,10 +1,12 @@
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
   position: relative;
   background: var(--code-header-background);
   margin: 0;
   height: 28px;
   line-height: 28px;
-  text-align: center;
   border-top: 1px solid var(--rule-color);
   border-left: 1px solid var(--rule-color);
   border-right: 1px solid var(--rule-color);
@@ -12,24 +14,17 @@
   border-top-right-radius: 6px;
 }
 
-.header + pre {
-  margin-top: 0;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
 .headerDot {
   display: block;
-  position: absolute;
-  top: 7px;
+  flex: 0 0 auto;
   width: 12px;
   height: 12px;
+  margin-left: 8px;
   border-radius: 12px;
   border: 0.5px solid rgba(0, 0, 0, 0.1);
 }
 
 .headerDot:nth-child(1) {
-  left: 8px;
   background-color: #ff6057;
 }
 
@@ -38,7 +33,6 @@ body:global(.dark) .headerDot:nth-child(1) {
 }
 
 .headerDot:nth-child(2) {
-  left: 28px;
   background-color: #ffbd2d;
 }
 
@@ -47,10 +41,37 @@ body:global(.dark) .headerDot:nth-child(2) {
 }
 
 .headerDot:nth-child(3) {
-  left: 48px;
   background-color: #27ca41;
 }
 
 body:global(.dark) .headerDot:nth-child(3) {
   background-color: #54c22c;
+}
+
+.headerText {
+  flex: 1 1 auto;
+  margin: 0 12px;
+  display: block;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.header::after {
+  content: "";
+  display: block;
+  flex: 0 1000000 auto;
+  /* Same width as headerDots. Keeps text centered when wide,
+     but will shrink if there is no space left in the header.
+     Not sure if there is a better way to achieve the "shrink
+     entirely before letting any other elements shrink," for
+     now I'm just using a large flex-shrink value */
+  width: 70px;
+}
+
+.header + pre {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
