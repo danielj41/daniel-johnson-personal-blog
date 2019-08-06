@@ -45,7 +45,7 @@ ${1000}@@ -36,4 +46,14 @@ describe("utils", () => {
 +  });
  });
 Stage this hunk [y,n,q,a,d,K,g,/,e,?]? ${0}n${2000}o${200}
-${1000}
+${1000} 
 diff --git a/src/utils.js b/src/utils.js
 index 91867c3..99cbc75 100644
 --- a/src/utils.js
@@ -97,7 +97,7 @@ ${1000}@@ -5,7 +9,11 @@
    increment,
    decrement
 Stage this hunk [y,n,q,a,d,K,g,/,e,?]? ${0}n${2000}o${200}
-${1000}
+${1000} 
 daniel@macbook $ ${0}g${2000}it status${200}
 ${1000}On branch add-increment-by-amount-util-function
 Your branch is behind 'origin/add-increment-by-amount-util-function' by 3 commits, and can be fast-forwarded.
