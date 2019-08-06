@@ -4,6 +4,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import SEO from "../components/layout/seo";
 import Layout from "../components/layout/layout";
+import ThemeToggleButton from "../components/layout/theme-toggle-button";
 
 import styles from "./blog-post.module.css";
 import "./prism-theme.css";
@@ -16,18 +17,20 @@ export default function BlogPost({
   const { title, date, path } = frontmatter;
 
   return (
-    <Layout>
-      <SEO title={title} />
-      <h1 id="blog-post-title">{title}</h1>
-      <p className={styles.blogPostDate}>
-        <Link to={path}>{date}</Link>
-      </p>
-      <MDXRenderer>{body}</MDXRenderer>
-      <p className={styles.blogPostLinks}>
-        <Link to="/">Back to home</Link> /{" "}
-        <a href={twitterSearchUrl}>Discuss on Twitter</a> /{" "}
-        <a href={githubSourceUrl}>Source on GitHub</a>
-      </p>
+    <Layout minimal>
+      <div className={styles.blogPost}>
+        <SEO title={title} />
+        <h1 id="blog-post-title">{title}</h1>
+        <p className={styles.blogPostDate}>
+          <Link to={path}>{date}</Link> / <ThemeToggleButton />
+        </p>
+        <MDXRenderer>{body}</MDXRenderer>
+        <p className={styles.blogPostLinks}>
+          <Link to="/">Back to home</Link> /{" "}
+          <a href={twitterSearchUrl}>Discuss on Twitter</a> /{" "}
+          <a href={githubSourceUrl}>Source on GitHub</a>
+        </p>
+      </div>
     </Layout>
   );
 }

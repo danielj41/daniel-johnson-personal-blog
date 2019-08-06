@@ -30,43 +30,12 @@ body.dark {
   padding: 1.5em;
 }
 
+.site-header {
+  padding-bottom: 0;
+}
+
 .layout {
   padding-top: 0;
-}
-
-.gatsby-resp-image-wrapper {
-  box-shadow: 0 6px 17px 1px rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.gatsby-resp-image-image {
-  transition: 0.2s box-shadow;
-}
-
-.blog-post-date {
-  font-style: italic;
-}
-
-.blog-post-links {
-  text-transform: lowercase;
-  text-align: center;
-}
-
-.autolink-header {
-  color: currentColor;
-}
-
-.autolink-header svg {
-  fill: currentColor;
-}
-
-div code[class*="language-"] {
-  white-space: normal;
-}
-
-.gatsby-highlight code[class*="language-"] {
-  white-space: pre;
 }
 
 hr {

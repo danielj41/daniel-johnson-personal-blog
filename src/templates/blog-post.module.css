@@ -1,5 +1,5 @@
-.blogPostDate {
-  font-style: italic;
+.blogPost {
+  margin-top: -1.5em; /* TODO make header/logo follow vertical rhythm from typography.js */
 }
 
 .blogPostLinks {

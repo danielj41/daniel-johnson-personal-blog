@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
-import { ThemeToggler } from "gatsby-plugin-dark-mode";
 import classNames from "classnames";
+
+import ThemeToggleButton from "./theme-toggle-button";
 
 import styles from "./header.module.css";
 
-const Header = ({ className }) => {
+const Header = ({ className, minimal }) => {
   const data = useStaticQuery(graphql`
     query {
       site {
@@ -53,39 +54,30 @@ const Header = ({ className }) => {
         </Link>
       </div>
 
-      <div className={styles.bio}>
-        <Link to="/">
-          <Img
-            className={styles.bioImage}
-            fixed={data.bioImage.childImageSharp.fixed}
-          />
-        </Link>
-        <div className={styles.bioInfo}>
-          <div className={styles.bioInfoLine}>
-            {shortDescription} /{" "}
-            <ThemeToggler>
-              {({ theme, toggleTheme }) => (
-                <button
-                  className="link-button"
-                  onClick={() =>
-                    toggleTheme(theme === "dark" ? "light" : "dark")
-                  }
-                >
-                  {theme === "dark"
-                    ? "use light theme 😌"
-                    : "use DARK theme 🥰"}
-                </button>
+      {!minimal && (
+        <div className={styles.bio}>
+          <a href={twitterUrl}>
+            <Img
+              className={styles.bioImage}
+              fixed={data.bioImage.childImageSharp.fixed}
+            />
+          </a>
+          <div className={styles.bioInfo}>
+            <div className={styles.bioInfoLine}>
+              {shortDescription} / <ThemeToggleButton />
+            </div>
+            <div
+              className={classNames(
+                styles.bioInfoLine,
+                styles.bioInfoLineLinks
               )}
-            </ThemeToggler>
-          </div>
-          <div
-            className={classNames(styles.bioInfoLine, styles.bioInfoLineLinks)}
-          >
-            <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a> /{" "}
-            <a href={portfolioUrl}>Portfolio</a>
+            >
+              <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a>{" "}
+              / <a href={portfolioUrl}>Portfolio</a>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
