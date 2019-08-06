@@ -28,7 +28,7 @@ index 0d7326c..a3f5326 100644
    describe("decrement", () => {
      it("should decrement a positive number", () => {
        const number = 2;
-Stage this hunk [y,n,q,a,d,j,J,g,/,e,?]? ${0}y${2000}es${200}
+Stage this hunk? ${0}y${2000}es${200}
 ${1000}@@ -36,4 +46,14 @@ describe("utils", () => {
        expect(decrementedNumber).toBe(-3);
      });
@@ -44,7 +44,7 @@ ${1000}@@ -36,4 +46,14 @@ describe("utils", () => {
 +    });
 +  });
  });
-Stage this hunk [y,n,q,a,d,K,g,/,e,?]? ${0}n${2000}o${200}
+Stage this hunk? ${0}n${2000}o${200}
 ${1000} 
 diff --git a/src/utils.js b/src/utils.js
 index 91867c3..99cbc75 100644
@@ -69,7 +69,7 @@ index 91867c3..99cbc75 100644
  module.exports = {
    increment,
    decrement
-Stage this hunk [y,n,q,a,d,s,e,?]? ${0}s${2000}plit${200}
+Stage this hunk? ${0}s${2000}plit${200}
 ${1000}Split into 2 hunks.
 @@ -2,7 +2,11 @@
    return x + 1;
@@ -83,7 +83,7 @@ ${1000}Split into 2 hunks.
    return x - 1;
  }
  
-Stage this hunk [y,n,q,a,d,j,J,g,/,e,?]? ${0}y${2000}es${200}
+Stage this hunk? ${0}y${2000}es${200}
 ${1000}@@ -5,7 +9,11 @@
  function decrement(x) {
    return x - 1;
@@ -96,7 +96,7 @@ ${1000}@@ -5,7 +9,11 @@
  module.exports = {
    increment,
    decrement
-Stage this hunk [y,n,q,a,d,K,g,/,e,?]? ${0}n${2000}o${200}
+Stage this hunk? ${0}n${2000}o${200}
 ${1000} 
 daniel@macbook $ ${0}g${2000}it status${200}
 ${1000}On branch add-increment-by-amount-util-function
