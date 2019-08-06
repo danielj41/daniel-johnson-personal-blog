@@ -19,6 +19,12 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      site {
+        siteMetadata {
+          rootUrl
+          repoRootUrl
+        }
+      }
     }
   `);
 
@@ -26,17 +32,30 @@ exports.createPages = async ({ actions, graphql }) => {
     throw new Error(result.errors);
   }
 
+  const { rootUrl, repoRootUrl } = result.data.site.siteMetadata;
+
   for (const { node } of result.data.allMdx.edges) {
-    if (!node.frontmatter.path) {
+    const { frontmatter, fileAbsolutePath } = node;
+
+    if (!frontmatter.path) {
       // Some blog posts are split into multiple mdx files--only the
       // top-level one will have a `path` frontmatter attribute.
       continue;
     }
 
+    const twitterSearchParam = `${rootUrl}${frontmatter.path}`;
+    const twitterSearchUrl = `https://twitter.com/search?q=${encodeURIComponent(
+      twitterSearchParam
+    )}`;
+
+    const githubSourceUrl = `${repoRootUrl}${fileAbsolutePath
+      .replace(__dirname, "")
+      .replace("/index.mdx", "")}`;
+
     createPage({
-      path: node.frontmatter.path,
+      path: frontmatter.path,
       component: path.resolve("./src/templates/blog-post.js"),
-      context: {},
+      context: { twitterSearchUrl, githubSourceUrl },
     });
   }
 };

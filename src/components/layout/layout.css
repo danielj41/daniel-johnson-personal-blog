@@ -46,7 +46,11 @@ body.dark {
 
 .blog-post-date {
   font-style: italic;
-  margin-bottom: 1.5em;
+}
+
+.blog-post-links {
+  text-transform: lowercase;
+  text-align: center;
 }
 
 .autolink-header {

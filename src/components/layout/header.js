@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import { ThemeToggler } from "gatsby-plugin-dark-mode";
+import classNames from "classnames";
 
 import styles from "./header.module.css";
 
@@ -75,9 +76,11 @@ const Header = ({ className }) => {
               )}
             </ThemeToggler>
           </div>
-          <div className={styles.bioInfoLine}>
-            <a href={twitterUrl}>twitter</a> / <a href={githubUrl}>github</a> /{" "}
-            <a href={portfolioUrl}>portfolio</a>
+          <div
+            className={classNames(styles.bioInfoLine, styles.bioInfoLineLinks)}
+          >
+            <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a> /{" "}
+            <a href={portfolioUrl}>Portfolio</a>
           </div>
         </div>
       </div>

@@ -6,8 +6,11 @@ module.exports = {
     firstName: "Daniel",
     lastName: "Johnson",
     shortDescription: "daniel's blog with thoughts & things",
+    rootUrl: "https://blog.danieljohnson.io",
     twitterUrl: "https://twitter.com/daniel00johnson",
-    githubUrl: "https://github.com/danielj41/daniel-johnson-personal-blog",
+    githubUrl: "https://github.com/danielj41",
+    repoRootUrl:
+      "https://github.com/danielj41/daniel-johnson-personal-blog/tree/master",
     portfolioUrl: "https://danieljohnson.io",
   },
   plugins: [

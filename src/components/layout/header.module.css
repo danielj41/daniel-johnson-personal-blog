@@ -89,6 +89,10 @@ body:global(.dark) .circleBackground {
   transition: 0.2s border-color;
 }
 
+.bioInfoLineLinks {
+  text-transform: lowercase;
+}
+
 .bioImage {
   border-radius: 64px;
   display: block;
