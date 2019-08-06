@@ -54,10 +54,12 @@ const Header = ({ className }) => {
       </div>
 
       <div className={styles.bio}>
-        <Img
-          className={styles.bioImage}
-          fixed={data.bioImage.childImageSharp.fixed}
-        />
+        <Link to="/">
+          <Img
+            className={styles.bioImage}
+            fixed={data.bioImage.childImageSharp.fixed}
+          />
+        </Link>
         <div className={styles.bioInfo}>
           <div className={styles.bioInfoLine}>
             {shortDescription} /{" "}
