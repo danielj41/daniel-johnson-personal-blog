@@ -1,26 +1,26 @@
-.blog-post-date {
+.blogPostDate {
   font-style: italic;
 }
 
-.blog-post-links {
+.blogPostLinks {
   text-transform: lowercase;
   text-align: center;
 }
 
-.gatsby-resp-image-wrapper {
+:global(.gatsby-resp-image-wrapper) {
   box-shadow: 0 6px 17px 1px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   overflow: hidden;
 }
 
-.gatsby-resp-image-image {
+:global(.gatsby-resp-image-image) {
   transition: 0.2s box-shadow;
 }
 
-.autolink-header {
+:global(.autolink-header) {
   color: currentColor;
 }
 
-.autolink-header svg {
+:global(.autolink-header) svg {
   fill: currentColor;
 }

@@ -5,6 +5,9 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import SEO from "../components/layout/seo";
 import Layout from "../components/layout/layout";
 
+import styles from "./blog-post.module.css";
+import "./prism-theme.css";
+
 export default function BlogPost({
   data: { mdx },
   pageContext: { twitterSearchUrl, githubSourceUrl },
@@ -16,11 +19,11 @@ export default function BlogPost({
     <Layout>
       <SEO title={title} />
       <h1 id="blog-post-title">{title}</h1>
-      <p className="blog-post-date">
+      <p className={styles.blogPostDate}>
         <Link to={path}>{date}</Link>
       </p>
       <MDXRenderer>{body}</MDXRenderer>
-      <p className="blog-post-links">
+      <p className={styles.blogPostLinks}>
         <Link to="/">Back to home</Link> /{" "}
         <a href={twitterSearchUrl}>Discuss on Twitter</a> /{" "}
         <a href={githubSourceUrl}>Source on GitHub</a>
