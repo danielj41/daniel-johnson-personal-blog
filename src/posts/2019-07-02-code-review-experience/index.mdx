@@ -36,7 +36,7 @@ In this blog post, I’m going to share a few of my favorite techniques for stru
 
 - **Commit history:** Two techniques I use for rewriting history
 - **Commit messages:** Template for filling out commit messages
-- **Pull request creation:** Description, screenshots and comments
+- **Pull request creation:** Description, screenshots, comments and fixup commits
 
 To keep this post beginner-friendly, I’ll share each `git` command used. That said, I recommend reading about [git rebase](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) first if you’re not familiar with it.
 
@@ -244,9 +244,9 @@ I write my commit messages by starting out with a template, which helps me sort 
   <CommitMessageTemplate />
 </InfoBlock>
 
-I’ll fill that out, then delete any sections of the template I didn’t use. I don't necessarily follow the template at the end, but it helps jog my memory to remember why I wrote the code.
+I’ll fill that out, then delete any sections of the template I didn’t use. I don't necessarily follow the template for my finalized commit message, but it helps jog my memory to remember why I wrote the code.
 
-(One thing to note is the commit message summary, which is the first line of the template. There are a lot of recommendations to make this concise and specific, and whole blog posts about it. I'm personally not very good at these concise summaries, so my only advice here is to seek out other learning material on that subject. 😅)
+(One thing to note is the commit message summary, which is the first line of your message. There are recommendations to make this concise and specific, and whole blog posts about the topic! I'm personally not very good at these concise summaries, so my only advice here is to seek out other learning materials. 😅)
 
 Once I’ve updated all my commit messages, it’s time to move on to opening the PR!
 
@@ -266,8 +266,6 @@ I like to keep the description brief because [I have a theory that most people d
     QA Checklist
     Test narrow / tall backgrounds
     Test various file formats](./pull-request-description.png)
-
----
 
 ### Call-to-action comments
 
@@ -297,7 +295,7 @@ That way, the reviewer has a sense of what parts of the code need more thorough 
 
 ### Making changes after code review
 
-After your reviewers have made suggestions, I usually don't want to rewrite history, since it makes it harder for them to see what changed.
+After my reviewers have made suggestions, I usually don't want to rewrite history, since it makes it harder for them to see what changed.
 
 In that case, I recommend using [`fixup` commits](https://thoughtbot.com/blog/autosquashing-git-commits). They allow you to clearly show reviewers what changed, but keep history clean when you're ready to merge the PR.
 
