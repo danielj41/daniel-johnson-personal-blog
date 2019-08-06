@@ -14,12 +14,12 @@ export default function BlogPost({
   pageContext: { twitterSearchUrl, githubSourceUrl },
 }) {
   const { frontmatter, body } = mdx;
-  const { title, date, path } = frontmatter;
+  const { title, date, description, path } = frontmatter;
 
   return (
     <Layout minimal>
       <div className={styles.blogPost}>
-        <SEO title={title} />
+        <SEO title={title} description={description} />
         <h1 id="blog-post-title">{title}</h1>
         <p className={styles.blogPostDate}>
           <Link to={path}>{date}</Link> / <ThemeToggleButton />
@@ -43,6 +43,7 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         path
         title
+        description
       }
     }
   }

@@ -27,7 +27,7 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO />
       <div className="blog-posts">
         <h1>Recent Posts</h1>
         {posts

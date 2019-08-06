@@ -26,6 +26,7 @@ function SEO({ description, lang = "en", meta = [], title = "" }) {
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
+      defaultTitle={site.siteMetadata.title}
       meta={[
         {
           name: `description`,
@@ -33,7 +34,7 @@ function SEO({ description, lang = "en", meta = [], title = "" }) {
         },
         {
           property: `og:title`,
-          content: title,
+          content: title || site.siteMetadata.title,
         },
         {
           property: `og:description`,
@@ -53,7 +54,7 @@ function SEO({ description, lang = "en", meta = [], title = "" }) {
         },
         {
           name: `twitter:title`,
-          content: title,
+          content: title || site.siteMetadata.title,
         },
         {
           name: `twitter:description`,

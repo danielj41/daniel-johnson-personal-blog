@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: "Daniel Johnson's personal blog",
+    title: "Daniel Johnson's blog",
     description: "thoughts about software development and javascript",
     author: "Daniel Johnson",
     firstName: "Daniel",
@@ -21,8 +21,8 @@ module.exports = {
         name: "Daniel Johnson's personal blog",
         short_name: "Daniel Johnson",
         start_url: "/",
-        background_color: "#d5f0f8",
-        theme_color: "#dbf8dd",
+        background_color: "#ffffff",
+        theme_color: "#ccfcce",
         display: "standalone",
         icon: "src/images/icon.png",
       },
