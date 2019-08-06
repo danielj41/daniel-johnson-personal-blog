@@ -58,7 +58,7 @@ const useTypingCode = getTypingCode => {
 
       return () => clearTimeout(timeout);
     }
-  }, [typedCode, timeUntilNextPosition, started, completed]);
+  }, [nextPosition, timeUntilNextPosition, started, completed]);
 
   const startTypingCode = () => {
     setPosition(0);

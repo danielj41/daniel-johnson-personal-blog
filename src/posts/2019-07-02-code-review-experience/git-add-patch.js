@@ -116,7 +116,7 @@ Changes not staged for commit:
 -	modified:   src/__tests__/utils.tests.js
 -	modified:   src/utils.js
  
-daniel@macbook $${0} ${2000}`;
+daniel@macbook $ ${0} ${2000}`;
 
 export default () => (
   <TypingCodeBlock
