@@ -2,6 +2,8 @@
   display: flex;
   font-size: 24px;
   justify-content: center;
+  position: relative;
+  z-index: 1; /* just for stacking context */
 }
 
 .siteTitleLink {
@@ -38,6 +40,7 @@
 
 .text {
   position: relative;
+  z-index: 2;
 }
 
 .circleBackground {
@@ -47,19 +50,20 @@
   right: 0;
   bottom: 0;
   border-radius: 100%;
+  transition: 0.2s opacity;
+  z-index: 1;
 }
 
 body:global(.dark) .circleBackground {
   mix-blend-mode: hard-light;
 }
 
-.firstName .circleBackground {
-  background-color: rgba(0, 204, 7, 0.137);
-  transition: 0.2s background-color;
+.siteTitleLink:hover .circleBackground {
+  opacity: 0.8;
 }
 
-.siteTitleLink:hover .firstName .circleBackground {
-  background-color: rgba(0, 204, 7, 0.206);
+.firstName .circleBackground {
+  background-color: rgba(47, 235, 87, 0.25);
 }
 
 .firstName {
@@ -67,12 +71,7 @@ body:global(.dark) .circleBackground {
 }
 
 .lastName .circleBackground {
-  background-color: rgba(0, 164, 213, 0.165);
-  transition: 0.2s background-color;
-}
-
-.siteTitleLink:hover .lastName .circleBackground {
-  background-color: rgba(0, 164, 213, 0.248);
+  background-color: rgba(23, 187, 227, 0.25);
 }
 
 .lastName {

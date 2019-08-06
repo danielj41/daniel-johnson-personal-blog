@@ -7,7 +7,7 @@ module.exports = {
     lastName: "Johnson",
     shortDescription: "daniel's blog with thoughts & things",
     twitterUrl: "https://twitter.com/daniel00johnson",
-    githubUrl: "https://github.com/danielj41",
+    githubUrl: "https://github.com/danielj41/daniel-johnson-personal-blog",
     portfolioUrl: "https://danieljohnson.io",
   },
   plugins: [
