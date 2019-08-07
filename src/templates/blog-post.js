@@ -50,7 +50,7 @@ export const pageQuery = graphql`
         description
         image {
           childImageSharp {
-            fixed(width: 1520) {
+            fixed(width: 760) {
               src
             }
           }
