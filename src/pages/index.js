@@ -10,10 +10,10 @@ const IndexPage = () => {
       allMdx(sort: { order: DESC, fields: [frontmatter___date] }) {
         edges {
           node {
-            excerpt(pruneLength: 250)
             id
             frontmatter {
               title
+              description
               date(formatString: "MMMM DD, YYYY")
               path
             }
@@ -48,7 +48,7 @@ const IndexPage = () => {
                   </Link>
                 </h2>
                 <div className="blog-post-date">{post.frontmatter.date}</div>
-                <p>{post.excerpt}</p>
+                <p>{post.frontmatter.description}</p>
               </div>
             );
           })}

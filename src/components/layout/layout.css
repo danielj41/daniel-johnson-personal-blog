@@ -34,6 +34,10 @@ body.dark {
   padding-bottom: 0;
 }
 
+.blog-post-date {
+  font-style: italic;
+}
+
 .layout {
   padding-top: 0;
 }
