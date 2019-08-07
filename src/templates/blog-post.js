@@ -14,12 +14,16 @@ export default function BlogPost({
   pageContext: { twitterSearchUrl, githubSourceUrl },
 }) {
   const { frontmatter, body } = mdx;
-  const { title, date, description, path } = frontmatter;
+  const { title, date, description, image, path } = frontmatter;
 
   return (
     <Layout minimal>
       <div className={styles.blogPost}>
-        <SEO title={title} description={description} />
+        <SEO
+          title={title}
+          description={description}
+          image={image.childImageSharp.fixed.src}
+        />
         <h1 id="blog-post-title">{title}</h1>
         <p className={styles.blogPostDate}>
           <Link to={path}>{date}</Link> / <ThemeToggleButton />
@@ -44,6 +48,13 @@ export const pageQuery = graphql`
         path
         title
         description
+        image {
+          childImageSharp {
+            fixed(width: 1520) {
+              src
+            }
+          }
+        }
       }
     }
   }

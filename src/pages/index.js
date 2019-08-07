@@ -20,6 +20,13 @@ const IndexPage = () => {
           }
         }
       }
+      bioImage: file(relativePath: { eq: "daniel-johnson.jpg" }) {
+        childImageSharp {
+          fixed(width: 512, height: 512) {
+            src
+          }
+        }
+      }
     }
   `);
 
@@ -27,7 +34,7 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <SEO />
+      <SEO image={data.bioImage.childImageSharp.fixed.src} />
       <div className="blog-posts">
         <h1>Recent Posts</h1>
         {posts
