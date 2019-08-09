@@ -95,7 +95,7 @@ Following those guidelines, I’ll need to stage only _some_ changes from any gi
 
 - `git add -p` (or `--patch`)
   - This command steps me through each change, and I just type `y(es)` or `n(o)` to stage individual changes.
-  - You don't need to use the `git` CLI unless you want to! My colleagues have recommended using Tower or Sourcetree.
+  - You don’t need to use the `git` CLI unless you want to! My colleagues have recommended using Tower or Sourcetree.
 
 Here, I’ll stage only the `increment` functions, but leave the `decrement` functions for the next commit.
 
@@ -113,7 +113,7 @@ For more complex PRs, my _Reset and patch_ technique isn’t enough. This usuall
 
 To illustrate, let’s say I decide to move `decrement` to its own file, rather than keeping it in `utils.js` (it is very different from the other functions in that file, after all 😂)
 
-Since I’ve decided to use TypeScript for new files in this repo, I also move it into a TypeScript file and rewrite it in TypeScript. The diff in Bitbucket's web UI looks like this:
+Since I’ve decided to use TypeScript for new files in this repo, I also move it into a TypeScript file and rewrite it in TypeScript. The diff in Bitbucket’s web UI looks like this:
 
 ![Bitbucket web UI diff
     src/decrement.ts ADDED Side-by-side diff View file Comment More
@@ -248,9 +248,9 @@ I write my commit messages by starting out with a template, which helps me sort 
   <CommitMessageTemplate />
 </InfoBlock>
 
-I’ll fill that out, then delete any sections of the template I didn’t use. I don't necessarily follow the template for my finalized commit message, but it helps jog my memory to remember why I wrote the code.
+I’ll fill that out, then delete any sections of the template I didn’t use. I don’t necessarily follow the template for my finalized commit message, but it helps jog my memory to remember why I wrote the code.
 
-(One thing to note is the commit message summary, which is the first line of your message. There are recommendations to make this concise and specific, and whole blog posts about the topic! I'm personally not very good at these concise summaries, so my only advice here is to seek out other learning materials. 😅)
+(One thing to note is the commit message summary, which is the first line of your message. There are recommendations to make this concise and specific, and whole blog posts about the topic! I’m still learning how to write these concise summaries, so my only advice here is to seek out other learning materials. 😅)
 
 Once I’ve updated all my commit messages, it’s time to move on to opening the PR!
 
@@ -289,7 +289,7 @@ There are a few other line-specific call-to-actions you can add, to guide the re
 
 **Example 2:** Asking for specific feedback.
 
-![Bitbucket code review comment: I'm not sold on this implementation, but it was the only thing I could think of. Any ideas on how to improve it? :)](./ask-for-specific-feedback.png)
+![Bitbucket code review comment: I’m not sold on this implementation, but it was the only thing I could think of. Any ideas on how to improve it? :)](./ask-for-specific-feedback.png)
 
 That way, the reviewer has a sense of what parts of the code need more thorough review.
 
@@ -297,14 +297,14 @@ That way, the reviewer has a sense of what parts of the code need more thorough 
 
 ### Making changes after code review
 
-After my reviewers have made suggestions, I usually don't want to rewrite history, since it makes it harder for them to see what changed.
+After my reviewers have made suggestions, I usually don’t want to rewrite history, since it makes it harder for them to see what changed.
 
-In that case, I recommend using [`fixup` commits](https://thoughtbot.com/blog/autosquashing-git-commits). They allow you to clearly show reviewers what changed, but keep history clean when you're ready to merge the PR.
+In that case, I recommend using [`fixup` commits](https://thoughtbot.com/blog/autosquashing-git-commits). They allow you to clearly show reviewers what changed, but keep history clean when you’re ready to merge the PR.
 
 ---
 
 ## Conclusion
 
-To recap, you’ve learned my preferred techniques for making PRs easy to review.
+To recap, you’ve learned my preferred techniques for making PRs easy to review. Thanks to [@Kara Finley](https://twitter.com/untempurred) for encouraging me to write this blog post! 😊
 
-Keep in mind that these are just self-taught techniques I’ve found useful—they’re definitely not an “““industry standard””” or anything. I’d love to hear other perspectives!
+Since these are just self-taught techniques, I’d love to hear other perspectives as well!
