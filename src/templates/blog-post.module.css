@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+.blogPostLinks a {
+  white-space: nowrap;
+}
+
 :global(.gatsby-resp-image-wrapper) {
   box-shadow: 0 6px 17px 1px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
