@@ -1,0 +1,275 @@
+---
+path: "/jsx-html-differences/"
+date: 2019-10-17T17:00:00.000Z
+title: "Very Confusing differences between JSX and HTML"
+description: "When I work with both JSX and HTML, I get tripped up by subtle differences between the two languages. In this post, I'll share the differences that I find Very Confusing."
+image: "./name-declared-but-not-used-small.png"
+---
+
+import InfoBlock from "../../components/custom-blocks/info-block";
+import PropsAttributes from "./props-attributes.mdx";
+
+When I work with both JSX and HTML, I get tripped up by subtle differences between the two languages. In this post, I'll share the differences that I find Very Confusing.
+
+🚶🏽‍♂️ Before we get started, I want to clarify some definitions. You can skip this first half if you're already familiar with React! 🏃🏻‍♀️
+
+---
+
+## What is JSX (intuitively)?
+
+JSX is the syntax that goes in your React components\*.
+
+\*(You can use JSX with [frameworks other than React](https://vuejs.org/v2/guide/render-function.html#JSX), but that's beyond the scope of this post.)
+
+```jsx
+import React from "react";
+
+export const MyReactComponent = () => (
+  <div>
+    <h1>Hi there! This is My Component.</h1>
+    <h2>Isn't it cool?</h2>
+  </div>
+);
+```
+
+The syntax after `MyReactComponent = () => (` is JSX. It looks like HTML. That's intentional!
+
+When you run your React app, the rendered component will look similar to what this raw HTML page would render:
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div>
+      <h1>Hi there! This is My HTML page.</h1>
+      <h2>Isn't it cool?</h2>
+    </div>
+  </body>
+</html>
+```
+
+I learned HTML before JSX, so I use HTML as a mental model of how JSX works. I look at the JSX in my React component and imagine an equivalent HTML page. (I wonder if it's the other way around for developers who learned JSX first 🤔?)
+
+Since JSX and HTML are so similar, in the few situations where they differ, my mental model model can be really _deceptive_ 😱.
+
+### Ok but like what _actually_ is JSX?
+
+Fair question. When I say JSX in this post, I'm hand-wavily referring to JSX + React + ReactDOM + the DOM.
+
+In the purest sense, JSX is just a language that compiles into JS. If you compile the code sample above for React with Babel, [you'll get this equivalent JS code](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=JYWwDg9gTgLgBAJQKYEMDG8BmUIjgcilQ3wG4AocpAD0ljjQgDsBneAWQE9l0YBhXJCZIm8ALxwAFAEo4YgHxTycOAB4AJsABu85SrUALAIzyAEsDgwDSIgEI4AFQPAWcF3C5wB4ZiJgA6VQB6Y119QwAmeQBJFiZ8eGB4RggAGwB-YIMovWDNHXJpUiA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=react&prettier=false&targets=&version=7.6.4&externalPlugins=).
+
+```js
+import React from "react";
+
+export const MyReactComponent = () =>
+  React.createElement(
+    "div",
+    null,
+    React.createElement("h1", null, "Hi there! This is My Component."),
+    React.createElement("h2", null, "Isn't it cool?")
+  );
+```
+
+This isn't HTML in any sense. JSX never\*\* gets "converted" to HTML, that's just a helpful mental model. Instead, JSX gets compiled to this tree of JS function calls.
+
+\*\*([I am kinda lying here again](https://reactjs.org/docs/react-dom-server.html).)
+
+At runtime, [React magically transforms that tree into actual DOM elements](https://reactjs.org/docs/reconciliation.html). In other words, you can loosely imagine React as the "bridge" that gets your JSX to show up as actual DOM elements in the browser.
+
+This behavior is similar to how your browser [reads an HTML page and constructs the DOM based on that](https://stackoverflow.com/a/4110099).
+
+![This is a diagram showing how JSX and HTML are transformed into elements the DOM. The DOM is what you "see" in your browser. JSX and HTML only look similar.
+  a "JSX file containing a React component" gets compiled into a "JS file containing a React component." React updates the DOM at runtime.
+  an "HTML file" gets constructed into the DOM by the browser.
+  ](./jsx-html-to-dom-diagram.png)
+
+In summary, JSX and HTML look similar as source code, and they create similar end results in the DOM.
+
+---
+
+## Differences between JSX and HTML
+
+Ok! With all those definitions out of the way 😅, I'm going to talk about the differences between JSX and HTML that Very Confuse me.
+
+### Boolean props
+
+If you have this element in JSX, what do you think it does?
+
+```jsx
+<button disabled />
+```
+
+**Intuitive meaning:**
+
+Let's look at some other syntax to see if we can figure out what this means. There are two similar syntaxes, one in JS and one in HTML.
+
+In JS, [these two are equivalent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Syntax):
+
+```js
+const disabled = false; // or true
+const props = { disabled };
+
+// is equivalent to
+
+const disabled = false; // or true
+const props = { disabled: disabled };
+```
+
+In HTML, [this syntax means disabled is](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Boolean_Attributes) `true`:
+
+```html
+<button disabled />
+```
+
+Which one do you think JSX follows?
+
+**Actual meaning:**
+
+When debugging JSX, I often find it helpful to compile the JSX to JS. (Is that a sign of a [leaky abstraction](https://en.wikipedia.org/wiki/Leaky_abstraction) 🤔?) [Let's compile it](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=DwIwrgLhD2B2AEATAlgZwIYgDYFNHwHoA-IA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=react&prettier=false&targets=&version=7.6.4&externalPlugins=).
+
+```jsx
+<button disabled />;
+
+// compiles to
+
+React.createElement("button", { disabled: true });
+```
+
+Turns out that JSX matches the HTML behavior. [A prop with no specified value gets passed as](https://reactjs.org/docs/jsx-in-depth.html#props-default-to-true) `true`. This wasn't a difference between JSX and HTML after all.
+
+#### When does this occur?
+
+Usually I introduce boolean props accidentally when refactoring code. I'll start with something like this:
+
+```jsx
+const props = {
+  name,
+  onClick: () => setName(name),
+  placeholderText: "Enter your name",
+};
+
+<NameDisplay {...props} />;
+```
+
+and I'll decide to rewrite it without the `{...props}` spread:
+
+```jsx
+<NameDisplay
+  name
+  onClick={() => setName(name)}
+  placeholderText="Enter your name"
+/>
+```
+
+But! I forget to expand `name` into `name={name}`.
+
+Using ESLint or TypeScript is helpful in this situation, since it will warn me that I never used the variable `name` until I write `name={name}`.
+
+![There is a code sample:
+  `const name = 'Daniel';`
+  `<NameDisplay name />`
+  Hovering my mouse over name, TypeScript shows me an error.
+  'name' is declared but its value is never read. ts(6133)
+  ](./name-declared-but-not-used.png)
+
+### Numeric props
+
+Is this valid JSX?
+
+```jsx
+<input maxLength="10" />
+```
+
+Sort of. It will work 🤷🏼‍♂️. However, if you're using TypeScript, you'll get a compilation error saying that you can't pass a string for `maxLength`.
+
+![There is a code sample:
+  `<input type="text" maxLength="10" />`
+  Hovering over maxLength, TypeScript is showing me an error.
+  `maxLength?: number;`
+  `(JSX attribute) InputHTMLAttributes<HTMLInputElement>.maxLength?: number | undefined`
+  `Type 'string' is not assignable to type 'number | undefined'. ts(2322)`
+  `index.d.ts(1965, 9): The expected type comes from the property 'maxLength' which is declared here on type 'DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>'`
+  ](./maxlength-string-not-assignable.png)
+
+This is different from HTML, where `maxlength="10"` is acceptable syntax.
+
+<InfoBlock>
+  <PropsAttributes />
+</InfoBlock>
+
+In HTML, all attributes are strings ([well, close enough](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)). So if you want to set an attribute to a number, you set `maxlength="10"` and internally the DOM will transform that `"10"` string into a number.
+
+JSX, however, supports multiple ways of passing props. There's `maxLength="10"` and `maxLength={10}`.
+
+- `maxLength={10}` passes the JS expression between `{}`, which is `10` in this case.
+- `maxLength="10"` passes a string.
+  - You can think of it as shorthand for `maxLength={"10"}`.
+
+[Let's try compiling those](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=MYewdgzgLgBAhjAvDAPASzABwK6wLZwAeAMgKZgDmUAFogEQCMADHTAPQB8A3AFA-iRYAIySoMOfETKUaiAN7MAvu258B0GMFHosuGARLkqtOYxbLOXIA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=react&prettier=false&targets=&version=7.6.4&externalPlugins=).
+
+```jsx
+<input maxLength="10" />;
+// compiles to
+React.createElement("input", {
+  maxLength: "10",
+});
+
+<input maxLength={10} />;
+// compiles to
+React.createElement("input", {
+  maxLength: 10,
+});
+
+<input maxLength={"10"} />;
+// compiles to
+React.createElement("input", {
+  maxLength: "10",
+});
+```
+
+You can imagine that `React.createElement("input", ...)` has a type definition that only accepts certain props:
+
+```ts
+interface InputElementProps {
+  maxLength?: number;
+}
+```
+
+Which means that `{ maxLength: "10" }` would fail the type check, like we saw in the original error message for `<input maxLength="10" />`.
+
+### Self-closing tags
+
+A self-closing tag is a tag that doesn't need a corresponding closing tag.
+
+The syntax ends with `/>`, like `<div />`.
+
+The behavior of the `/>` syntax is pretty different between JSX and HTML. I've found this difference most confusing when I've been working with JSX for a while, then go back to editing a legacy HTML template, since I'll expect the HTML to behave the same way JSX does. My HTML page won't throw a compilation error to tell me I did it wrong, either 😔.
+
+#### JSX
+
+In JSX, the `<div />` [syntax is equivalent to](https://reactjs.org/docs/jsx-in-depth.html) `<div></div>`.
+
+It's the same behavior, regardless of the element's type. (`div`, `br`, `MyComponent`, `circle`, ...) That's it. [Try it out in your compiler and see that they compile to the same thing](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=MYewdgzgLgBAhgRhgXhgHgCYEsBuMD0AfAFCiSxwBMK62Oha-dJp40MARkqmhwE4ESZdh2o9-DfBOKtyMYN3QBZAJ4BhEAFsADuACmYWEVntgY5eq26wBqJNUad-wy2GwMitMCx9gAGz1BE3dzLx9_PUlvXwDCIA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=react&prettier=false&targets=&version=7.6.4&externalPlugins=).
+
+#### HTML
+
+...It's complicated.
+
+First off, if you look back at XHTML (we don't talk about XHTML) or HTML4, [the behavior is different](https://stackoverflow.com/a/3558200). I'll ignore this fact and only cover modern HTML (i.e., HTML5, documents that start with `<!DOCTYPE html>`).
+
+In HTML, the `/>` syntax is _usually meaningless_, but it depends on specifically _what_ element you use it on.
+
+- [Normal elements](https://html.spec.whatwg.org/multipage/syntax.html#elements-2). This set includes elements that can have children, such as `div`, `span` and `h1`..
+  - [This syntax for normal elements is invalid HTML](https://html.spec.whatwg.org/multipage/syntax.html#start-tags). However, [browsers will treat the tags like opening tags](https://stackoverflow.com/questions/3558119/are-non-void-self-closing-tags-valid-in-html5). So `<div />` will be treated as `<div>`, likely causing you to forget the (still necessary) closing `</div>` tag.
+- [Void elements](https://html.spec.whatwg.org/multipage/syntax.html#elements-2). This set includes elements that cannot have children, such as `img`, `input` and `hr`.
+  - [This syntax for void elements is valid HTML, but has no effect](https://html.spec.whatwg.org/multipage/syntax.html#start-tags). That means `<hr />` and `<hr>` are equivalent, and neither require a closing tag.
+- [Foreign elements](https://html.spec.whatwg.org/multipage/syntax.html#elements-2). This set includes elements in the SVG namespace, such as `circle`.
+  - In this situation, the syntax _does_ denote a self-closing tag, following the behavior we've learned from JSX. So, `<circle />` is the same as `<circle></circle>`.
+
+I wouldn't recommend memorizing that, or anything. Just be aware that the `/>` syntax in HTML is haunted and in JSX it is simple 😂. And also, if you write a blog post and start referencing the HTML spec, you'll have a bad time writing out all the edge cases.
+
+## Conclusion
+
+There are plenty more differences between JSX and HTML, and I recommend reading the official React documentation for a more broad overview: [JSX in Depth](https://reactjs.org/docs/jsx-in-depth.html). If you're interested in differences between React's DOM and the DOM, check out [DOM Elements](https://reactjs.org/docs/dom-elements.html).
+
+Anyway. It's a scary world out there. Be careful!
