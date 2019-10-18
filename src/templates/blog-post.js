@@ -22,7 +22,7 @@ export default function BlogPost({
         <SEO
           title={title}
           description={description}
-          image={image.childImageSharp.fixed.src}
+          image={image && image.childImageSharp.fixed.src}
         />
         <h1 id="blog-post-title">{title}</h1>
         <p className={styles.blogPostDate}>
