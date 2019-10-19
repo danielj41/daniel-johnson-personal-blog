@@ -3,7 +3,135 @@ path: "/react-ref-autofocus/"
 date: 2019-10-21T17:00:00.000Z
 title: "10 different ways to autofocus a text input in React, some of which ALMOST work!"
 description: "I write this after a long afternoon of frustration."
+image: "./autofocused-ui-small.png"
 ---
+
+Autofocusing is this super fun neat thing that you can do to make your app easier to use.
+
+![Screenshot of Trello's "Add Checklist" menu. The input labeled "Title" is focused, and its default text "Checklist" is selected.](./autofocused-ui.png)
+
+In this screenshot of [Trello](https://trello.com/), the user clicked the _Checklist_ button. It opened a menu, with the _Title_ text input autofocused and autoselected.
+
+This makes it so the user doesn't have to click on the text input; they can just start typing.
+
+## Woah that is so cool. How do we do it??
+
+Hold on! First, before you decide to add autofocusing, consider how it will behave on various devices and with assistive technologies.
+
+> Warning: Automatically focusing a form control can confuse visually-impaired people using screen-reading technology and people with cognitive impairments. When autofocus is assigned, screen-readers "teleport" their user to the form control without warning them beforehand.
+
+--- [MDN on `<input autofocus>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autofocus).
+
+Anyway. It turns out there are a lot of different ways to do it, and in large apps with lots of legacy behavior, it can be tricky to find one that always works.
+
+## Doing it without React
+
+Before we get into React, I'm going to talk about how to add autofocusing behavior with native DOM APIs. I think this allows for a deeper understanding, since React is a layer on top of that.
+
+### focus vs select
+
+Up to this point, I've been blurring (😂) together the concepts of focusing and selecting.
+
+![](./focus.png)
+
+This input is `focus`ed, but no text is selected. If the user starts typing, the text they type will go into that input. Only one element in a document can be focused at a time. <-- cite?
+
+You can interactively see [which element is focused by running](https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement) `document.activeElement` in your console.
+
+![](./document-active-element.png)
+
+(Don't confuse this with the CSS pseudo-class selector `:active`. Confusingly, `document.activeElement` corresponds to the CSS pseudo-class selector `:focus`.)
+
+![](./select.png)
+
+This input is `focus`ed and all of its text is selected. `window.getSelection()` [allows you to see what text is selected](https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection).
+
+For the purposes of this post, I'm going to assume we want to both focus _and_ select a pre-filled text input. That way, if a user starts typing, they can overwrite the default checklist title. (I don't think a user would want to start typing in front of "Checklist.")
+
+### focus
+
+Let's tackle focusing first. There are two ways to focus an input. <-- cite?
+
+- The [`autofocus` attribute on `input`s](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autofocus) and [`textarea`s](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)s.
+- The [`focus()` method on `HTMLElement`s](https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus).
+
+#### autofocus attribute
+
+Let's start with the `autofocus` attribute. To use it, you'd could create a raw HTML page like this, and declaratively specify that the input should autofocus when it appears:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <label>
+      Title
+      <input type="text" autofocus value="Untitled" />
+    </label>
+  </body>
+</html>
+```
+
+Open this file in your browser and you'll see this:
+
+![](./autofocus-attribute.png)
+
+This works for more than just page load---if you imperatively add this element to the DOM later, it will autofocus as soon as it's added to the DOM.
+
+This example adds an autofocused input to the page 5 seconds after load.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      setTimeout(() => {
+        const input = document.createElement("input");
+        input.setAttribute("autofocus", "");
+        document.querySelector("label").appendChild(input);
+      }, 5000);
+    </script>
+  </head>
+  <body>
+    <label>
+      Title
+      <!-- input will get appended here -->
+    </label>
+  </body>
+</html>
+```
+
+Load the page, wait 5 seconds. Notice that the input gets focused, like we saw before.
+
+_There is a caveat here, though_: Only one element on the page can have the `autofocus` attribute. <-- cite
+
+If you add a second `input` with an autofocus attribute, it will get ignored, and the previously-autofocused `input` will stay autofocused (tested on Chrome, at least). It won't "steal" focus from the previously-autofocused `input`.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      setTimeout(() => {
+        const input = document.createElement("input");
+        input.setAttribute("autofocus", ""); // <-- does nothing in this case
+        document.querySelector("label").appendChild(input);
+      }, 5000);
+    </script>
+  </head>
+  <body>
+    <!-- this one stays focused -->
+    <input type="text" autofocus value="I'll stay focused this whole time!" />
+    <label>
+      Title
+    </label>
+  </body>
+</html>
+```
+
+In that example, the first `input` with `autofocus` will stay focused. This can be a problem in large apps, where you can't guarantee what other elements will be visible on the page.
+
+### focus() method
 
 to cover
 
