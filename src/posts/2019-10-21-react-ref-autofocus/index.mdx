@@ -46,7 +46,7 @@ You can interactively see [which element is focused by running](https://develope
 
 This input is `focus`ed and all of its text is selected. `window.getSelection()` [allows you to see what text is selected](https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection).
 
-For the purposes of this post, I'm going to assume we want to both focus _and_ select a pre-filled text input. That way, if a user starts typing, they can overwrite the default checklist title. (I don't think a user would want to start typing in front of "Checklist.")
+For the purposes of this post, I'm going to assume we want to both focus _and_ select a pre-filled text input. That said, these solutions are valid even if you want to just `focus`.
 
 ### focus
 
@@ -133,13 +133,306 @@ In that example, the first `input` with `autofocus` will stay focused. This can 
 
 ### focus() method
 
-to cover
+If you don't want to use the `autofocus` prop, there is a more imperative method: Calling `focus()` on the DOM element.
 
-- autoFocus prop
-- focus() vs select()
-- callback ref
-  - useCallback vs class bound vs inline function
-- React.createRef / useRef
-  - ref.current not triggering re-render (useEffect / componentDidUpdate)
-- string ref
-- focus() called on a detached dom node
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const input = document.querySelector("input");
+        input.focus();
+      });
+    </script>
+  </head>
+  <body>
+    <label>
+      Title
+      <input type="text" value="Untitled" />
+    </label>
+  </body>
+</html>
+```
+
+In this example, we don't have an `autofocus` attribute. However, after waiting for the DOM to load, we find the input and call `focus` on it.
+
+`focus()` is more versatile, since you can call it at any time. Maybe you want an input to focus after a button click, rather than right when it appears in the DOM. You can also steal focus later by calling `focus()` on a different element. (Or look at this another way---if lots of things are running on your page, something else could steal away focus from the thing you want focused.)
+
+Caveat: You can't call `focus()` before the element is in the DOM. <--- verify this
+
+```js
+const input = document.createElement("input");
+
+// Does not work!
+input.focus();
+
+document.querySelector("label").appendChild(input);
+
+// Works!
+input.focus();
+```
+
+This may seem obvious, but it can be harder to isolate if your app has a lot of moving parts. For example, in our app, we integrate new React components into legacy Backbone views with code like this:
+
+```js
+const root = document.createElement("div");
+ReactDOM.render(<App />, root);
+document.body.appendChild(root);
+```
+
+Notice that we render the React component on a detached DOM node, then _later_ attach the root to the DOM. It's the same idea as above, but more indirect.
+
+### select
+
+Selecting text in an input can only be done imperatively with the `select()` method---there is not a declarative `autoselect` attribute.
+
+To do it, you'd take the previous example, then add `select()` afterward.
+
+```js
+const input = document.querySelector("input");
+input.focus();
+input.select();
+```
+
+![](./select-method.png)
+
+It selected!
+
+While there is not an `autoselect` attribute, you can simulate something similar. You can use the `autofocus` attribute, then listen for a `focus` event and call `select`.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const input = document.querySelector("input");
+
+        input.addEventListener("focus", () => {
+          input.select();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <label>
+      Title
+      <input type="text" autofocus value="Untitled" />
+    </label>
+  </body>
+</html>
+```
+
+In this case, anytime the input is `focus`ed (autofocus or manual user interaction), it will also get its text selected.
+
+### blur
+
+While this isn't really relevant to the blog post, I want to make sure you're aware of the `blur` event. In a sense, it's the `inverse` of `focus`. When an input _loses_ focus, a `blur` event is trigger on that input.
+
+That's all I'll cover here. Just don't think we're talking about blurry images ;)
+
+## Time for React!
+
+Ok! Now that you understand how to do this with just the DOM and raw HTML pages, we can move on to React.
+
+I'm going to go over a variety of methods---each have their use cases.
+
+### Simplest: Reuse `autofocus` attribute
+
+We can use the same `autofocus` attribute behavior in React! To do it, we just need to pass a prop `autoFocus` to the `input` element ([Notice the uppercase F](https://reactjs.org/docs/dom-elements.html).)
+
+```jsx
+const MyComponent = () => (
+  <label>
+    Title
+    <input
+      type="text"
+      defaultValue="Untitled"
+      autoFocus
+      onFocus={e => e.currentTarget.select()}
+    />
+  </label>
+);
+```
+
+If that works for you, that's great! For me, it works as a standalone sample, but then breaks down pretty fast when I integrate it into larger apps.
+
+- Does not work if any element has an `autofocus` attribute when this component is mounted.
+- Does not work if another element steals focus right after rendering this component.
+- Does not work if the React root is not in the DOM when the component is rendered (I'm not sure why, tbh. re-verify this).
+
+### More complex: React refs.
+
+Since `autoFocus` isn't meeting our needs, we'll need to fall back to manually calling `focus()` on the DOM element.
+
+In React, _refs_ allow us to access the actual DOM elements. There are like 10 (ok not that many) ways to use refs in React. They have subtle differences that often trip me up, so I'll be going over those differences.
+
+- [useRef](https://reactjs.org/docs/hooks-reference.html#useref) for FunctionComponents using hooks
+- [React.createRef](https://reactjs.org/docs/refs-and-the-dom.html): similar to `useRef`, but for class components.
+- [Callback refs](https://reactjs.org/docs/refs-and-the-dom.html): Has one extra use case: You get notified when a ref gets assigned.
+- String refs: These are deprecated and I won't discuss them here.
+
+#### useRef
+
+Let's try it using `useRef`.
+
+Function component with hooks:
+
+```jsx
+export const AutofocusFunctionComponent = () => {
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.focus();
+      inputElement.current.select();
+    }
+  }, []);
+
+  return (
+    <label>
+      Title
+      <input type="text" defaultValue="Untitled" ref={inputElement} />
+    </label>
+  );
+};
+```
+
+In these examples, we use the `ref` prop on our `input` element. By setting the `ref` prop, React internally will assign the native DOM node to `this.inputElement.current`, which allows us to later call `focus()` and `select()` when the component mounts. Nice!
+
+##### When doesn't this work?
+
+One situation where this doesn't work: If you display the `input` element later, after the component mounts, then we won't focus it. In this example, we show a loading indicator for 5 seconds:
+
+```jsx
+const AutofocusFunctionComponent = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 5000);
+  }, []);
+
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.focus();
+      inputElement.current.select();
+    }
+  }, []);
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
+  return (
+    <label>
+      Title
+      <input type="text" defaultValue="Untitled" ref={inputElement} />
+    </label>
+  );
+};
+```
+
+In this case, the `useEffect` code already ran, before the `input` is visible! We need to call `focus` when the `input` becomes visible.
+
+You might think we could do something like this:
+
+```jsx
+useEffect(() => {
+  if (inputElement.current) {
+    inputElement.current.focus();
+    inputElement.current.select();
+  }
+}, [inputElement.current]);
+```
+
+Turns out that doesn't work. You'll get a lint error if you have the `react-hooks/exhaustive-deps` ESLint rule set up.
+
+![](./useeffect-dependency.png)
+
+The useEffect handler won't actually run, since there's no re-render after the ref gets attached. In this situation, the React documentation recommends using a callback ref instead.
+
+> Keep in mind that useRef doesn’t notify you when its content changes. Mutating the .current property doesn’t cause a re-render. If you want to run some code when React attaches or detaches a ref to a DOM node, you may want to use a callback ref instead.
+
+---[React documentation, useRef hook reference](https://reactjs.org/docs/hooks-reference.html#useref)
+
+There are ways to work around this. For example, you could split this into another component, `AutofocusInput`. Then when `AutofocusInput` mounts, it will always be visible, since the loading is kept in the parent component. Another way would be to have the `useEffect` handler get called every render, (no `[]` dependencies), then check if the ref has been set for the first time.
+
+Up to you if you want to use any of those workarounds. I'm going to move on to "callback refs."
+
+#### Callback refs
+
+A callback ref looks like this:
+
+```jsx
+export const AutofocusFunctionComponent = () => {
+  const callbackRef = useCallback(inputElement => {
+    if (inputElement) {
+      inputElement.focus();
+      inputElement.select();
+    }
+  }, []);
+
+  return (
+    <label>
+      Title
+      <input type="text" defaultValue="Untitled" ref={callbackRef} />
+    </label>
+  );
+};
+```
+
+Rather than assigning the DOM element to `inputElement.current`, it will instead call the callback with the parameter set to the DOM element.
+
+It gets called in these situations:
+
+- Called with a DOM element when the element is created
+- Called with `null` when the element is destroyed
+
+In this example, it will work with the loading indicator, since `callbackRef` won't get called until the `input` is rendered.
+
+##### A note about `useCallback`
+
+You'll notice I used `useCallback` when assigning `callbackRef`. This is important. If you don't do it, your `input` will re-focus on _every render_. Why?
+
+Callback refs get called in one situation I didn't mention: when the callback ref changes. You can think of React doing something internally like this when re-rendering:
+
+```jsx
+if (previousCallbackRef !== currentCallbackRef) {
+  previousCallbackRef(null);
+  currentCallbackRef(element);
+}
+```
+
+If you construct a new `callbackRef` function on each re-render, React will think it's a new callback ref. This will result in the old copy of the function _and_ the new copy of the function being called every render.
+
+To avoid this, `useCallback` memoizes the function, so it only gets created once, and you re-use the name callback on subsequent renders.
+
+> If the ref callback is defined as an inline function, it will get called twice during updates, first with null and then again with the DOM element. This is because a new instance of the function is created with each render, so React needs to clear the old ref and set up the new one. You can avoid this by defining the ref callback as a bound method on the class, but note that it shouldn’t matter in most cases.
+
+---[React docs, caveats with callback refs](https://reactjs.org/docs/refs-and-the-dom.html#caveats-with-callback-refs)
+
+The React docs say "defining the ref callback as a bound method on the class" is the solution, but that's written for class components. If you're using a function component with hooks, `useCallback` is the equivalent behavior you want.
+
+##### When doesn't this work?
+
+This has been the most reliable technique for me, but I've had issues with focusing "too soon." This usually happens in more legacy part of the apps where the React root hasn't been mounted yet. I can solve that with a `setTimeout` to defer the actual `focus` call, or waiting for a `useEffect` call (like the solution above.)
+
+## Conclusion
+
+In summary, we went over these techniques:
+
+- autofocus attribute
+- `useRef` hook
+- Callback refs
+
+As well as some workarounds for common issues:
+
+- Separating `useRef` into another component
+- Setting a timeout to defer calling `focus()`
+
+I'm not going to pick a specific one and say "you should use this all the time." I just got frustrated looking up "how to autofocus an input" and finding lots of different solutions, none of which worked for my specific use case.
+
+I'm hoping that this comprehensive overview at least gives you the tools to know which solution your app needs.
