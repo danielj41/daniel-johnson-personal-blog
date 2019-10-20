@@ -34,13 +34,17 @@ Up to this point, I've been blurring (😂) together the concepts of focusing an
 
 ![](./focus.png)
 
-This input is `focus`ed, but no text is selected. If the user starts typing, the text they type will go into that input. Only one element in a document can be focused at a time. <-- cite?
+This input is `focus`ed, but no text is selected. If the user starts typing, the text they type will go into that input.
 
-You can interactively see [which element is focused by running](https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement) `document.activeElement` in your console.
+Only one element in a document can be focused at a time. <-- cite? You can interactively see [which element is focused by running](https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement) `document.activeElement` in your console.
 
 ![](./document-active-element.png)
 
-(Don't confuse this with the CSS pseudo-class selector `:active`. Confusingly, `document.activeElement` corresponds to the CSS pseudo-class selector `:focus`.)
+Info block
+
+(Don't confuse `document.activeElement` with the CSS pseudo-class selector `:active`. Confusingly, `document.activeElement` corresponds to the CSS pseudo-class selector `:focus`.)
+
+Now let's look at selection:
 
 ![](./select.png)
 
@@ -228,7 +232,7 @@ In this case, anytime the input is `focus`ed (autofocus or manual user interacti
 
 ### blur
 
-While this isn't really relevant to the blog post, I want to make sure you're aware of the `blur` event. In a sense, it's the `inverse` of `focus`. When an input _loses_ focus, a `blur` event is trigger on that input.
+While this isn't really relevant to the blog post, I want to make sure you're aware of the `blur` event. In a sense, it's the "inverse" of `focus`. When an input _loses_ focus, a `blur` event is trigger on that input.
 
 That's all I'll cover here. Just don't think we're talking about blurry images ;)
 
@@ -258,7 +262,7 @@ const MyComponent = () => (
 
 If that works for you, that's great! For me, it works as a standalone sample, but then breaks down pretty fast when I integrate it into larger apps.
 
-- Does not work if any element has an `autofocus` attribute when this component is mounted.
+- Does not work if any other element has an `autofocus` attribute when this component is mounted.
 - Does not work if another element steals focus right after rendering this component.
 - Does not work if the React root is not in the DOM when the component is rendered (I'm not sure why, tbh. re-verify this).
 
@@ -384,7 +388,9 @@ export const AutofocusFunctionComponent = () => {
 };
 ```
 
-Rather than assigning the DOM element to `inputElement.current`, it will instead call the callback with the parameter set to the DOM element.
+Notice the distinction---instead of passing a ref "object" from `useRef` as the `ref` prop, we're passing a _function_. We're passing the function `inputElement => { ... }`.
+
+When we do this, React will instead _call_ the callback with the `inputElement` parameter set to the DOM element. (With `useRef`, it only mutated the ref object's `.current` property.)
 
 It gets called in these situations:
 
@@ -395,7 +401,26 @@ In this example, it will work with the loading indicator, since `callbackRef` wo
 
 ##### A note about `useCallback`
 
-You'll notice I used `useCallback` when assigning `callbackRef`. This is important. If you don't do it, your `input` will re-focus on _every render_. Why?
+You'll notice I used `useCallback` when assigning `callbackRef`. I didn't directly pass a function to `ref`. This is important. If you don't use `useCallback`, like this:
+
+```jsx
+<label>
+  Title
+  <input
+    type="text"
+    defaultValue="Untitled"
+    {/* constructs a new copy of this function on each render */}
+    ref={inputElement => {
+      if (inputElement) {
+        inputElement.focus();
+        inputElement.select();
+      }
+    }}
+  />
+</label>
+```
+
+...then your `input` will re-focus on _every render_. Why?
 
 Callback refs get called in one situation I didn't mention: when the callback ref changes. You can think of React doing something internally like this when re-rendering:
 
@@ -406,7 +431,7 @@ if (previousCallbackRef !== currentCallbackRef) {
 }
 ```
 
-If you construct a new `callbackRef` function on each re-render, React will think it's a new callback ref. This will result in the old copy of the function _and_ the new copy of the function being called every render.
+If you construct a new function on each re-render, React will think it's a new callback ref. This will result in the old copy of the function _and_ the new copy of the function being called every render.
 
 To avoid this, `useCallback` memoizes the function, so it only gets created once, and you re-use the name callback on subsequent renders.
 
