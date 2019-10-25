@@ -79,9 +79,13 @@ Open this file in your browser and you'll see this:
 
 ![](./autofocus-attribute.png)
 
-This works for more than just page load—if you imperatively add this element to the DOM later, it will autofocus as soon as it's added to the DOM\*.
+Nice! That's what we wanted.
 
-This example adds an autofocused input to the page 5 seconds after load.
+---
+
+Does `autofocus` only work for page load? What if you imperatively add an element with `autofocus` to the DOM later? Let's try it out.
+
+This example adds an autofocused input to the page 5 seconds after load:
 
 ```html
 <!DOCTYPE html>
@@ -105,67 +109,45 @@ This example adds an autofocused input to the page 5 seconds after load.
 </html>
 ```
 
-Load the page, wait 5 seconds. Notice that the input gets focused, like we saw before.
+Load the page, wait 5 seconds. [You'll get different behavior depending on the browser you're using](https://github.com/facebook/react/issues/11851#issuecomment-351672131).
 
-- Doesn't work in Firefox.
+- **Firefox** will not focus the element.
+- **Safari** will focus the element, regardless of if there are any other `autofocus` elements already in the document.
+- **Chrome** will focus the element, but only if there are no other `autofocus` elements already in the document.
 
-_There is a caveat here, though_: Only one element on the page can have the `autofocus` attribute. <-- cite
+(The HTML spec [requires that there must not be two elements with `autofocus` in the same document](https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute), so Chrome's and Safari's behaviors are probably equally correct 🤷🏼‍♂️.)
 
-If you add a second `input` with an autofocus attribute, it will get ignored, and the previously-autofocused `input` will stay autofocused (tested on Chrome, at least). It won't "steal" focus from the previously-autofocused `input`.
+Oof.
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script>
-      setTimeout(() => {
-        const input = document.createElement("input");
-        input.setAttribute("autofocus", ""); // <-- does nothing in this case
-        document.querySelector("label").appendChild(input);
-      }, 5000);
-    </script>
-  </head>
-  <body>
-    <!-- this one stays focused -->
-    <input type="text" autofocus value="I'll stay focused this whole time!" />
-    <label>
-      Title
-    </label>
-  </body>
-</html>
-```
+### Calling focus()
 
-In that example, the first `input` with `autofocus` will stay focused. This can be a problem in large apps, where you can't guarantee what other elements will be visible on the page.
-
-### focus() method
-
-If you don't want to use the `autofocus` prop, there is a more imperative method: Calling `focus()` on the DOM element.
+If you don't want to use the `autofocus` attribute (which I hope you don't, at this point 😂), there is a more imperative method: Calling `focus()` on the DOM element.
 
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const input = document.querySelector("input");
-        input.focus();
-      });
-    </script>
-  </head>
+  <head> </head>
   <body>
     <label>
       Title
       <input type="text" value="Untitled" />
     </label>
+
+    <script>
+      const input = document.querySelector("input");
+      input.focus();
+    </script>
   </body>
 </html>
 ```
 
-In this example, we don't have an `autofocus` attribute. However, after waiting for the DOM to load, we find the input and call `focus` on it.
+In this example, we don't have an `autofocus` attribute. However, we get the same behavior by finding the input and calling `focus` on it.
 
-`focus()` is more versatile, since you can call it at any time. Maybe you want an input to focus after a button click, rather than right when it appears in the DOM. You can also steal focus later by calling `focus()` on a different element. (Or look at this another way---if lots of things are running on your page, something else could steal away focus from the thing you want focused.)
+`focus()` is also more versatile than `autofocus`, since you can call it at any time. Maybe you want an input to focus after a button click, rather than right when it appears in the DOM.
 
-Caveat: You can't call `focus()` before the element is in the DOM. <--- verify this
+---
+
+Is `focus()` the perfect solution we've been looking for? Maybe! The main difficulty I've had with it is calling `focus()` at the "right time." For example, calling `focus()` before the element is attached to the DOM does nothing:
 
 ```js
 const input = document.createElement("input");
@@ -179,7 +161,7 @@ document.querySelector("label").appendChild(input);
 input.focus();
 ```
 
-This may seem obvious, but it can be harder to isolate if your app has a lot of moving parts. For example, in our app, we integrate new React components into legacy Backbone views with code like this:
+That might seem obvious! Of course you can't focus something that isn't visible. But, it can be harder to isolate if your app has a lot of moving parts. For example, in our app, we sometimes integrate new React components into legacy code like this:
 
 ```js
 const root = document.createElement("div");
@@ -187,21 +169,21 @@ ReactDOM.render(<App />, root);
 document.body.appendChild(root);
 ```
 
-Notice that we render the React component on a detached DOM node, then _later_ attach the root to the DOM. It's the same idea as above, but more indirect.
+Notice that we render the React component on a detached element, then _later_ attach it to the DOM. It's the same idea as above, but more indirect.
 
-### select
+---
+
+I'll cover two more small topics, then we can move on to React.
+
+### select()
 
 Up to this point, I've been blurring (😂) together the concepts of focusing and selecting.
 
-Now let's look at selection:
-
 ![](./select.png)
 
-This input is `focus`ed and all of its text is selected. `window.getSelection()` [allows you to see what text is selected](https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection).
+This input is `focus`ed _and_ all of its text is selected. `window.getSelection()` [allows you to see what text is selected](https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection).
 
-For the purposes of this post, I'm going to assume we want to both focus _and_ select a pre-filled text input. That said, these solutions are valid even if you want to just `focus`.
-
-Selecting text in an input can only be done imperatively with the `select()` method---there is not a declarative `autoselect` attribute.
+Selecting text in an input can only be done imperatively with the `select()` method—there is not a declarative `autoselect` attribute.
 
 To do it, you'd take the previous example, then add `select()` afterward.
 
@@ -213,76 +195,84 @@ input.select();
 
 ![](./select-method.png)
 
-It selected!
+It selected! This is useful in situations where the text input has a "default" value pre-filled, but you want the user to be able to easily clear it.
 
-While there is not an `autoselect` attribute, you can simulate something similar. You can use the `autofocus` attribute, then listen for a `focus` event and call `select`.
+### blur events
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const input = document.querySelector("input");
-
-        input.addEventListener("focus", () => {
-          input.select();
-        });
-      });
-    </script>
-  </head>
-  <body>
-    <label>
-      Title
-      <input type="text" autofocus value="Untitled" />
-    </label>
-  </body>
-</html>
-```
-
-In this case, anytime the input is `focus`ed (autofocus or manual user interaction), it will also get its text selected.
-
-### blur
-
-While this isn't really relevant to the blog post, I want to make sure you're aware of the `blur` event. In a sense, it's the "inverse" of `focus`. When an input _loses_ focus, a `blur` event is trigger on that input.
+While blur events aren't really relevant to the blog post, I want to make sure you're aware of the concept. In a sense, the `blur` event the inverse of the `focus` event. [When an input _loses_ focus, a `blur` event is triggered on that input](https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event).
 
 That's all I'll cover here. Just don't think we're talking about blurry images ;)
 
-## Time for React!
+---
 
-Ok! Now that you understand how to do this with just the DOM and raw HTML pages, we can move on to React.
+## Time to do autofocusing in React!
 
-I'm going to go over a variety of methods---each have their use cases.
+Ok! Now that you understand how to autofocus text inputs with just the DOM and raw HTML pages, we can move on to React.
 
-### Simplest: Reuse `autofocus` attribute
+I'm going to go over a variety of methods—each have their use cases.
 
-We can use the same `autofocus` attribute behavior in React! To do it, we just need to pass a prop `autoFocus` to the `input` element ([Notice the uppercase F](https://reactjs.org/docs/dom-elements.html).)''
+### autoFocus prop
 
-(I don't think this is actually the same as autofocus in html? research more)
+The simplest method involves using the `autoFocus` prop on `input` elements ([Notice the uppercase F](https://reactjs.org/docs/dom-elements.html)). It's similar to the `autofocus` attribute we learned about earlier.
 
 ```jsx
 const MyComponent = () => (
   <label>
     Title
-    <input
-      type="text"
-      defaultValue="Untitled"
-      autoFocus
-      onFocus={e => e.currentTarget.select()}
-    />
+    <input type="text" defaultValue="Untitled" autoFocus />
   </label>
 );
 ```
 
-If that works for you, that's great! For me, it works as a standalone sample, but then breaks down pretty fast when I integrate it into larger apps.
+Run that, and you'll see that the input autofocuses when the component mounts.
 
-- Does not work if any other element has an `autofocus` attribute when this component is mounted. (not true, delete this)
-- Does not work if another element steals focus right after rendering this component.
-- Does not work if the React root is not in the DOM when the component is rendered (I'm not sure why, tbh. re-verify this).
+![](./autofocus-prop.png)
 
-### More complex: React refs.
+Looks good! If you want to also autoselect the text in the input, you can add an `onFocus` event:
 
-Since `autoFocus` isn't meeting our needs, we'll need to fall back to manually calling `focus()` on the DOM element.
+```jsx
+<input
+  type="text"
+  defaultValue="Untitled"
+  autoFocus
+  onFocus={e => e.currentTarget.select()}
+/>
+```
+
+![](./onfocus-select.png)
+
+That way, whenever the input is focused, all its text will be selected as well.
+
+---
+
+### How does it work?
+
+Interestingly, if you inspect the DOM, you won't see an `autofocus` attribute on the input element:
+
+![](./input-no-autofocus.png)
+
+That's odd! Turns out the React team decided the `autofocus` attribute had [too many cross-browser inconsistencies, so they polyfilled the behavior](https://github.com/facebook/react/issues/11851#issuecomment-351672131). When you pass an `autoFocus` prop, React will internally call `focus()` when the `input` element mounts.
+
+### Does it always work?
+
+There's one situation where I find that this doesn't work. Recall that I mentioned earlier how we render React components into legacy parts of our app:
+
+```js
+const root = document.createElement("div");
+ReactDOM.render(<App />, root);
+
+// ...
+
+someContainer.appendChild(root);
+```
+
+If you render your React component into a detached DOM node, React will call `focus()` too soon. This will result in the `input` not focusing when your React tree becomes visible.
+
+We _could_ refactor the parts of our app where we combine React and non-React code. However, for the purposes of learning, I'm going to talk about some workarounds we can do entirely within React.
+
+### React refs
+
+What if we wanted to manually control when `focus()` gets called on the `input` DOM element? We can do that with _refs_ in React.
 
 In React, _refs_ allow us to access the actual DOM elements. There are like 10 (ok not that many) ways to use refs in React. They have subtle differences that often trip me up, so I'll be going over those differences.
 
