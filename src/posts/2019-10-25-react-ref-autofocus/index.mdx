@@ -57,6 +57,7 @@ Before we get into React, I'm going to discuss how to add autofocusing behavior 
 There are two ways to manually focus an element:
 
 - The [`autofocus` attribute on `<input>` elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autofocus).
+  - (This is different from the `autoFocus` prop in React, which we'll discuss later.)
 - The [`focus()` method on `HTMLElement`s](https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus).
 
 ### HTML autofocus attribute
@@ -356,7 +357,6 @@ You might think we could update the `useEffect` dependency list to be more accur
 useEffect(() => {
   if (inputElement.current) {
     inputElement.current.focus();
-    inputElement.current.select();
   }
 }, [inputElement.current]);
 ```
