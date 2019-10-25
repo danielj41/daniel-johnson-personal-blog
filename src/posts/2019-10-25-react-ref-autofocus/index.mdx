@@ -8,7 +8,6 @@ image: "./autofocused-ui-small.png"
 
 import InfoBlock from "../../components/custom-blocks/info-block";
 import CssFocus from "./css-focus.mdx";
-import Accessibility from "./accessibility.mdx";
 
 Autofocusing is a super fun neat thing you can do to make your app easier to use.
 
@@ -22,13 +21,13 @@ There are a lot of different ways to autofocus a text input in React. In large a
 
 ## First off, what is focus?
 
-![](./focus.png)
+![A screenshot of a text input in a browser. The input is focused, but the text "Hello world" in the input is not selected.](./focus.png)
 
 This input is `focus`ed, but no text is selected. If the user starts typing, the text they type will go into that input. Only one element can be focused at a time.
 
 You can check [which element is currently focused by running](https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement) `document.activeElement` in your console.
 
-![](./document-active-element.png)
+![This is the same screenshot of Trello, but with document.activeElement typed into the console. This shows that document.activeElement is the focused input element in the DOM shown in the screenshot.](./document-active-element.png)
 
 In this screenshot, `document.activeElement` is set to the _Title_ input, as we'd expect.
 
@@ -79,7 +78,7 @@ Let's start with the `autofocus` attribute. To use it, you'd could create a raw 
 
 Open this file in your browser and you'll see this:
 
-![](./autofocus-attribute.png)
+![Screenshot of a browser, with a text input focused. The text "Untitled" in the input is not selected.](./autofocus-attribute.png)
 
 Nice! That's what we wanted.
 
@@ -187,7 +186,7 @@ That's it for autofocusing with HTML and DOM APIs! I'll cover two small tangenti
 
 Up to this point, I've been blurring (😂) together the concepts of focusing and selecting. What is selection?
 
-![](./select.png)
+![A screenshot of a browser with an input box. The input box is focused and its text "Hello world" is selected](./select.png)
 
 This input is `focus`ed _and_ all of its text is selected. `window.getSelection()` [allows you to see what text is selected](https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection).
 
@@ -201,7 +200,7 @@ input.focus();
 input.select();
 ```
 
-![](./select-method.png)
+![A screenshot of a browser with an input box. The input box is focused and its text "Untitled" is selected](./select-method.png)
 
 It selected! This is useful in situations where the text input has a "default" value pre-filled, but you want the user to be able to easily clear it.
 
@@ -234,7 +233,7 @@ const MyComponent = () => (
 
 Run that, and you'll see that the input autofocuses when the component mounts.
 
-![](./autofocus-prop.png)
+![A screenshot of a browser running a React app. The text input in the app is focused.](./autofocus-prop.png)
 
 Looks good! If you want to also autoselect the text in the input, you can add an `onFocus` event:
 
@@ -247,7 +246,7 @@ Looks good! If you want to also autoselect the text in the input, you can add an
 />
 ```
 
-![](./onfocus-select.png)
+![A screenshot of a browser running a React app. The text input in the app is focused, and all its text is selected.](./onfocus-select.png)
 
 That way, whenever the input is focused, all its text will be selected as well.
 
@@ -259,7 +258,7 @@ When using the `autoFocus` prop, I was concerned that would use the `autofocus` 
 
 Interestingly, if you inspect the DOM, you won't see an `autofocus` attribute on the input element:
 
-![](./input-no-autofocus.png)
+![A screenshot of a browser running a React app. Chrome dev tools is open, showing the rendered app in the DOM. It shows that the input element with the `autoFocus` prop rendered an HTML element without the `autofocus` HTML attribute.](./input-no-autofocus.png)
 
 That's odd! Turns out the React team decided the `autofocus` attribute had [too many cross-browser inconsistencies. So they polyfilled the behavior](https://github.com/facebook/react/issues/11851#issuecomment-351672131). When you pass an `autoFocus` prop, React will internally call `focus()` when the `input` element mounts.
 
@@ -364,7 +363,7 @@ useEffect(() => {
 
 Turns out that doesn't work. In fact, you'll get a lint error if you have the `react-hooks/exhaustive-deps` ESLint rule set up.
 
-![](./useeffect-dependency.png)
+![A VSCode window showing an ESLint error in the previous code sample. Reach Hook useEffect has an unnecessary dependecy: inputElement.current. Either exclude it or remove it from the dependency array. Mutable values like inputElement.current aren't valid dependencies because mutating them doesn't re-render the component.](./useeffect-dependency.png)
 
 The `useEffect` handler won't actually run, since React won't re-render after the ref gets attached. In this situation, the React documentation recommends using a callback ref instead.
 
