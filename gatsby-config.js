@@ -7,7 +7,7 @@ module.exports = {
     lastName: "Johnson",
     shortDescription: "daniel's blog with thoughts & things",
     rootUrl: "https://blog.danieljohnson.io",
-    twitterUrl: "https://twitter.com/daniel00johnson",
+    twitterUrl: "https://twitter.com/d_anielj",
     githubUrl: "https://github.com/danielj41",
     repoRootUrl:
       "https://github.com/danielj41/daniel-johnson-personal-blog/tree/master",
