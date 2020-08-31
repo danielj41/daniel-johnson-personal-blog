@@ -11,7 +11,6 @@ module.exports = {
     githubUrl: "https://github.com/danielj41",
     repoRootUrl:
       "https://github.com/danielj41/daniel-johnson-personal-blog/tree/master",
-    portfolioUrl: "https://danieljohnson.io",
   },
   plugins: [
     // metadata plugins

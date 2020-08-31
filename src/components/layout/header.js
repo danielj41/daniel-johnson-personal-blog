@@ -17,7 +17,6 @@ const Header = ({ className, minimal }) => {
           shortDescription
           twitterUrl
           githubUrl
-          portfolioUrl
         }
       }
       bioImage: file(relativePath: { eq: "daniel-johnson.jpg" }) {
@@ -36,7 +35,6 @@ const Header = ({ className, minimal }) => {
     shortDescription,
     twitterUrl,
     githubUrl,
-    portfolioUrl,
   } = data.site.siteMetadata;
 
   return (
@@ -72,8 +70,7 @@ const Header = ({ className, minimal }) => {
                 styles.bioInfoLineLinks
               )}
             >
-              <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a>{" "}
-              / <a href={portfolioUrl}>Portfolio</a>
+              <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a>
             </div>
           </div>
         </div>
