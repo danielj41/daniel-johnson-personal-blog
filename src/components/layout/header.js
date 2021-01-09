@@ -54,12 +54,10 @@ const Header = ({ className, minimal }) => {
 
       {!minimal && (
         <div className={styles.bio}>
-          <a href={twitterUrl}>
-            <Img
-              className={styles.bioImage}
-              fixed={data.bioImage.childImageSharp.fixed}
-            />
-          </a>
+          <Img
+            className={styles.bioImage}
+            fixed={data.bioImage.childImageSharp.fixed}
+          />
           <div className={styles.bioInfo}>
             <div className={styles.bioInfoLine}>
               {shortDescription} / <ThemeToggleButton />
@@ -70,7 +68,7 @@ const Header = ({ className, minimal }) => {
                 styles.bioInfoLineLinks
               )}
             >
-              <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a>
+              <a href={githubUrl}>GitHub</a>
             </div>
           </div>
         </div>
