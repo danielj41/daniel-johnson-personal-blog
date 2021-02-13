@@ -5,9 +5,9 @@ import TerminalCodeBlock from "../../components/custom-blocks/terminal-code-bloc
 const ResetAndPatchDiff = () => (
   <TerminalCodeBlock
     language="diff"
-    prompt="daniel@macbook $"
+    prompt="maisie@macbook $"
     title="📁 ~/example — git diff — Terminal"
-    code={`daniel@macbook $ git diff
+    code={`maisie@macbook $ git diff
  
 diff --git a/src/utils.js b/src/utils.js
 index 91867c3..892aa17 100644

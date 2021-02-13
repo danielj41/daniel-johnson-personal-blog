@@ -5,10 +5,10 @@ import TerminalCodeBlock from "../../components/custom-blocks/terminal-code-bloc
 const GitGrep = () => (
   <TerminalCodeBlock
     language="bash"
-    prompt="daniel@macbook $"
+    prompt="maisie@macbook $"
     title="📁 ~/web — bash — Terminal"
-    code={`daniel@macbook $ git grep "use strict"
-daniel@macbook $`}
+    code={`maisie@macbook $ git grep "use strict"
+maisie@macbook $`}
   />
 );
 

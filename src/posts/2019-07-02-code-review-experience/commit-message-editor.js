@@ -5,7 +5,7 @@ import TerminalCodeBlock from "../../components/custom-blocks/terminal-code-bloc
 const CommitMessageEditor = () => (
   <TerminalCodeBlock
     language="markdown"
-    prompt="daniel@macbook $"
+    prompt="maisie@macbook $"
     title="📁 ~/example — vim — Terminal"
     code={`Fix blog post header being too small in IE11
  

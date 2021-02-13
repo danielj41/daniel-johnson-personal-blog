@@ -20,7 +20,7 @@ const IndexPage = () => {
           }
         }
       }
-      bioImage: file(relativePath: { eq: "daniel-johnson.jpg" }) {
+      bioImage: file(relativePath: { eq: "maisie-johnson.jpg" }) {
         childImageSharp {
           fixed(width: 512, height: 512) {
             src

@@ -12,11 +12,11 @@ import styles from "./typing-code-block.module.css";
  *
  * Usage example:
  *
- * const typingCode = createTypingCode`daniel@macbook $ ${0}git status${200}`
+ * const typingCode = createTypingCode`maisie@macbook $ ${0}git status${200}`
  *
  * <TypingCodeBlock typingCode={typingCode} />;
  *
- * Will instantly print the terminal prompt, `daniel@macbook $`, then type
+ * Will instantly print the terminal prompt, `maisie@macbook $`, then type
  * `git status` with 200ms between each character printed.
  */
 

@@ -1,9 +1,9 @@
 {
-  "name": "daniel-johnson-personal-blog",
+  "name": "maisie-johnson-personal-blog",
   "private": true,
   "description": "thoughts about software development and javascript",
   "version": "0.1.0",
-  "author": "Daniel Johnson",
+  "author": "Maisie Johnson",
   "dependencies": {
     "@mdx-js/mdx": "^1.5.1",
     "@mdx-js/react": "^1.5.1",
@@ -42,7 +42,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielj41/daniel-johnson-personal-blog.git"
+    "url": "https://github.com/maisieink/maisie-personal-blog.git"
   },
   "scripts": {
     "build": "gatsby build",

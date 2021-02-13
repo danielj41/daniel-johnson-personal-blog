@@ -1,3 +1,3 @@
-# Daniel Johnson's personal blog
+# Maisie Johnson's personal blog
 
-Built with Gatsby. [https://blog.danieljohnson.io](https://blog.danieljohnson.io)
+Built with Gatsby. [https://blog.maisie.ink](https://blog.maisie.ink)

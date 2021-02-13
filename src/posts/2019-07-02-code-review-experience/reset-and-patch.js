@@ -5,21 +5,21 @@ import TerminalCodeBlock from "../../components/custom-blocks/terminal-code-bloc
 const ResetAndPatch = () => (
   <TerminalCodeBlock
     language="diff"
-    prompt="daniel@macbook $"
+    prompt="maisie@macbook $"
     title="📁 ~/example — git status — Terminal"
-    code={`daniel@macbook $ git fetch
+    code={`maisie@macbook $ git fetch
  
-daniel@macbook $ git rebase origin/master
+maisie@macbook $ git rebase origin/master
  
 Current branch add-increment-by-amount-util-function is up to date.
  
-daniel@macbook $ git reset origin/master
+maisie@macbook $ git reset origin/master
  
 Unstaged changes after reset:
  M	src/__tests__/utils.tests.js
  M	src/utils.js
  
-daniel@macbook $ git status
+maisie@macbook $ git status
  
 On branch add-increment-by-amount-util-function
 Your branch is behind 'origin/add-increment-by-amount-util-function' by 3 commits, and can be fast-forwarded.

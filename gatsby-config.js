@@ -1,24 +1,23 @@
 module.exports = {
   siteMetadata: {
-    title: "Daniel Johnson's blog",
+    title: "Maisie Johnson's blog",
     description: "thoughts about software development and javascript",
-    author: "Daniel Johnson",
-    firstName: "Daniel",
+    author: "Maisie Johnson",
+    firstName: "Maisie",
     lastName: "Johnson",
-    shortDescription: "daniel's blog with thoughts & things",
-    rootUrl: "https://blog.danieljohnson.io",
-    twitterUrl: "https://twitter.com/d_anielj", // outdated, update later
-    githubUrl: "https://github.com/danielj41",
-    repoRootUrl:
-      "https://github.com/danielj41/daniel-johnson-personal-blog/tree/master",
+    shortDescription: "maisie's blog with thoughts & non-thoughts",
+    rootUrl: "https://blog.maisie.ink",
+    twitterUrl: "https://twitter.com/MaisieBlog",
+    githubUrl: "https://github.com/maisieink",
+    repoRootUrl: "https://github.com/maisie/maisie-personal-blog/tree/master",
   },
   plugins: [
     // metadata plugins
     {
       resolve: "gatsby-plugin-manifest",
       options: {
-        name: "Daniel Johnson's personal blog",
-        short_name: "Daniel Johnson",
+        name: "Maisie Johnson's blog",
+        short_name: "Maisie Johnson",
         start_url: "/",
         background_color: "#ffffff",
         theme_color: "#ccfcce",

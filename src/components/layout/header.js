@@ -19,7 +19,7 @@ const Header = ({ className, minimal }) => {
           githubUrl
         }
       }
-      bioImage: file(relativePath: { eq: "daniel-johnson.jpg" }) {
+      bioImage: file(relativePath: { eq: "maisie-johnson.jpg" }) {
         childImageSharp {
           fixed(width: 64, height: 64) {
             ...GatsbyImageSharpFixed

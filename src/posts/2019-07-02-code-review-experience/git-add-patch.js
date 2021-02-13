@@ -6,7 +6,7 @@ import {
 } from "../../components/custom-blocks/typing-code-block";
 
 const typingGitAddPatch = createTypingCode`
-daniel@macbook $ ${0}g${2000}it add -p${200}
+maisie@macbook $ ${0}g${2000}it add -p${200}
 ${1000}diff --git a/src/__tests__/utils.tests.js b/src/__tests__/utils.tests.js
 index 0d7326c..a3f5326 100644
 --- a/src/__tests__/utils.tests.js
@@ -98,7 +98,7 @@ ${1000}@@ -5,7 +9,11 @@
    decrement
 Stage this hunk? ${0}n${2000}o${200}
 ${1000} 
-daniel@macbook $ ${0}g${2000}it status${200}
+maisie@macbook $ ${0}g${2000}it status${200}
 ${1000}On branch add-increment-by-amount-util-function
 Your branch is behind 'origin/add-increment-by-amount-util-function' by 3 commits, and can be fast-forwarded.
   (use "git pull" to update your local branch)
@@ -116,11 +116,11 @@ Changes not staged for commit:
 -	modified:   src/__tests__/utils.tests.js
 -	modified:   src/utils.js
  
-daniel@macbook $ ${0} ${2000}`;
+maisie@macbook $ ${0} ${2000}`;
 
 export default () => (
   <TypingCodeBlock
-    placeholder="daniel@macbook $ git add -p"
+    placeholder="maisie@macbook $ git add -p"
     typingCode={typingGitAddPatch}
     language="diff"
     title="📁 ~/example — git add -p — Terminal"

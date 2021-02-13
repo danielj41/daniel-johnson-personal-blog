@@ -5,7 +5,7 @@ import TerminalCodeBlock from "../../components/custom-blocks/terminal-code-bloc
 const EditRebase = () => (
   <TerminalCodeBlock
     language="shell"
-    prompt="daniel@macbook $"
+    prompt="maisie@macbook $"
     title="📁 ~/example — vim — Terminal"
     code={`pick 165cfa2 add incrementByAmount
 pick 95c2b9e add decrementByAmount
