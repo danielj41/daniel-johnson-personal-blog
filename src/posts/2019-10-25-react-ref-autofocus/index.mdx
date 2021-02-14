@@ -42,13 +42,15 @@ Typically, an element gains focus when the user...
 - clicks on the element
 - tabs (with the keyboard) to move focus to the element
 
-When I say _autofocus_, I'm refering to focusing an element without direct user interaction on that element.
+When I say _autofocus_, I'm refering to focusing an element without direct user interaction on that specific element.
 
 When done appropriately, autofocusing can simplify the user interface. Please consider how autofocusing will behave with various devices and assistive technologies, however.
 
 > **Warning:** Automatically focusing a form control can confuse visually-impaired people using screen-reading technology and people with cognitive impairments. When `autofocus` is assigned, screen-readers "teleport" their user to the form control without warning them beforehand.
 
 —[MDN on autofocusing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autofocus)
+
+In particular, aim to only autofocus after a relevant user interaction, and make sure the autofocused element has a descriptive `label`.
 
 ## Autofocus with HTML and DOM APIs
 
