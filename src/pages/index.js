@@ -34,7 +34,7 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <SEO image={data.bioImage.childImageSharp.fixed.src} />
+      <SEO image={data.bioImage.childImageSharp.fixed.src} path="/" />
       <div className="blog-posts">
         <h1>Recent Posts</h1>
         {posts

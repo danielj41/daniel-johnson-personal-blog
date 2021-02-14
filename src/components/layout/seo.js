@@ -2,7 +2,7 @@ import React from "react";
 import Helmet from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
-function SEO({ description, lang = "en", meta = [], title = "", image }) {
+function SEO({ description, lang = "en", meta = [], title = "", image, path }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -74,6 +74,12 @@ function SEO({ description, lang = "en", meta = [], title = "", image }) {
             ]
           : []),
       ].concat(meta)}
+      link={path && [
+        {
+          rel: 'canonical',
+          href: `${site.siteMetadata.rootUrl}${path}`
+        }
+      ]}
     />
   );
 }

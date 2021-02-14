@@ -23,6 +23,7 @@ export default function BlogPost({
           title={title}
           description={description}
           image={image && image.childImageSharp.fixed.src}
+          path={path}
         />
         <h1 id="blog-post-title">{title}</h1>
         <p className={styles.blogPostDate}>
