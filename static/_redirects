@@ -1,4 +1,8 @@
-http://danieljohnson.io/* https://blog.danieljohnson.io/:splat 301!
-https://danieljohnson.io/* https://blog.danieljohnson.io/:splat 301!
-http://danieljohnson.io https://blog.danieljohnson.io 301!
-https://danieljohnson.io https://blog.danieljohnson.io 301!
+http://danieljohnson.io/* https://blog.maisie.ink/:splat 301!
+https://danieljohnson.io/* https://blog.maisie.ink/:splat 301!
+http://danieljohnson.io https://blog.maisie.ink 301!
+https://danieljohnson.io https://blog.maisie.ink 301!
+http://blog.danieljohnson.io/* https://blog.maisie.ink/:splat 301!
+https://blog.danieljohnson.io/* https://blog.maisie.ink/:splat 301!
+http://blog.danieljohnson.io https://blog.maisie.ink 301!
+https://blog.danieljohnson.io https://blog.maisie.ink 301!
