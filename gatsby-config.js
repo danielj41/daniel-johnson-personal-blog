@@ -9,7 +9,8 @@ module.exports = {
     rootUrl: "https://blog.maisie.ink",
     twitterUrl: "https://twitter.com/MaisieBlog",
     githubUrl: "https://github.com/maisieink",
-    repoRootUrl: "https://github.com/maisie/maisie-personal-blog/tree/master",
+    repoRootUrl:
+      "https://github.com/maisieink/maisie-personal-blog/tree/master",
   },
   plugins: [
     // metadata plugins
