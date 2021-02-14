@@ -8,7 +8,7 @@ const ThemeToggleButton = () => (
         className="link-button"
         onClick={() => toggleTheme(theme === "dark" ? "light" : "dark")}
       >
-        {theme === "dark" ? "use light theme 😌" : "use DARK theme 🥰"}
+        {theme === "dark" ? "use light theme ☀️" : "use dark theme 🌒"}
       </button>
     )}
   </ThemeToggler>
