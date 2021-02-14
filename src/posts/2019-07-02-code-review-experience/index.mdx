@@ -117,18 +117,18 @@ Since I’ve decided to use TypeScript for new files in this repo, I also move i
 
 ![Bitbucket web UI diff
     src/decrement.ts ADDED Side-by-side diff View file Comment More
-    +function decrement(x: number): number {
-    +  return x - 1;
-    +}
+   `+function decrement(x: number): number {`
+   `+  return x - 1;`
+   `+}`
     File src/utils.js MODIFIED
     Side-by-side diff View file
     Comment More
        return x + amount;
      }
-    -function decrement(x) {
-    -  return x - 1;
-    -}
-    -
+   `-function decrement(x) {`
+   `-  return x - 1;`
+   `-}`
+   `-`
      function decrementByAmount(x, amount) {
        return x - amount;
      }](./bitbucket-diff-1.png)
@@ -187,17 +187,17 @@ First, one that just moves code:
 ![Bitbucket web UI diff
     File src/decrement.ts ADDED
     Side-by-side diff View file Comment More
-    +function decrement(x) {
-    +  return x - 1;
-    +}
+   `+function decrement(x) {`
+   `+  return x - 1;`
+   `+}`
     File src/utils.js MODIFIED
     Side-by-side diff View file Comment More
       return x + amount;
     }
-    -function decrement(x) {
-    -  return x - 1;
-    -}
-    -
+   `-function decrement(x) {`
+   `-  return x - 1;`
+   `-}`
+   `-`
     function decrementByAmount(x, amount) {
       return x - amount;
     }](./bitbucket-diff-2.png)

@@ -136,6 +136,8 @@ const useScrollToBottom = dependencies => {
     if (ref.current) {
       ref.current.scrollTop = ref.current.scrollHeight;
     }
+    // lint rule isn't useful here, since static analysis won't show that scrollHeight depends on the div's contents
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies);
 
   return ref;
