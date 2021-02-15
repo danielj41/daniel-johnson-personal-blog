@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>event.target demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        user-select: none;
+      }
+
+      #container {
+        width: 1024px;
+        height: 256px;
+        background-color: #dde8db;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+        border-radius: 8px;
+        border: 2px solid #5f8159;
+      }
+
+      #left,
+      #right {
+        width: 256px;
+        height: 128px;
+        margin: 0 64px;
+        background-color: #cfe6e9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        border: 2px solid #586a97;
+        box-sizing: border-box;
+      }
+
+      #text {
+        width: 1024px;
+        margin-top: 32px;
+        text-align: center;
+        font-size: 150%;
+      }
+
+      #left-input {
+        margin-top: 16px;
+      }
+
+      #mousedown,
+      #mouseup {
+        background-color: #e6cdcc;
+        border: 2px solid #ba5d58;
+        width: 32px;
+        height: 32px;
+        border-radius: 32px;
+        position: absolute;
+        margin-left: -16px;
+        margin-top: -16px;
+        box-sizing: border-box;
+        top: -100px;
+        left: -100px;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+      }
+
+      .point-text {
+        margin-left: 8px;
+        font-size: 80%;
+      }
+
+      svg {
+        position: absolute;
+        width: 1024px;
+        height: 256px;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+      }
+    </style>
+    <script>
+      document.addEventListener("click", function onClick(event) {
+        document.querySelector(
+          "#text"
+        ).innerHTML = `click event.target: <strong>${event.target.id}</strong>`;
+        console.log(event.target);
+      });
+
+      let firstPoint;
+
+      document.addEventListener("mousedown", function onMouseDown(event) {
+        document.querySelector("#mousedown").style.left = `${event.pageX}px`;
+        document.querySelector("#mousedown").style.top = `${event.pageY}px`;
+        firstPoint = `${event.pageX},${event.pageY}`;
+
+        document.querySelector("#text").innerHTML = "";
+      });
+
+      document.addEventListener("mouseup", function onMouseUp(event) {
+        document.querySelector("#mouseup").style.left = `${event.pageX}px`;
+        document.querySelector("#mouseup").style.top = `${event.pageY}px`;
+        document
+          .querySelector("#arrow")
+          .setAttribute(
+            "points",
+            `${firstPoint} ${event.pageX},${event.pageY}`
+          );
+
+        // always runs, but will be immediately cleared by the click listener
+        document.querySelector("#text").innerHTML = "no click event fired";
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="left">
+        left<input type="text" value="left-input" id="left-input" />
+      </div>
+      <div id="container-label">container</div>
+      <div id="right">right</div>
+    </div>
+    <div id="mousedown"><div class="point-text"></div></div>
+    <div id="mouseup"><div class="point-text"></div></div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 256">
+      <defs>
+        <marker
+          id="head"
+          orient="auto"
+          markerWidth="3"
+          markerHeight="6"
+          refX="1"
+          refY="3"
+        >
+          <!-- triangle pointing right (+x) https://stackoverflow.com/a/52433340 -->
+          <path d="M0,0 V6 L3,3 Z" fill="#ba5d58" />
+        </marker>
+      </defs>
+
+      <polyline id="arrow" fill="none" stroke="#ba5d58" stroke-width="2"
+      points="" marker-end="url(#head)"/
+    </svg>
+    <div id="text"></div>
+  </body>
+</html>
