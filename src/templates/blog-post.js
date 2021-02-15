@@ -11,10 +11,10 @@ import "./prism-theme.css";
 
 export default function BlogPost({
   data: { mdx },
-  pageContext: { twitterSearchUrl, githubSourceUrl },
+  pageContext: { twitterSearchUrl, githubSourceUrl, githubIssueUrl },
 }) {
   const { frontmatter, body } = mdx;
-  const { title, date, description, image, path } = frontmatter;
+  const { title, date, description, image, path, tweet } = frontmatter;
 
   return (
     <Layout minimal>
@@ -32,8 +32,9 @@ export default function BlogPost({
         <MDXRenderer>{body}</MDXRenderer>
         <p className={styles.blogPostLinks}>
           <Link to="/">Back to home</Link> /{" "}
-          <a href={twitterSearchUrl}>Discuss on Twitter</a> /{" "}
-          <a href={githubSourceUrl}>Source on GitHub</a>
+          <a href={tweet || twitterSearchUrl}>Discuss on Twitter</a> /{" "}
+          <a href={githubSourceUrl}>Source on GitHub</a> /{" "}
+          <a href={githubIssueUrl}>Report inaccuracy</a>
         </p>
       </div>
     </Layout>
@@ -49,6 +50,7 @@ export const pageQuery = graphql`
         path
         title
         description
+        tweet
         image {
           childImageSharp {
             fixed(width: 760) {

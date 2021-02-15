@@ -23,6 +23,7 @@ exports.createPages = async ({ actions, graphql }) => {
         siteMetadata {
           rootUrl
           repoRootUrl
+          repoMainTree
         }
       }
     }
@@ -32,7 +33,7 @@ exports.createPages = async ({ actions, graphql }) => {
     throw new Error(result.errors);
   }
 
-  const { rootUrl, repoRootUrl } = result.data.site.siteMetadata;
+  const { rootUrl, repoRootUrl, repoMainTree } = result.data.site.siteMetadata;
 
   for (const { node } of result.data.allMdx.edges) {
     const { frontmatter, fileAbsolutePath } = node;
@@ -46,16 +47,20 @@ exports.createPages = async ({ actions, graphql }) => {
     const twitterSearchParam = `${rootUrl}${frontmatter.path}`;
     const twitterSearchUrl = `https://twitter.com/search?q=${encodeURIComponent(
       twitterSearchParam
-    )}`;
+    )}`; // TODO: Could these strings be created in blog-post.js?
 
-    const githubSourceUrl = `${repoRootUrl}${fileAbsolutePath
+    const githubSourceUrl = `${repoRootUrl}${repoMainTree}${fileAbsolutePath
       .replace(__dirname, "")
       .replace("/index.mdx", "")}`;
+
+    const githubIssueUrl = `${repoRootUrl}/issues/new?title=${encodeURIComponent(
+      `Inaccuracy in ${frontmatter.path}`
+    )}`;
 
     createPage({
       path: frontmatter.path,
       component: path.resolve("./src/templates/blog-post.js"),
-      context: { twitterSearchUrl, githubSourceUrl },
+      context: { twitterSearchUrl, githubSourceUrl, githubIssueUrl },
     });
   }
 };

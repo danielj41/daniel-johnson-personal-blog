@@ -59,7 +59,9 @@ const Header = ({ className, minimal }) => {
             fixed={data.bioImage.childImageSharp.fixed}
           />
           <div className={styles.bioInfo}>
-            <div className={styles.bioInfoLine}>{shortDescription}</div>
+            <div className={styles.bioInfoLine}>
+              {shortDescription} / <ThemeToggleButton />
+            </div>
             <div
               className={classNames(
                 styles.bioInfoLine,
@@ -67,7 +69,6 @@ const Header = ({ className, minimal }) => {
               )}
             >
               <a href={twitterUrl}>Twitter</a> / <a href={githubUrl}>GitHub</a>{" "}
-              / <ThemeToggleButton />
             </div>
           </div>
         </div>
