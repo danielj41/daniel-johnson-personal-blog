@@ -1,7 +1,7 @@
 ---
 path: "/click-event-target/"
 date: 2021-02-16T17:00:00.000Z
-title: "Can YOU predict `event.target` in each browser?"
+title: "Can YOU predict `event.target` for click events in each browser?"
 description: "
 How I fixed a frustrating browser-specific bug. The value of `event.target` was inconsistent for clicks on <input> elements."
 image: "./event-target-left-small.png"
@@ -19,23 +19,39 @@ I thought the root cause was pretty interesting, so here’s a ~~short~~ blog po
 
 ## What was the bug?
 
-repro steps
+To start off, imagine an app that looks something like this screenshot. "Create post" is a modal overlay on top of the page. Clicking outside of the modal will close it. There is a "Content" textarea that will expand vertically while it's focused.
 
-(fill in)
+![A modal overlay with two text fields, labelled "Content" and "Tags."](./modal-initial.png)
+
+But there was a bug---in some cases, clicking the clicking on the `input` labelled "Tags" would cause the modal to close.
+
+Reproduction steps:
+
+- Use Chrome or Edge (No bug in Firefox or Safari)
+- Starting editing the textarea labelled "Content."
+- Click the "Tags" input.
+
+**Expected result**: The "Tags" input focuses.
+
+![A modal overlay, with the "Tags" input focused, and the "Content" textarea no longer expanhded vertically.](./modal-expected.png)
+
+- **Actual result**: The "Tags" input briefly focuses, then the modal disappears. :(
+
+![Closed modal, showing page underneath](./modal-closed.png)
 
 ## Why is this happening to me??
 
-I started by finding the code that caused the XYZ to close. It looked something like this:
+I started by finding the code that caused the modal to close. It looked something like this:
 
 ```js
-document.addEventListener('click', function onClick(event) {
-  if (event.target is outside of container) {
+document.addEventListener("click", function onClick(event) {
+  if (isElementOutsideOfModal(event.target)) {
     closeContainer();
   }
 });
 ```
 
-You can think of this code as saying “whenever the user clicks outside of XYZ, close XYZ.”
+You can think of this code as saying “whenever the user clicks outside of the modal, close the modal.”
 
 <InfoBlock>
   <EventTargetInfo />
@@ -43,17 +59,23 @@ You can think of this code as saying “whenever the user clicks outside of XYZ,
 
 ### What did I actually click on?
 
-It was odd to me that this code was closing XYZ. I had clicked on the input element in XYZ, so why did the browser think I was clicking outside of XYZ?
+It was odd to me that this code was closing the modal. I had clicked on the input element inside the modal, so why did the browser think I was clicking outside of the modal?
 
-To investigate further, I logged event.target to see on which element the browser thought the click event occurred.
+To investigate further, I logged `event.target` to see on which element the browser thought the click event occurred.
 
-(image)
+![Console logs document click event.target is a div with id app.](./modal-console-log.png)
 
-It was abcabc, a container for most of the zbczbc. I was surprised, because I thought event.target would be the input element I had clicked on.
+It was `#app`, a container for most of the page. I was surprised, because I thought `event.target` would be the input element I had clicked on.
 
-If you look closer at the repro steps, however, you’ll notice something. When I press the mouse button, it’s on the input. When I release the mouse button, it’s beneath the input, since the collapsed other input shifted the input upward.
+If you look closer at the repro steps, however, you’ll notice something. When I _press_ the mouse button, it’s on the input:
 
-(image)
+![mouse cursor over the Tags input](./modal-mousedown.png)
+
+But when I _release_ the mouse button, it's _outside of the modal_, since the "Content" textarea only stays expanded while focused.
+
+![Mouse cursor is outside of the modal. It's in the same position as it was the last screenshot, but the modal got vertically shorter.](./modal-mouseup.png)
+
+Huh! Looks like we found our "click outside of the modal."
 
 ### How is event.target determined for click events?
 
@@ -117,21 +139,18 @@ That behavior difference is the source of our Chrome-only bug. If you press the 
 
 ## How can we fix it?
 
-In this specific situation, we added a workaround (a hack). In the click handler, we'd check if the input was focused before closing the modal.
+In this specific situation, we added a workaround. In the click handler, we'd check if an input was focused before closing the modal.
 
 ```js
-document.addEventListener('click', function onClick(event) {
-  if (document.activeElement == this.commentInput) {
+document.addEventListener("click", function onClick(event) {
+  if (!isElementOutsideOfModal(document.activeElement)) {
     return;
   }
 
-  if (event.target is outside of container) {
+  if (isElementOutsideOfModal(event.target)) {
     closeContainer();
   }
 });
-
 ```
 
-It felt a bit hacky to throw that special case in the “should close?” code. But it was also the lowest-risk change we could ship quickly in legacy code.
-
-If we had more time, I would have been interested in exploring other approaches. Maybe we could have looked into listening to the `blur` event?
+It was a low-risk change we could ship quickly within legacy code, but I imagine there are plenty of other solutions.
