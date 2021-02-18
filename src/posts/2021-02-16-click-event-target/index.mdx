@@ -11,33 +11,37 @@ tweet: ""
 import InfoBlock from "../../components/custom-blocks/info-block";
 import EventTargetInfo from "./event-target-info.mdx";
 
-To do: fix smart quotes, add alt text, rewrite repo steps and solution
+A while ago I fixed a ~~frustrating~~ fun bug involving browser-specific behavior. The behavior differences occurred with a combination of click events, input elements, and `event.target`.
 
-A while ago I fixed a ~~frustrating~~ fun bug involving browser-specific behavior for event.target.
-
-I thought the root cause was pretty interesting, so here’s a ~~short~~ blog post about it!
+I thought the root cause was pretty interesting, so here's a ~~short~~ blog post about it!
 
 ## What was the bug?
 
-To start off, imagine an app that looks something like this screenshot. "Create post" is a modal overlay on top of the page. Clicking outside of the modal will close it. There is a "Content" textarea that will expand vertically while it's focused.
+To start off, imagine an app that looks something like this screenshot. The relevant app behavior is:
+
+- "Create post" is a modal overlay on top of the page.
+- Clicking outside of the modal will close it.
+- The "Content" textarea will stay vertically expanded while it has focus (a UI decision we made).
 
 ![A modal overlay with two text fields, labelled "Content" and "Tags."](./modal-initial.png)
 
-But there was a bug---in some cases, clicking the clicking on the `input` labelled "Tags" would cause the modal to close.
+Seems simple enough, right? But there was a bug—in some cases, clicking the input labelled "Tags" would cause the modal to close.
 
 Reproduction steps:
 
-- Use Chrome or Edge (No bug in Firefox or Safari)
+- Use Chrome or Edge (Bug doesn't occur in Firefox or Safari!)
 - Starting editing the textarea labelled "Content."
 - Click the "Tags" input.
 
-**Expected result**: The "Tags" input focuses.
+**Expected result**: The "Tags" input focuses:
 
 ![A modal overlay, with the "Tags" input focused, and the "Content" textarea no longer expanhded vertically.](./modal-expected.png)
 
-- **Actual result**: The "Tags" input briefly focuses, then the modal disappears. :(
+**Actual result**: The "Tags" input very briefly focuses, then the modal disappears:
 
 ![Closed modal, showing page underneath](./modal-closed.png)
+
+That's not what we want to happen! 😔
 
 ## Why is this happening to me??
 
@@ -46,12 +50,12 @@ I started by finding the code that caused the modal to close. It looked somethin
 ```js
 document.addEventListener("click", function onClick(event) {
   if (isElementOutsideOfModal(event.target)) {
-    closeContainer();
+    closeModal();
   }
 });
 ```
 
-You can think of this code as saying “whenever the user clicks outside of the modal, close the modal.”
+You can think of this code as saying "whenever the user [clicks outside of the modal](https://css-tricks.com/dangers-stopping-event-propagation/#what-to-do-instead), close the modal."
 
 <InfoBlock>
   <EventTargetInfo />
@@ -67,7 +71,7 @@ To investigate further, I logged `event.target` to see on which element the brow
 
 It was `#app`, a container for most of the page. I was surprised, because I thought `event.target` would be the input element I had clicked on.
 
-If you look closer at the repro steps, however, you’ll notice something. When I _press_ the mouse button, it’s on the input:
+If you look closer at the repro steps, however, you may notice something. When I _press_ the mouse button, it's on the input:
 
 ![mouse cursor over the Tags input](./modal-mousedown.png)
 
@@ -85,57 +89,75 @@ Does that observation mean that `event.target` for `click` events is determined 
 
 —[MDN on the click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event)
 
+Ok, so `event.target` is the common ancestor between the mouse "press" and "release" positions. That knowledge cleared up my understanding of why the modal got closed:
+
+- Mouse press causes the "Tags" input to focus.
+- Since focus moved off of the "Content" textarea, the textarea shrinks vertically, which shrinks the modal as well.
+- Next, the mouse release happens beneath the modal, on `#app`, firing a click event.
+- `event.target` is set to `#app`, the common ancestor between the "Tags" input and `#app`. (In this case, the common ancestor _happens_ to be the same as the element we released the mouse on, but that's not _always_ true.)
+- Since `event.target` is `#app`, which is outside of the modal, the modal gets closed.
+
+That explanation solved most of the confusion for me, but I still had one more question...
+
 ## Why did this bug only exist in Chrome?
+
+I wanted to understand the specific browser differences that caused this bug to only exist in Chrome.
 
 ### Exploration with a minimal working example
 
 <!-- html page in /static -->
 
-To get there, I started by making a demo app of the bug <a href="/click-event-target/minimal-working-example/index.html" target="_blank" rel="noopener noreferrer">(try it out)</a>. With less code and a simpler app, it’d be easier to pinpoint the differences.
+To get there, I started by making a demo app of the bug <a href="/click-event-target/minimal-working-example/index.html" target="_blank" rel="noopener noreferrer">(try it out)</a>. With less code and a simpler app, it'd be easier to pinpoint the differences.
 
 My demo app would show a red circle where I pressed the mouse, then another red circle where I released the mouse, then print `event.target`. It looked like this:
 
-![](./chrome-left.png)
+![Mouse pressed and released in left div, event.target is left div](./chrome-left.png)
 
-In that case, `event.target` was the `left` div, which makes sense. I pressed and released the mouse button in that same div, so the “common ancestor” of `left` and `left` is itself.
+In that case, `event.target` was the `left` div, which makes sense. I pressed and released the mouse button in that same div, so the "common ancestor" of `left` and `left` is itself.
 
 I tried it again, but I dragged the mouse from `left` to `right` before releasing:
 
-![](./chrome-container.png)
+![Mouse pressed in left div, released in right div, event.target is container div](./chrome-container.png)
 
 As we expected, `event.target` was `container`, the common ancestor of the `left` div (where I pressed the mouse) and the `right` div (where I released the mouse).
 
-Chrome, Edge, Firefox, and Safari all had this same behavior. I was hoping to find a difference here, one that could explain the browser-specific bug I was fixing. Because I couldn’t find a difference, it seemed like my “demo app” wasn’t quite representative of the actual bug.
+Chrome, Edge, Firefox, and Safari all had this same behavior. I was hoping to find a difference here, one that could explain the browser-specific bug I was fixing. Because I couldn't find a difference, it seemed like my "demo app" wasn't quite representative of the actual bug.
 
 To make my demo app more accurate, I pulled in another detail from the actual bug I was trying to fix: Clicking on an `input` element instead of a `div`.
 
 I added a `left-input` input element inside the `left` div.
 
-![](./chrome-input-intro.png)
+![Mouse pressed and released in left-input, event.target is left-input](./chrome-input-intro.png)
 
 Looks good so far.
 
 ### Browser behavior differences
 
-After that, I tried something closer to the original bug: Press the mouse on the left-input, then release it outside of the left container. Here is how it behaved in each browser:
+After that, I tried something closer to the original bug: Press the mouse on the `left-input`, then release it outside of the `left` container. Here is how it behaved in each browser:
 
 #### Chrome
 
-![](./chrome-input.png)
+![Chrome: mouse pressed in left-input, released in right div, event.target is container](./chrome-input.png)
 
 #### Firefox
 
-![](./firefox-input.png)
+![Firefox: mouse pressed in left-input, released in right div, event.target is left-input](./firefox-input.png)
 
 #### Safari
 
-![](./safari-input.png)
+![Safari: mouse pressed in left-input, released in right div, no click event fired](./safari-input.png)
 
 _Hmmmm._
 
-It appears that `event.target`, specifically for input elements, behaves differently in Chrome than in Firefox and Safari.
+It appears that `event.target`, specifically for input elements, behaves differently in Chrome and Edge than in Firefox and Safari.
 
-That behavior difference is the source of our Chrome-only bug. If you press the mouse button on an `input` element, `event.target` is always that `input` element in Firefox, regardless of where you release the mouse. Safari didn't even fire a click event at all. But in Chrome or Edge, `event.target` depends on where you release your mouse.
+That behavior difference is the source of our Chrome/Edge-only bug.
+
+In Firefox, if you press the mouse button on an `input` element, `event.target` is always that `input` element. It doesn't matter where you release the mouse. Our "should modal close?" code then sees that `event.target` is within the modal, so it doesn't close the modal.
+
+Safari doesn't even fire a click event at all, so it won't run the "should modal close?" code.
+
+But in Chrome and Edge, `event.target` depends on where you release your mouse.
 
 ## How can we fix it?
 
@@ -153,4 +175,4 @@ document.addEventListener("click", function onClick(event) {
 });
 ```
 
-It was a low-risk change we could ship quickly within legacy code, but I imagine there are plenty of other solutions.
+It was a low-risk change we could ship quickly within legacy code, but I imagine there are plenty of other solutions we could explore.
