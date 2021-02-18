@@ -105,9 +105,9 @@ I wanted to understand the specific browser differences that caused this bug to 
 
 ### Exploration with a minimal working example
 
-<!-- html page in /static -->
+<!-- html page in /static, will 404 in dev build https://github.com/gatsbyjs/gatsby/issues/13072 -->
 
-To get there, I started by making a demo app of the bug <a href="/click-event-target/minimal-working-example/index.html" target="_blank" rel="noopener noreferrer">(try it out)</a>. With less code and a simpler app, it'd be easier to pinpoint the differences.
+To get there, I started by making a demo app of the bug <a href="/click-event-target/minimal-working-example/">(try it out)</a>. With less code and a simpler app, it'd be easier to pinpoint the differences.
 
 My demo app would show a red circle where I pressed the mouse, then another red circle where I released the mouse, then print `event.target`. It looked like this:
 
