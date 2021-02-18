@@ -99,9 +99,9 @@ Ok, so `event.target` is the common ancestor between the mouse "press" and "rele
 
 That explanation solved most of the confusion for me, but I still had one more question...
 
-## Why did this bug only exist in Chrome?
+## Why did this bug only exist in Chrome/Edge?
 
-I wanted to understand the specific browser differences that caused this bug to only exist in Chrome.
+I wanted to understand the specific browser differences that caused this bug to only exist in Chrome and Edge.
 
 ### Exploration with a minimal working example
 
@@ -138,6 +138,14 @@ After that, I tried something closer to the original bug: Press the mouse on the
 #### Chrome
 
 ![Chrome: mouse pressed in left-input, released in right div, event.target is container](./chrome-input.png)
+
+#### Edge
+
+![Edge: mouse pressed in left-input, released in right div, event.target is container](./edge-input.png)
+
+Nothing unexpected so far.
+
+---
 
 #### Firefox
 
